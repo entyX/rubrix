@@ -1,0 +1,263 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 1 non-scored row(s) worth 0 points (Penalty Points). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:35:43.563Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Introduction-to-Social-Media-Strategy.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.087Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Introduction to Social Media Strategy",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "demonstrates_understanding_event_topic",
+      "name": "Demonstrates understanding of the event topic",
+      "description": "Shows comprehension of the subject matter for the event.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant did not grasp the subject, or presented on an unrelated topic."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The participant's grasp of the subject varied throughout the presentation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The participant consistently showed knowledge of the subject during the presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The participant consistently applied specialized vocabulary and deep knowledge relevant to the industry throughout the presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrate_knowledge_social_media_strat",
+      "name": "Demonstrate knowledge of a social media strategy and metrics throughout",
+      "description": "Exhibits familiarity with social media planning and performance indicators consistently.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presentation contains no mention of a social media plan or its measurement data."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "A brief mention of the strategy or metrics is made, but with insufficient detail or a lack of clear comprehension. The metrics provided might be vague or not align with the campaign's objectives."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "A clear grasp of social media planning is evident, and appropriate metrics are included to gauge effectiveness. Both the strategy and metrics align with the campaign's intended purpose."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "A profound understanding of social media planning is displayed through continuous references to objectives, target demographic, content scheduling, and key performance indicators. The metrics are clearly articulated and skillfully utilized to inform choices and assess the campaign's success."
+        }
+      ]
+    },
+    {
+      "id": "explains_design_development_process",
+      "name": "Explains the design and development process",
+      "description": "Describes the methodology used for creation and progression.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no description offered for how the design or development was carried out."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The explanation of the campaign or ad creation is either short or hard to understand. Important stages or the rationale for design decisions are absent."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The participant clearly outlines the stages involved in creating and refining the campaign and its advertisements. It is evident how these choices contribute to the campaign's objectives."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "A clear and thorough account of the entire design and development process is provided. This includes details on creative decisions, the tools employed, and how the campaign evolved to best suit its goals and target audience."
+        }
+      ]
+    },
+    {
+      "id": "incorporates_campaign_presentation",
+      "name": "Incorporates campaign into presentation",
+      "description": "Integrates the campaign into the presentation.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No campaign is featured, or the campaign does not concentrate on a single platform or include any finished advertisements."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "A campaign is present, but it lacks clarity or sufficient development. Fewer than three advertisements are shown, or the ads are not clearly linked to a single platform."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The campaign is centered on one social media platform and features three appropriate advertisements. These ads are included in the presentation and generally reinforce the campaign's message."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The campaign is distinctly focused on a single social media platform and showcases three well-crafted, original advertisements. The ads are thoughtfully woven into the presentation and strongly support the campaign's objectives, target audience, and communication."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_cites_sources",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "Provides evidence for and references the research materials utilized.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No references are provided for the information used."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently mentioned to back up claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Credible and relevant sources and materials that support the claims are generally included."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Compelling proof from professionally recognized sources and materials is presented to validate statements."
+        }
+      ]
+    },
+    {
+      "id": "statements_well_organized_clearly_stated",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "The information presented is structured logically and articulated with precision.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) appeared unprepared."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a coherent structure."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a logical progression."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation flowed in a logical order, and all points were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "displays_confidence_body_language_eye_co",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "Consistently exhibits self-assurance, composed physical demeanor, engaging visual contact, and effective vocal delivery.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified abilities were shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the listed abilities (self-assurance, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the listed abilities (self-assurance, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All abilities were demonstrated, enhancing the overall presentation quality."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_ability_effectively_answer_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Shows the capacity to respond to inquiries proficiently.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant does not answer questions, or their responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The participant provides incomplete or unclear answers, indicating a limited grasp of the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The participant responds accurately and clearly to most questions, demonstrating sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The participant answers confidently with clear, precise, and insightful responses that elevate the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_competitive_events_guidelines",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution aligns with the specified rules: (All criteria must be fulfilled) Only permitted technology devices were used (size specifications were followed; a maximum of two, with only one facing judges at any time) The presentation matched the assigned topic Professional boundaries were maintained during setup time (no interaction with judges) No materials were left behind after the presentation Links or QR codes were displayed appropriately (not clicked or scanned by judges) Audio was presented without external speakers (preliminary round) Food or live animals were not used Only one social media platform was utilized.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the established rules."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "The execution was in line with the guidelines: (All criteria must be met) Only allowed technology devices were used (sizing specifications were followed; a maximum of two, with only one facing judges at a time) The presentation was consistent with the assigned topic Professional boundaries were maintained during the setup period (no interaction with judges) No materials were left behind after the presentation Links or QR codes were displayed correctly (not clicked or scanned by judges) Audio was presented without external speakers (preliminary round) No food or live animals were used Only one social media platform was employed."
+        }
+      ]
+    }
+  ]
+}

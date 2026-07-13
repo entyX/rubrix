@@ -1,0 +1,263 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:32:40.609Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Graphic-Design.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.083Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Graphic Design",
+  "total_points": 120,
+  "criteria": [
+    {
+      "id": "description_of_event_topic_and_materials",
+      "name": "Description of the event topic and materials",
+      "description": "The presentation clearly outlines the subject matter of the event and details the components used.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The event's subject was not addressed, or the components utilized were not explained."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Both the event's subject and at least one of the components were detailed."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The event's subject and every component used were clearly explained."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Every component and the event's subject were described, with competitors demonstrating how these elements interrelate."
+        }
+      ]
+    },
+    {
+      "id": "explains_the_design_and_development_proc",
+      "name": "Explains the design and development process",
+      "description": "Details the methodology employed for design and creation.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No account of the design process is offered, or the explanation given is irrelevant or confusing. Fundamental design concepts are omitted."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Offers a rudimentary or imprecise account of the design process. Might refer to a couple of stages or decisions in the design without linking them to underlying principles."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Articulates the stages involved in evolving the design with precision. Incorporates explicit mentions of design principles and illustrates their application in refining the end product."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Delivers a comprehensive and insightful explanation of the entire design and development journey. Clearly connects choices to multiple design principles, showcasing a deep grasp of how these principles were applied to achieve an effective and visually compelling design."
+        }
+      ]
+    },
+    {
+      "id": "create_interest_and_desire_for_the_desig",
+      "name": "Create interest and desire for the design",
+      "description": "Generates appeal and enthusiasm for the presented design.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The design fails to capture attention or resonate with the audience. No attempt is made to cultivate interest or attractiveness."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The design shows some effort to generate interest, but it might be overly simplistic, perplexing, or poorly suited to the audience or brand."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The design is aesthetically pleasing and appropriate for the intended audience. It effectively stimulates interest in the product, service, or brand."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The design is striking, memorable, and highly engaging. It strongly connects with the target audience, fostering a clear desire for engagement or further information. Demonstrates originality and strong brand appeal."
+        }
+      ]
+    },
+    {
+      "id": "programs_tools_used_to_design_graphics",
+      "name": "Programs/Tools used to design graphics",
+      "description": "The software and utilities utilized for creating the graphics.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The applications employed to produce the graphics were not discussed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Identifies one or more tools but does not clarify their application or rationale. The explanation might be vague or disconnected from the project."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Clearly names the tools or software used and explains their function in crafting the design. Shows an understanding of how these tools supported the design process."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Provides a clear, insightful explanation of the tools or software used and the reasons for their selection. Demonstrates a strong understanding of how these tools enhanced the design's quality and impact."
+        }
+      ]
+    },
+    {
+      "id": "consistency_in_graphic_design_to_theme",
+      "name": "Consistency in graphic design to theme",
+      "description": "The coherence of the graphic design with the overall theme.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The alignment of graphic design with the theme was not addressed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Explains how the graphic design maintains harmony with the theme."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Illustrates, using visual aids, the coherence between the graphic design and the theme."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Highlights the interpretation of the topic and design as it relates to graphic design and theme, including the use of visual aids."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "The clarity and structure of the presented information.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical progression."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a coherent order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation progressed in a logical sequence; all points were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "Exhibits self-assurance, composed posture, engaging eye contact, and effective vocal delivery throughout.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Did not exhibit any of the specified communication abilities."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Demonstrated 1-2 of the listed communication skills (self-assurance, body posture, eye contact, or voice projection)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Demonstrated 3 of the listed communication skills (self-assurance, body posture, eye contact, or voice projection)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Demonstrated all communication skills, thereby enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Shows proficiency in providing clear and relevant responses to inquiries.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not answer questions, or responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Provides partial or unclear answers, indicating limited comprehension."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Responds accurately and clearly to most questions, demonstrating sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Responds with confidence, offering clear, precise, and insightful answers that elevate the entire presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The presentation's execution aligns with all specified guidelines: only permitted technology devices were used (sizing specifications followed; maximum of two, with only one facing judges at a time); the presentation matched the assigned topic; professional boundaries were maintained during setup (no interaction with judges); no materials were left behind; links or QR codes were displayed correctly (not clicked or scanned by judges); audio was presented without external speakers (preliminary round); and the use of food or live animals was avoided.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the established guidelines."
+        },
+        {
+          "label": "Followed Guidelines",
+          "points": 10,
+          "descriptor": "The execution was in full compliance with all specified guidelines."
+        }
+      ]
+    }
+  ]
+}

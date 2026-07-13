@@ -1,0 +1,696 @@
+{
+  "generated_at": "2026-07-13T18:58:41.534Z",
+  "events": [
+    {
+      "slug": "banking-and-financial-systems",
+      "name": "Banking & Financial Systems",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Banking-and-Financial-Systems.pdf",
+      "rubric": "fbla/roleplay/banking-and-financial-systems.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 7,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "broadcast-journalism",
+      "name": "Broadcast Journalism",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Broadcast-Journalism.pdf",
+      "rubric": "fbla/presentation/broadcast-journalism.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 9,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "business-ethics",
+      "name": "Business Ethics",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Business-Ethics.pdf",
+      "rubric": "fbla/presentation/business-ethics.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points (Dress Code / Late Arrival)). Check they really aren't scored."
+      ],
+      "criteria_count": 19,
+      "total_points": 280,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "business-management",
+      "name": "Business Management",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Business-Management.pdf",
+      "rubric": "fbla/roleplay/business-management.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Staff Only: Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 7,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "business-plan",
+      "name": "Business Plan",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Business-Plan.pdf",
+      "rubric": "fbla/presentation/business-plan.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Staff Only: Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 24,
+      "total_points": 300,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "career-portfolio",
+      "name": "Career Portfolio",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Career-Portfolio.pdf",
+      "rubric": "fbla/presentation/career-portfolio.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 10,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "coding-and-programming",
+      "name": "Coding & Programming",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Coding-and-Programming.pdf",
+      "rubric": "fbla/presentation/coding-and-programming.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [],
+      "criteria_count": 14,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "community-service-project",
+      "name": "Community Service Project",
+      "org": "fbla",
+      "category": "chapter",
+      "category_source": "Chapter",
+      "source_pdf": "Community-Service-Project.pdf",
+      "rubric": "fbla/chapter/community-service-project.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 19,
+      "total_points": 210,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "computer-game-simulation-programming",
+      "name": "Computer Game Simulation Programming",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Computer-Game-Simulation-Programming.pdf",
+      "rubric": "fbla/presentation/computer-game-simulation-programming.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 16,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "customer-service",
+      "name": "Customer Service",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Customer-Service.pdf",
+      "rubric": "fbla/roleplay/customer-service.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points (Staff Only)). Check they really aren't scored."
+      ],
+      "criteria_count": 8,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "data-analysis",
+      "name": "Data Analysis",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Data-Analysis.pdf",
+      "rubric": "fbla/presentation/data-analysis.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Late Arrival Penalty, Dress Code Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 10,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "digital-animation",
+      "name": "Digital Animation",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Digital-Animation.pdf",
+      "rubric": "fbla/presentation/digital-animation.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 19,
+      "total_points": 230,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "digital-video-production",
+      "name": "Digital Video Production",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Digital-Video-Production.pdf",
+      "rubric": "fbla/presentation/digital-video-production.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored.",
+        "Point totals disagree: the criteria add up to 220, but the sheet states 230. One of them is wrong — check which."
+      ],
+      "criteria_count": 18,
+      "total_points": 220,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "entrepreneurship",
+      "name": "Entrepreneurship",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Entrepreneurship.pdf",
+      "rubric": "fbla/roleplay/entrepreneurship.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Staff Only: Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 7,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "event-planning",
+      "name": "Event Planning",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Event-Planning.pdf",
+      "rubric": "fbla/presentation/event-planning.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 12,
+      "total_points": 180,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "financial-planning",
+      "name": "Financial Planning",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Financial-Planning.pdf",
+      "rubric": "fbla/presentation/financial-planning.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Staff Only: Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 12,
+      "total_points": 150,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "financial-statement-analysis",
+      "name": "Financial Statement Analysis",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Financial-Statement-Analysis.pdf",
+      "rubric": "fbla/presentation/financial-statement-analysis.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [],
+      "criteria_count": 12,
+      "total_points": 140,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "future-business-educator",
+      "name": "Future Business Educator",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Future-Business-Educator.pdf",
+      "rubric": "fbla/presentation/future-business-educator.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Penalty Points: Dress Code Violation, Penalty Points: Late Arrival). Check they really aren't scored."
+      ],
+      "criteria_count": 17,
+      "total_points": 170,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "future-business-leader",
+      "name": "Future Business Leader",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Future-Business-Leader.pdf",
+      "rubric": "fbla/presentation/future-business-leader.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [],
+      "criteria_count": 17,
+      "total_points": 160,
+      "time_limit_s": 600
+    },
+    {
+      "slug": "graphic-design",
+      "name": "Graphic Design",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Graphic-Design.pdf",
+      "rubric": "fbla/presentation/graphic-design.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 9,
+      "total_points": 120,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "hospitality-and-event-management",
+      "name": "Hospitality & Event Management",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Hospitality-and-Event-Management.pdf",
+      "rubric": "fbla/roleplay/hospitality-and-event-management.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Penalty Points (Dress Code), Penalty Points (Late Arrival)). Check they really aren't scored."
+      ],
+      "criteria_count": 7,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "impromptu-speaking",
+      "name": "Impromptu Speaking",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Impromptu-Speaking.pdf",
+      "rubric": "fbla/presentation/impromptu-speaking.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 8,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "international-business",
+      "name": "International Business",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "International-Business.pdf",
+      "rubric": "fbla/roleplay/international-business.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Staff Only: Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 7,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "introduction-to-business-presentation",
+      "name": "Introduction To Business Presentation",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Introduction-to-Business-Presentation.pdf",
+      "rubric": "fbla/presentation/introduction-to-business-presentation.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 9,
+      "total_points": 115,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "introduction-to-programming",
+      "name": "Introduction To Programming",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Introduction-to-Programming.pdf",
+      "rubric": "fbla/presentation/introduction-to-programming.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 13,
+      "total_points": 130,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "introduction-to-public-speaking",
+      "name": "Introduction To Public Speaking",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Introduction-to-Public-Speaking.pdf",
+      "rubric": "fbla/presentation/introduction-to-public-speaking.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [],
+      "criteria_count": 10,
+      "total_points": 110,
+      "time_limit_s": 300
+    },
+    {
+      "slug": "introduction-to-social-media-strategy",
+      "name": "Introduction To Social Media Strategy",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Introduction-to-Social-Media-Strategy.pdf",
+      "rubric": "fbla/presentation/introduction-to-social-media-strategy.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 9,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "job-interview",
+      "name": "Job Interview",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Job-Interview.pdf",
+      "rubric": "fbla/presentation/job-interview.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [],
+      "criteria_count": 18,
+      "total_points": 170,
+      "time_limit_s": 600
+    },
+    {
+      "slug": "local-chapter-annual-business-report",
+      "name": "Local Chapter Annual Business Report",
+      "org": "fbla",
+      "category": "chapter",
+      "category_source": "Chapter",
+      "source_pdf": "Local-Chapter-Annual-Business-Report.pdf",
+      "rubric": "fbla/chapter/local-chapter-annual-business-report.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points (5 points for dress code penalty and/or 5 points for late arrival penalty)). Check they really aren't scored."
+      ],
+      "criteria_count": 17,
+      "total_points": 210,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "management-information-systems",
+      "name": "Management Information Systems",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Management-Information-Systems.pdf",
+      "rubric": "fbla/roleplay/management-information-systems.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points (Dress Code and/or Late Arrival)). Check they really aren't scored."
+      ],
+      "criteria_count": 7,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "marketing",
+      "name": "Marketing",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Marketing.pdf",
+      "rubric": "fbla/roleplay/marketing.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 7,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "mobile-application-development",
+      "name": "Mobile Application Development",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Mobile-Application-Development.pdf",
+      "rubric": "fbla/presentation/mobile-application-development.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [],
+      "criteria_count": 16,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "network-design",
+      "name": "Network Design",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Network-Design.pdf",
+      "rubric": "fbla/roleplay/network-design.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 7,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "parliamentary-procedure",
+      "name": "Parliamentary Procedure",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Parliamentary-Procedure.pdf",
+      "rubric": "fbla/roleplay/parliamentary-procedure.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Penalty Points (5 points for dress code penalty), Penalty Points (5 points for late arrival penalty)). Check they really aren't scored."
+      ],
+      "criteria_count": 13,
+      "total_points": 120,
+      "time_limit_s": 600
+    },
+    {
+      "slug": "public-service-announcement",
+      "name": "Public Service Announcement",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Public-Service-Announcement.pdf",
+      "rubric": "fbla/presentation/public-service-announcement.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 11,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "public-speaking",
+      "name": "Public Speaking",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Public-Speaking.pdf",
+      "rubric": "fbla/presentation/public-speaking.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 10,
+      "total_points": 110,
+      "time_limit_s": 300
+    },
+    {
+      "slug": "sales-presentation",
+      "name": "Sales Presentation",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Sales-Presentation.pdf",
+      "rubric": "fbla/presentation/sales-presentation.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 11,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "social-media-strategies",
+      "name": "Social Media Strategies",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Social-Media-Strategies.pdf",
+      "rubric": "fbla/presentation/social-media-strategies.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 11,
+      "total_points": 110,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "sports-and-entertainment-management",
+      "name": "Sports & Entertainment Management",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Sports-and-Entertainment-Management.pdf",
+      "rubric": "fbla/roleplay/sports-and-entertainment-management.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 1 non-scored row(s) worth 0 points (Penalty Points). Check they really aren't scored."
+      ],
+      "criteria_count": 7,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "supply-chain-management",
+      "name": "Supply Chain Management",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Supply-Chain-Management.pdf",
+      "rubric": "fbla/presentation/supply-chain-management.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 9,
+      "total_points": 120,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "technology-support-and-services",
+      "name": "Technology Support & Services",
+      "org": "fbla",
+      "category": "roleplay",
+      "category_source": "Role Play",
+      "source_pdf": "Technology-Support-and-Services.pdf",
+      "rubric": "fbla/roleplay/technology-support-and-services.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 9,
+      "total_points": 100,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "visual-design",
+      "name": "Visual Design",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Visual-Design.pdf",
+      "rubric": "fbla/presentation/visual-design.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [],
+      "criteria_count": 10,
+      "total_points": 140,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "website-coding-and-development",
+      "name": "Website Coding & Development",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Website-Coding-and-Development.pdf",
+      "rubric": "fbla/presentation/website-coding-and-development.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 16,
+      "total_points": 220,
+      "time_limit_s": 420
+    },
+    {
+      "slug": "website-design",
+      "name": "Website Design",
+      "org": "fbla",
+      "category": "presentation",
+      "category_source": "Presentation",
+      "source_pdf": "Website-Design.pdf",
+      "rubric": "fbla/presentation/website-design.rubric.json",
+      "rubric_status": "confirmed",
+      "rubric_warnings": [
+        "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+      ],
+      "criteria_count": 13,
+      "total_points": 120,
+      "time_limit_s": 420
+    }
+  ]
+}

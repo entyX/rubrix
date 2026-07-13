@@ -1,0 +1,309 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:39:08.221Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Public-Service-Announcement.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.090Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Public Service Announcement",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "learning_objective",
+      "name": "Learning Objective",
+      "description": "Shows comprehension of the subject matter and establishes a goal for the specific audience.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant exhibits no grasp of the event's subject, or an incorrect subject is addressed, and no learning goal is established."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The subject matter is not clearly understood, regardless of whether a learning goal is present."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "A solid grasp of the subject is evident, along with a defined learning goal."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "An advanced comprehension of the subject is demonstrated, accompanied by a specific learning goal tailored for the target audience."
+        }
+      ]
+    },
+    {
+      "id": "research",
+      "name": "Research",
+      "description": "Present the primary discoveries derived from the investigation into the subject.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No details are provided regarding the research conducted or its outcomes."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The results from the subject research are presented in an ambiguous manner."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The outcomes of the subject research are articulated with clarity."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The discoveries from the subject research are explained clearly and are substantiated with supporting evidence."
+        }
+      ]
+    },
+    {
+      "id": "script",
+      "name": "Script",
+      "description": "Detail the stages involved in developing the design and authoring the script.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No information is given about how the design was developed or how the script was written."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The process of design development and script creation is explained in an unclear way."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The stages of design development and script creation are articulated clearly."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "A clear explanation of the design development and script writing process is provided, supported by evidence."
+        }
+      ]
+    },
+    {
+      "id": "techniques",
+      "name": "Techniques",
+      "description": "Articulate the specific video and audio methods employed in the production of the Public Service Announcement.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no discussion of how audio or video elements were utilized or put into practice."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "One or two methods were applied in the creation of the PSA."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Three to four methods were applied and described in the creation of the PSA."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Five or more methods were applied in the creation of the PSA and explained using specialized vocabulary."
+        }
+      ]
+    },
+    {
+      "id": "equipment_software",
+      "name": "Equipment & Software",
+      "description": "Describe at least three types of tools or programs utilized in creating the Public Service Announcement.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No explanation is provided regarding the equipment or software used."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One piece of equipment or software was used to produce the PSA."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Two pieces of equipment or software were used to produce the PSA."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Three or more pieces of equipment or software were used to produce the PSA and described using specialized vocabulary."
+        }
+      ]
+    },
+    {
+      "id": "copyright_sources",
+      "name": "Copyright/Sources",
+      "description": "Information regarding copyright and sources is documented, and the video content is original.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Copyright and source details are either not addressed or are addressed incorrectly, AND the video content is not original."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The material infringes upon copyright rules; sources are not mentioned OR the video content is not original."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Copyright and source information is properly recorded, and the video content is original."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Compliance with copyright and source information is visually documented, and the video content is original."
+        }
+      ]
+    },
+    {
+      "id": "psa_video_presentation",
+      "name": "PSA Video Presentation",
+      "description": "The Public Service Announcement is displayed during the presentation.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The PSA is not shown during the presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The PSA is shown during the presentation."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "The points made are structured logically and conveyed with clarity.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) appeared unprepared."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the delivery lacked a coherent order."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation progressed in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation progressed in a logical order, and the points were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "Regularly exhibits self-assurance, composed body language, engaging eye contact, and effective vocal projection.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified abilities were demonstrated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "One or two of the specified abilities (self-assurance, body language, eye contact, or vocal projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Three of the specified abilities (self-assurance, body language, eye contact, or vocal projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "All abilities were demonstrated, improving the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Shows the capacity to provide effective answers to questions.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not respond to questions, or responses are completely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Provides incomplete or unclear answers, indicating limited comprehension."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Responds accurately and clearly to most questions, demonstrating sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Responds confidently with clear, accurate, and insightful answers that enhance the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution aligns with the guidelines (all conditions must be satisfied).",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": ""
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "Only permitted technology devices were used (sizing specifications were followed; a maximum of two, with only one facing judges at a time); the presentation matched the assigned topic; the PSA was no longer than 60 seconds; professional boundaries were maintained during set-up time (no interaction with judges); no materials were left behind after the presentation; links or QR codes were displayed appropriately (not clicked or scanned by judges); audio was presented without external speakers (preliminary round); the use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

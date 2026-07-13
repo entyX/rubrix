@@ -1,0 +1,533 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:28:59.746Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Digital-Animation.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.077Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Digital Animation",
+  "total_points": 230,
+  "criteria": [
+    {
+      "id": "project_concept_design_evaluation_fully_",
+      "name": "Project Concept & Design Evaluation: Fully address the concept/topic",
+      "description": "Assesses the extent to which the animated video successfully covers the assigned concept or topic.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The central idea or subject matter is entirely disregarded."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The main idea or subject is present but lacks complete elaboration."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "Completely covers the assigned concept or subject matter."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "Someone unfamiliar with the concept or topic can clearly discern it solely from watching the video."
+        }
+      ]
+    },
+    {
+      "id": "project_concept_design_evaluation_color_",
+      "name": "Project Concept & Design Evaluation: Color, contrast, background, typography, sound, and design are appropriate for the concept/topic",
+      "description": "Assesses if the visual and auditory design components are suitable for the given concept or topic.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Visual and audio components are absent, lack uniformity, or bear no relevance to the main idea or subject."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "A few design selections are fitting, yet problems exist with their uniformity, ease of understanding, or connection to the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The majority of design features, including hues, visual distinction, backdrops, text styles, and audio, are suitably selected and effectively reinforce the concept or topic."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "Every design element is expertly chosen and deliberately implemented to improve the concept or topic. Both visual and auditory selections collaborate to form a powerful, unified presentation."
+        }
+      ]
+    },
+    {
+      "id": "project_concept_design_evaluation_graphi",
+      "name": "Project Concept & Design Evaluation: Graphics are appropriate for concept/topic",
+      "description": "Assesses whether the visual images used are suitable for the concept or topic.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Visuals are absent, irrelevant to the subject, or do not connect to the main idea."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "A portion of the visuals pertains to the subject, but their intent or standard is vague or does not align with the core concept."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The visuals are mostly fitting and support the concept or topic. They are clear and contribute to the animation's message."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The visuals are expertly crafted, consistently align with the concept, and significantly enhance the narrative. Visual choices are deliberate and add clarity, mood, or emphasis to the topic."
+        }
+      ]
+    },
+    {
+      "id": "project_concept_design_evaluation_inform",
+      "name": "Project Concept & Design Evaluation: Information related to the topic is accurate",
+      "description": "Assesses the factual correctness of information presented in the video concerning the topic.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No information related to the topic is provided, or all information given is incorrect."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Some information is pertinent, but there are clear inaccuracies or significant details are missing."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The information is largely accurate and clearly linked to the topic. Any minor errors do not hinder comprehension."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "All information is precise, thoroughly researched, and clearly supports the topic. The content enhances understanding and adds depth to the animation."
+        }
+      ]
+    },
+    {
+      "id": "project_evaluation_overall_quality_eleme",
+      "name": "Project Evaluation: Overall quality of elements of animation",
+      "description": "Assesses the overall standard of the animation's constituent parts.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The animation lacks fundamental components like movement or proper timing; it appears unfinished or disconnected."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The animation exhibits limited use of animation principles. Movements might be unpolished, inconsistent, or distracting."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 10,
+          "descriptor": "The animation shows a solid application of basic animation elements. Movements, timing, and transitions are generally fluid and support the narrative or message."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 17,
+          "descriptor": "The animation is refined and seamless, with a strong, consistent application of animation principles. Timing, movement, and transitions enhance storytelling and deliver a professional-grade experience."
+        }
+      ]
+    },
+    {
+      "id": "project_evaluation_quality_editing_trans",
+      "name": "Project Evaluation: Quality of editing and transition",
+      "description": "Assesses the standard of editing and transitions within the video.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No transitions or evidence of video editing are included."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Transitions are present but are abrupt and do not connect smoothly."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 9,
+          "descriptor": "Transitions flow effortlessly and serve as a sensible part of the video."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 13,
+          "descriptor": "Various types of transitions are employed, and all integrate seamlessly."
+        }
+      ]
+    },
+    {
+      "id": "project_evaluation_logical_flow_thoughts",
+      "name": "Project Evaluation: Logical flow of thoughts",
+      "description": "Assesses the coherent progression of ideas within the video.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The video's progression appears illogical."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The progression fails to link each component of the video."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The progression is sensible and appears to follow a sequence."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The progression is sensible, including a distinct beginning, middle, and end."
+        }
+      ]
+    },
+    {
+      "id": "project_evaluation_video_credits_acknowl",
+      "name": "Project Evaluation: Video concludes with proper credits and acknowledgement of copyright and sources",
+      "description": "Assesses whether proper credits and acknowledgment of copyright and sources are included.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The video does not contain credits."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The video includes credits, but they are incomplete."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The video includes credits that identify the creator, contributors, and acknowledge materials used."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The video includes credits that identify the creator, contributors, and features written acknowledgment of copyright and sources."
+        }
+      ]
+    },
+    {
+      "id": "video_time",
+      "name": "Video Time",
+      "description": "Assesses if the video adheres to the specified maximum duration.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The video exceeds 2 minutes in length."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The video is 2 minutes or less."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_understanding_event_topic",
+      "name": "Demonstrates understanding of the event topic",
+      "description": "Assesses the competitor's comprehension of the event topic during their presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No understanding of the event topic is shown, or an incorrect topic was used."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Understanding of the topic is inconsistent throughout the presentation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The topic is clearly conveyed through the presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "Expertise in the topic is clearly demonstrated through the presentation."
+        }
+      ]
+    },
+    {
+      "id": "describes_development_process",
+      "name": "Describes the development process",
+      "description": "Assesses the explanation of how the animation was conceived and planned.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No description of the development process is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The development process is explained, but no concrete planning documents are shared."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 9,
+          "descriptor": "The development process is explained, and tangible planning documents are shared."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 13,
+          "descriptor": "The development process is explained using industry-specific terms, and tangible planning documents are displayed."
+        }
+      ]
+    },
+    {
+      "id": "describes_production_process",
+      "name": "Describes the production process",
+      "description": "Assesses the explanation of how the animation was created and executed.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No description of the production process is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The production process is explained, but no concrete planning documents are shared."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 9,
+          "descriptor": "The production process is explained, and tangible planning documents are shared."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 13,
+          "descriptor": "The production process is explained using industry-specific terms, and tangible planning documents are displayed."
+        }
+      ]
+    },
+    {
+      "id": "describes_software_hardware_used",
+      "name": "Describes software and hardware used",
+      "description": "Assesses the explanation of the software and hardware utilized for the animation.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No explanation of the software and hardware used is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Only the software OR the hardware used is explained."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 10,
+          "descriptor": "Both the software AND hardware used are explained."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 17,
+          "descriptor": "The software and hardware used are explained, along with alternative options and the justification for the final choices."
+        }
+      ]
+    },
+    {
+      "id": "describes_animation_techniques_used",
+      "name": "Describes animation techniques used",
+      "description": "Assesses the explanation of the animation methods employed.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No explanation of the animation techniques used is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The animation techniques used are identified."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 10,
+          "descriptor": "The animation techniques used are identified and explained with industry-specific terms."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 17,
+          "descriptor": "The animation techniques used are identified and explained with industry-specific terms, and examples are provided."
+        }
+      ]
+    },
+    {
+      "id": "copyright_source_information_displayed_d",
+      "name": "Copyright and source information is displayed, documented, and video content is original",
+      "description": "Assesses the presentation and documentation of copyright and source details, as well as the originality of the video's content.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Copyright information or source details are not included, or the video content is not original."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The material infringes upon copyright or source guidelines, or the video content is not original."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "Copyright information and sources are documented, and the video content is original."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "Copyright compliance is documented, sources are presented using visual representation, and the video content is original."
+        }
+      ]
+    },
+    {
+      "id": "statements_well_organized_clearly_stated",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "Assesses the structure and clarity of remarks made during the presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The competitor(s) were ready, but the presentation lacked a logical progression."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The presentation followed a logical sequence."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The presentation followed a logical sequence, and all statements were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "displays_confidence_uses_lively_language",
+      "name": "Consistently displays confidence, uses lively language, engaging eye contact, and effective voice projection",
+      "description": "Assesses the delivery skills demonstrated during the presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the listed skills were demonstrated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "One or two of the listed skills (confidence, engaging language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "Three of the listed skills (confidence, engaging language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "All skills were demonstrated, thereby enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_ability_effectively_answer_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Assesses the competitor's capability to provide effective answers to questions.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No response to questions, or responses are completely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Provides incomplete or unclear answers that indicate limited understanding."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "Responds accurately and concisely to most questions, showing sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "Responds confidently with accurate, complete, and insightful answers that enhance the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "Assesses compliance with all competitive event guidelines for the execution of the presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the guidelines."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "The pre-recorded segment did not exceed 2 minutes; only permissible technology devices were used (sizing specifications were met; a maximum of two, with only one facing judges at a time); the presentation aligned with the assigned topic; professional boundaries were maintained during set-up time (no interaction with judges); no materials were left behind after the presentation; links or QR codes were displayed appropriately (not clicked or scanned by judges); audio was presented without external speakers (preliminary round); the use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

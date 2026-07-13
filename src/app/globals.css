@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+/* ── NEOBRUTALISM ───────────────────────────────────────────────────────────
+   Replaces plan.md §11 "Championship Metal" at the human's direction (DECISIONS D-011).
+   Rules: flat vivid colour, 3px black borders, HARD offset shadows (no blur, ever),
+   heavy display type, zero gradients. Motion is snap, not glide.
+   What §11 still binds: colour is never the only signal, focus rings stay visible,
+   reduced-motion respected, responsive to 360px.                            */
+
+:root {
+  --ink: #0a0a0a;
+  --paper: #fdf6e9;
+  --card: #ffffff;
+
+  --yellow: #ffd93d;
+  --pink: #ff6b9d;
+  --cyan: #4dd8e8;
+  --lime: #b8f14a;
+  --orange: #ff8c42;
+  --violet: #b983ff;
+
+  /* Org accents — plan.md §11.9 keeps these even under the new skin. */
+  --fbla: #2563eb;
+  --deca: #0ea5e9;
+  --tsa: #dc2626;
+  --hosa: #be123c;
+  --fpspi: #7c3aed;
+
+  --hi: #b8f14a;
+  --mid: #ffd93d;
+  --lo: #ff6b9d;
+
+  --border: 3px solid var(--ink);
+  --shadow: 5px 5px 0 var(--ink);
+  --shadow-lg: 8px 8px 0 var(--ink);
+  --shadow-sm: 3px 3px 0 var(--ink);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* faint grid, so the flat colour has something to sit on */
+  background-image:
+    linear-gradient(rgb(10 10 10 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(10 10 10 / 0.045) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400; /* Archivo Black is already black */
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+/* ── the one primitive everything is built from ── */
+.nb {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  background: var(--card);
+  border-radius: 0;
+}
+.nb-lg {
+  box-shadow: var(--shadow-lg);
+}
+.nb-sm {
+  box-shadow: var(--shadow-sm);
+}
+.nb-flat {
+  border: var(--border);
+  box-shadow: none;
+}
+
+/* Buttons snap down onto the page instead of gliding. */
+.nb-btn {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  background: var(--card);
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease;
+}
+.nb-btn:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.nb-btn:active:not(:disabled) {
+  transform: translate(5px, 5px);
+  box-shadow: 0 0 0 var(--ink);
+}
+.nb-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: var(--shadow);
+}
+
+/* Sidebar rows: press in on hover, no shadow (they live inside a panel). */
+.nb-row {
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background 80ms ease;
+}
+.nb-row:hover {
+  border-color: var(--ink);
+  background: var(--yellow);
+}
+.nb-row[aria-current="true"] {
+  border-color: var(--ink);
+  background: var(--lime);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Score bars: flat fill in a bordered trough. */
+.nb-bar {
+  border: 2px solid var(--ink);
+  background: var(--card);
+  overflow: hidden;
+}
+.nb-bar > span {
+  display: block;
+  height: 100%;
+  transform-origin: left;
+  animation: nb-fill 420ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+@keyframes nb-fill {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.tag {
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  border: 2px solid var(--ink);
+  padding: 2px 7px;
+  display: inline-block;
+}
+
+.mono {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.blink {
+  animation: blink 900ms steps(2, start) infinite;
+}
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .nb-btn:hover:not(:disabled),
+  .nb-btn:active:not(:disabled) {
+    transform: none;
+  }
+}

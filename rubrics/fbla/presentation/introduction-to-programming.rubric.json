@@ -1,0 +1,375 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:34:50.754Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Introduction-to-Programming.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.085Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Introduction to Programming",
+  "total_points": 130,
+  "criteria": [
+    {
+      "id": "appropriate_use_of_comments_naming_conve",
+      "name": "Appropriate use of comments, naming conventions, and proper formatting",
+      "description": "The code demonstrates suitable application of explanatory notes, consistent naming practices, and correct structural arrangement.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The code lacks any explanatory notes."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Explanatory notes are present, but they do not make sense or are confusing."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The explanatory notes help the evaluators understand the project during its presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The explanatory notes are sensible, helpful, and cover all necessary aspects."
+        }
+      ]
+    },
+    {
+      "id": "the_program_is_modular_in_a_way_that_mak",
+      "name": "The program is modular in a way that makes logical, readable sense",
+      "description": "The software is structured into distinct, self-contained parts that contribute to its clarity and ease of comprehension.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The software is presented as a single, undivided section, without employing functions, methods, or any form of modular organization."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "An effort was made to divide the program into smaller parts, yet the resulting arrangement is either vague, lacks uniformity, or is hard to understand."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The software employs a segmented design, utilizing well-defined functions or methods. Every component of the program is arranged logically, enhancing its ease of reading."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The software demonstrates exceptional organization through clearly named, functionally specific functions or modules. Its architecture facilitates effortless reading, comprehension, and upkeep of the code, indicating a profound grasp of best coding practices."
+        }
+      ]
+    },
+    {
+      "id": "user_interface_is_intuitive_or_clear_ins",
+      "name": "User interface is intuitive or clear instructions are provided",
+      "description": "The way users interact with the system is either easy to understand naturally, or comprehensive guidance is supplied.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No guidance is offered, and the interface is not straightforward to use."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Either guidance is given, or the software is not naturally easy to operate."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Suitable and explicit guidance is provided."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The software is naturally easy to use, and explicit guidance is also supplied."
+        }
+      ]
+    },
+    {
+      "id": "users_can_easily_navigate_between_pages",
+      "name": "Users can easily navigate between pages",
+      "description": "Users are able to move effortlessly from one section of the application to another.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No assistance menu or system for moving around is included."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "A basic assistance menu and a functional navigation system are present."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The interface contains no spelling errors, features an interactive assistance menu, and has no issues with moving between sections."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The program's usage also incorporates an advanced feature, such as an interactive question-and-answer system."
+        }
+      ]
+    },
+    {
+      "id": "user_input_is_validated",
+      "name": "User input is validated",
+      "description": "Information entered by the user is checked for correctness.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Information provided by the user is not checked."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "An attempt was made to check user input, but it fails to identify significant unusual cases or is implemented incorrectly."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Information provided by the user is checked for correctness."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Input verification is applied at both the structural and meaningful levels."
+        }
+      ]
+    },
+    {
+      "id": "program_addresses_all_parts_of_the_promp",
+      "name": "Program addresses all parts of the prompt",
+      "description": "The software addresses every component of the given task.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The software does not relate to the assigned subject or issue."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The software addresses the assigned subject or issue only to a minimal degree."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The software fully addresses the assigned subject or issue."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The software fully addresses the assigned subject or issue, and the connection is clarified within the instructions."
+        }
+      ]
+    },
+    {
+      "id": "program_generates_a_presentable_report",
+      "name": "Program generates a presentable report",
+      "description": "The software produces a report that is suitable for presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The generated reports are either incorrect or not accessible."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The generated reports are insufficient for data analysis."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The generated reports are free of errors and contain all necessary information for data analysis."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The generated reports enable the user to customize and analyze information."
+        }
+      ]
+    },
+    {
+      "id": "data_storage",
+      "name": "Data storage",
+      "description": "How data is stored within the program.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No data is stored."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Variables are used inconsistently or in a way that is unclear."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Variable names and their use are clear. Variables hold data that updates as needed. Each variable serves a single purpose, and the correct data type is employed."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "More advanced data storage methods like arrays and lists are utilized appropriately, and variable scope is logical."
+        }
+      ]
+    },
+    {
+      "id": "comprehensive_documentation_is_included_",
+      "name": "Comprehensive documentation is included: readme file, source code, templates/libraries used, and attribution for any open-source or copyrighted material.",
+      "description": "Thorough documentation is provided, encompassing a readme file, the source code, any templates or libraries utilized, and proper credit for all open-source or copyrighted materials.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No documentation is supplied, or essential elements are entirely absent."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Some documentation is provided, but it is incomplete, unclear, or lacks crucial parts (such as attributions or templates used)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Documentation is largely complete and includes a readme file, the source code, and a list of templates/libraries. Appropriate credit is given when required."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Documentation is exhaustive, well-structured, and complete. All mandatory components are included, clearly identified, and presented professionally. Proper credit is explicitly given for all external resources."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "The spoken points are well-structured and articulated with clarity.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were ready, but the delivery lacked a logical progression."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation followed a logical order; the spoken points were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "Consistently exhibits self-assurance, composed body language, engaging visual contact, and effective vocal projection.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Did not exhibit any of the listed capabilities."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Exhibited 1-2 of the mentioned capabilities (self-assurance, body language, visual contact, or vocal projection)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Exhibited 3 of the mentioned capabilities (self-assurance, body language, visual contact, or vocal projection)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Exhibited all capabilities, enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Shows the capacity to answer questions competently.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not reply to inquiries or responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Provides incomplete or unclear answers that indicate limited comprehension."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Responds accurately and clearly to most inquiries, demonstrating adequate comprehension."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Responds confidently with clear, accurate, and insightful answers that improve the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution aligns with the guidelines: (All criteria must be met) Only permitted technology devices were used (sizing specifications were followed; maximum of three) The presentation matched the assigned topic Professional boundaries were maintained during setup time (no interaction with judges) No materials were left behind after the presentation Links or QR codes were displayed appropriately (not clicked or scanned by judges) Audio was presented without external speakers (preliminary round) The use of food or live animals was avoided.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the guidelines."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The execution aligns with the guidelines: (All criteria must be met) Only permitted technology devices were used (sizing specifications were followed; maximum of three) The presentation matched the assigned topic Professional boundaries were maintained during setup time (no interaction with judges) No materials were left behind after the presentation Links or QR codes were displayed appropriately (not clicked or scanned by judges) Audio was presented without external speakers (preliminary round) The use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

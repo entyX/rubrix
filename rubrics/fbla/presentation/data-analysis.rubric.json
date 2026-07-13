@@ -1,0 +1,291 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Late Arrival Penalty, Dress Code Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:28:22.986Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Data-Analysis.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.075Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Data Analysis",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "demonstrates_understanding_of_the_event_",
+      "name": "Demonstrates understanding of the event topic during presentation",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant showed no comprehension of the subject matter for the event, or they addressed the wrong topic."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The participant's grasp of the subject did not align with the specified event requirements."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The participant exhibited a clear comprehension of the subject during their presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The participant showcased their understanding by employing specialized vocabulary relevant to the industry during their presentation."
+        }
+      ]
+    },
+    {
+      "id": "provides_analysis_of_data",
+      "name": "Provides analysis of data",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No effort was made to examine the provided data."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The analysis offered was restricted and only scratched the surface of the data."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The participant presented an analysis of the data."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The participant delivered an in-depth analysis of the data, meeting industry benchmarks and discussing its wider worldwide implications."
+        }
+      ]
+    },
+    {
+      "id": "provides_visualizations_of_data",
+      "name": "Provides visualizations of data",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No visual representations of the data were presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Only a single visualization was included, offering a basic, cursory look at the data."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Two visual aids were presented, attempting to clarify the patterns identified within the data."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The competitor furnished a minimum of three original visualizations that effectively clarified the main patterns discovered in the data, relating them to the given topic."
+        }
+      ]
+    },
+    {
+      "id": "identifies_recommendation_to_accomplish_",
+      "name": "Identifies recommendation to accomplish the purpose",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No suggestion for action was put forward."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "A suggestion was given, but a detailed strategy for its implementation was absent."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "A sensible suggestion and a corresponding action plan were created."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "A practical suggestion and a well-formed plan were developed, along with the identification of required resources, supported by evidence."
+        }
+      ]
+    },
+    {
+      "id": "uses_suitable_and_accurate_statements_re",
+      "name": "Uses suitable and accurate statements related to the topic's information in presentation",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "More than three declarations contained factual errors."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "One or two declarations contained factual errors."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "All declarations were factually correct."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "All declarations were factually correct and supported by evidence."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_whi",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources were referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references were infrequently cited to back up claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Credible and professional sources or resources that support the claims are generally included."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Compelling proof from credible and professional sources or resources is provided to support the claims."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The participant(s) were prepared, but the presentation lacked a logical progression."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The presentation proceeded in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The presentation flowed in a logical sequence, and the points were clearly structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified abilities were demonstrated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "One or two of the specified abilities (self-assurance, composed posture, engaging gaze, or clear vocal delivery) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Three of the specified abilities (self-assurance, composed posture, engaging gaze, or clear vocal delivery) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "All abilities were demonstrated, which enhanced the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant does not answer questions, or their answers are completely irrelevant to the topic."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The participant provides incomplete or unclear answers, indicating a limited grasp of the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The participant responds accurately and clearly to most questions, showing an adequate understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The participant answers confidently with clear, accurate, and insightful responses that improve the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution of the presentation conformed to the guidelines. This includes using only permitted technology (adhering to size specifications, with a maximum of two devices and only one facing judges at any given time), aligning the presentation with the assigned topic, maintaining professional conduct during setup (no interaction with judges), ensuring no materials were left behind, displaying links or QR codes appropriately (not clicked or scanned by judges), presenting audio without external speakers (in the preliminary round), and avoiding the use of food or live animals.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the established rules."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "The execution of the presentation conformed to the guidelines. This includes using only permitted technology (adhering to size specifications, with a maximum of two devices and only one facing judges at any given time), aligning the presentation with the assigned topic, maintaining professional conduct during setup (no interaction with judges), ensuring no materials were left behind, displaying links or QR codes appropriately (not clicked or scanned by judges), presenting audio without external speakers (in the preliminary round), and avoiding the use of food or live animals."
+        }
+      ]
+    }
+  ]
+}

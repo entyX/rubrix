@@ -1,0 +1,511 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 1 non-scored row(s) worth 0 points (Penalty Points (Dress Code / Late Arrival)). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:24:35.625Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Business-Ethics.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.071Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Business Ethics (High School)",
+  "total_points": 280,
+  "criteria": [
+    {
+      "id": "identifies_and_defines_ethical_issues_re",
+      "name": "Identifies and defines ethical issues presented in the topic",
+      "description": "Clearly recognizes and explains the moral dilemmas relevant to the given subject.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Fails to recognize any ethical concerns pertinent to the competition's rules."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Either recognizes the ethical problems or provides a definition for them, but not both."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Successfully recognizes and explains the ethical problems."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Successfully recognizes and explains the ethical problems, incorporating specialized vocabulary from the relevant field."
+        }
+      ]
+    },
+    {
+      "id": "explains_why_the_ethical_issues_happened",
+      "name": "Explains why the ethical issues happened",
+      "description": "Provides an account of the contributing factors that led to the emergence of the ethical problems.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not offer any explanations for the occurrence of the ethical problems."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Identifies causes for the ethical problems, but these explanations are not accurate or relevant."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Pinpoints multiple, though not every single, accurate cause for the ethical problems."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Comprehensively covers and examines every underlying cause of the ethical problems."
+        }
+      ]
+    },
+    {
+      "id": "provides_logical_solutions_report",
+      "name": "Provides logical solutions as to how the ethical issues should be resolved",
+      "description": "Offers sensible approaches for addressing and resolving the identified ethical dilemmas.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Fails to propose any remedies, or the suggested remedies bear no connection to the ethical problem identified."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Presents a single resolution, but it is unclear, not pertinent, or not supported by sound reasoning."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Offers one or two reasonable resolutions, demonstrating comprehension of the ethical problem and backed by some justification."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Presents two or more thoroughly justified and plainly articulated resolutions, showcasing a deep grasp of the ethical problem and supported by reliable evidence or examination."
+        }
+      ]
+    },
+    {
+      "id": "recommends_safeguards_report",
+      "name": "Recommends safeguards that should have been in place to prevent the ethical issues",
+      "description": "Suggests protective measures that ought to have been established to avert the ethical problems.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No preventative measures are identified or put forward."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Mentions one general preventative measure, but it lacks specific details, relevance, or an explanation of its effectiveness in preventing the issue."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Proposes one or two pertinent preventative measures, along with a basic explanation of how they could have stopped the ethical issue."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Recommends two or more clearly defined, practical preventative measures and explains them thoroughly, demonstrating a strong understanding of how each could have proactively dealt with or avoided the ethical challenge."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_report",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "Verifies information and references the sources utilized during the research process.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources are referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently provided to back up claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Generally includes credible and relevant sources and materials to support statements."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Provides convincing evidence from credible and relevant sources and materials to support all statements."
+        }
+      ]
+    },
+    {
+      "id": "business_interviews_integration_of_insig",
+      "name": "Business Interviews & Integration of Insights",
+      "description": "Incorporates insights gained from interviews with business professionals.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No discussions with business professionals are included, or any mentioned interviews lack explanation or relevance to the proposed recommendations."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Fewer than three business professionals are interviewed, or their input is explained unclearly or only loosely connected to the recommendations."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three interviews are conducted, and the findings are summarized with a basic explanation of how these insights influenced the recommendations."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Three or more interviews are clearly summarized, and the insights are thoughtfully analyzed and directly linked to the recommendations, demonstrating a strong integration of real-world perspectives."
+        }
+      ]
+    },
+    {
+      "id": "includes_correct_grammar_punctuation_and",
+      "name": "Includes correct grammar, punctuation, and spelling",
+      "description": "Ensures the use of proper grammar, punctuation, and spelling.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Contains five or more errors in grammar, punctuation, or spelling."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Contains three to four errors in grammar, punctuation, or spelling."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Contains no more than two errors in grammar, punctuation, or spelling."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Contains no more than one error in grammar, punctuation, or spelling."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines (Pre-Judged Asset)",
+      "description": "The execution aligns with the guidelines: The Executive Summary was submitted as a PDF; no links or QR codes were used (unless in citations); the Executive Summary was no more than 3 pages (Page 1 for the title, Page 2 for the summary, Page 3 for works cited); and the Executive Summary was formatted for 8 1/2\" x 11\" paper.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": ""
+        },
+        {
+          "label": "Execution Aligned with Guidelines: (All criteria must be met)",
+          "points": 10,
+          "descriptor": ""
+        }
+      ]
+    },
+    {
+      "id": "objective_test",
+      "name": "Objective Test",
+      "description": "Each participant will complete a multiple-choice test consisting of 100 questions. The test items are based on the knowledge areas and objectives specified for this event: Communication Skills (10 questions), Self-Awareness (15 questions), Doing the Right Thing (30 questions), Teamwork Skills (15 questions), Leadership Skills (20 questions), and Career Readiness (10 questions).",
+      "max_points": 100
+    },
+    {
+      "id": "identifies_and_defines_ethical_issues_pr",
+      "name": "Identifies and defines ethical issues presented in the topic",
+      "description": "Clearly recognizes and explains the moral dilemmas relevant to the given subject.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Fails to recognize any ethical concerns pertinent to the competition's rules."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Either recognizes the ethical problems or provides a definition for them, but not both."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Successfully recognizes and explains the ethical problems."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Successfully recognizes and explains the ethical problems, incorporating specialized vocabulary from the relevant field."
+        }
+      ]
+    },
+    {
+      "id": "explains_why_the_ethical_issues_happened_2",
+      "name": "Explains why the ethical issues happened",
+      "description": "Provides an account of the contributing factors that led to the emergence of the ethical problems.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not offer any explanations for the occurrence of the ethical problems."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Identifies a single cause for the ethical issue(s), but it is not accurate or relevant."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Identifies a single accurate and relevant cause for the ethical issue(s)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Identifies and analyzes two or more accurate and relevant causes."
+        }
+      ]
+    },
+    {
+      "id": "provides_logical_recommendations_present",
+      "name": "Provides logical recommendations as to how the ethical issues should be resolved",
+      "description": "Offers sensible approaches for addressing and resolving the identified ethical dilemmas.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Fails to propose any remedies, or the suggested remedies bear no connection to the ethical problem identified."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Presents a single resolution, but it is unclear, not pertinent, or not supported by sound reasoning."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Offers one or two reasonable resolutions, demonstrating comprehension of the ethical problem and backed by some justification."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Presents two or more thoroughly justified and plainly articulated resolutions, showcasing a deep grasp of the ethical problem and supported by reliable evidence or examination."
+        }
+      ]
+    },
+    {
+      "id": "recommends_safeguards_presentation",
+      "name": "Recommends safeguards that should have been in place to prevent the ethical issues",
+      "description": "Suggests protective measures that ought to have been established to avert the ethical problems.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No preventative measures are identified or put forward."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Mentions one general preventative measure, but it lacks specific details, relevance, or an explanation of its effectiveness in preventing the issue."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Proposes one or two pertinent preventative measures, along with a basic explanation of how they could have stopped the ethical issue."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Recommends two or more clearly defined, practical preventative measures and explains them thoroughly, demonstrating a strong understanding of how each could have proactively dealt with or avoided the ethical challenge."
+        }
+      ]
+    },
+    {
+      "id": "research_shows_quality_and_related_infor",
+      "name": "Research shows quality and related information to the ethical issues and incorporates input of businesspeople interviewed",
+      "description": "The research demonstrates high quality and relevance to the ethical issues, incorporating input from interviewed business professionals.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No research was conducted, and the presentation contains three or more inaccurate statements."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The research is not relevant to the ethical topic, and the presentation includes one to two inaccurate statements."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "All research presented is accurate, but no supporting evidence is referenced."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The research is accurate with supporting evidence provided, and it integrates insights from interviewed business professionals as part of the presentation."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_pre",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "Verifies information and references the sources utilized during the research process.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources are referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently provided to back up claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Generally includes credible and relevant sources and materials to support statements."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Provides convincing evidence from credible and relevant sources and materials to support all statements."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "The information presented is structured logically and articulated with clarity.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear to be prepared."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical flow."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation progressed in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation progressed in a logical order, and the statements were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "Consistently exhibits self-assurance, composed body language, engaging eye contact, and effective voice projection.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Did not exhibit any of the specified communication skills."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Exhibited one or two of the specified communication skills (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Exhibited three of the specified communication skills (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Exhibited all specified communication skills, thereby enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Shows proficiency in providing effective answers to inquiries.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not respond to questions, or responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Provides incomplete or unclear answers, indicating a limited grasp of the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Responds accurately and clearly to most questions, demonstrating adequate understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Responds with confidence, clarity, accuracy, and thoughtful answers that enhance the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin_2",
+      "name": "Adherence to Competitive Events Guidelines (Presentation)",
+      "description": "The execution aligns with the guidelines: only permissible technology devices were used (sizing specifications were followed; a maximum of two, with only one facing judges at a time); the presentation was relevant to the assigned topic; professional boundaries were maintained during set-up time (no interaction with judges); no materials were left behind after the presentation; links or QR codes were displayed appropriately (not clicked or scanned by judges); audio was presented without external speakers (preliminary round); and the use of food or live animals was avoided.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": ""
+        },
+        {
+          "label": "Execution Aligned with Guidelines: (All criteria must be met)",
+          "points": 10,
+          "descriptor": ""
+        }
+      ]
+    }
+  ]
+}

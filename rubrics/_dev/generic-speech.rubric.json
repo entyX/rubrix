@@ -1,0 +1,43 @@
+{
+  "_WARNING": "THIS IS NOT AN FBLA RUBRIC. It is a generic, invented placeholder whose only job is to exercise the grading pipeline end to end during M1. Its criteria and point values came from nobody official. Do not grade a real competitor against it, do not ship it, and do not treat any score produced with it as meaningful. Replace it with a hand-structured rubric from the real official rating sheet before the grader is used for anything that matters. See rubrics/README.md.",
+  "title": "DEV PLACEHOLDER — Generic Prepared Speech (not an official rubric)",
+  "total_points": 100,
+  "criteria": [
+    {
+      "id": "opening",
+      "name": "Opening and hook",
+      "description": "Does the speaker capture attention in the first thirty seconds and make the topic feel like it matters?",
+      "max_points": 15
+    },
+    {
+      "id": "organization",
+      "name": "Organization and structure",
+      "description": "Is there a clear thesis, a logical progression of sections, and audible signposting between them?",
+      "max_points": 20
+    },
+    {
+      "id": "evidence",
+      "name": "Evidence and support",
+      "description": "Are claims backed by specific facts, figures, examples, or sources rather than assertion?",
+      "max_points": 20
+    },
+    {
+      "id": "delivery",
+      "name": "Delivery and fluency",
+      "description": "Pace, vocal variety, and freedom from distracting disfluency. A delivery criterion, so fluency counts here.",
+      "max_points": 15
+    },
+    {
+      "id": "language",
+      "name": "Language and word choice",
+      "description": "Precise, vivid, audience-appropriate language; free of filler and vagueness.",
+      "max_points": 15
+    },
+    {
+      "id": "closing",
+      "name": "Closing and call to action",
+      "description": "Does the speech land — a memorable close that resolves the thesis and tells the audience what to do or think?",
+      "max_points": 15
+    }
+  ]
+}

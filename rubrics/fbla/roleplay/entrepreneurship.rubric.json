@@ -1,0 +1,217 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 1 non-scored row(s) worth 0 points (Staff Only: Penalty Points). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:29:49.419Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Entrepreneurship.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.099Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Entrepreneurship Role Play",
+  "total_points": 100,
+  "criteria": [
+    {
+      "id": "demonstrates_understanding_of_role_play",
+      "name": "Demonstrates understanding of the role play and defines problem(s) to be solved",
+      "description": "Shows comprehension of the simulated scenario and identifies the issue(s) that require resolution.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Neither a summary of the role play nor any problems were presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Offers a summary of the role play OR identifies the issue(s)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Presents a summary of the role play AND identifies the issue(s)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Exhibits a thorough grasp of the role play summary AND the identified issue(s)."
+        }
+      ]
+    },
+    {
+      "id": "identifies_alternatives_and_the_pros_and",
+      "name": "Identifies alternatives and the pro(s) and con(s) of each",
+      "description": "Presents various options and evaluates the advantages and disadvantages associated with each one.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No different options were put forward."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "One or more options were suggested, but their benefits and/or drawbacks were not examined."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "A minimum of two options were presented, with an analysis of their benefits and drawbacks."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Several different options were provided, and numerous advantages and disadvantages for each were thoroughly examined."
+        }
+      ]
+    },
+    {
+      "id": "identifies_logical_solution_and_aspects_",
+      "name": "Identifies logical solution and aspects of implementation",
+      "description": "Determines a sensible resolution and outlines the elements involved in putting it into practice.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No resolution was proposed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "A resolution was offered, but a strategy for its execution was not created."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "A reasonable resolution and a detailed plan for its execution were presented."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "A practical resolution and a comprehensive plan for its execution were created, along with an identification of required resources."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_knowledge_and_understanding",
+      "name": "Demonstrates knowledge and understanding of the event knowledge areas: Business Plan, Community and business relations, legal issues, initial capital and credit, personnel management, financial management, marketing management, taxes, government regulations",
+      "description": "Exhibits familiarity with and comprehension of the specified subject areas for the event: Business Plan, Community and business relations, legal issues, initial capital and credit, personnel management, financial management, marketing management, taxes, and government regulations.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No understanding of the knowledge areas was shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Understanding of one or two knowledge areas was demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Understanding of three knowledge areas was demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Understanding of four or more knowledge areas was demonstrated."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "The presented information is structured effectively and communicated with clarity.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The participant(s) were ready, but the delivery lacked a coherent progression."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a coherent order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation followed a coherent order, and the statements were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "Consistently exhibits self-assurance, composed body language, engaging eye contact, and effective vocal delivery.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified presentation skills were shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the specified skills (self-assurance, body language, eye contact, or vocal delivery) were shown."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the specified skills (self-assurance, body language, eye contact, or vocal delivery) were shown."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All specified skills were shown, enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Shows the capability to respond to inquiries in an effective manner.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Unable to provide answers to questions."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Does not fully address the questions asked."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Provides complete answers to questions."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Engaged with the judges while providing complete answers to questions."
+        }
+      ]
+    }
+  ]
+}

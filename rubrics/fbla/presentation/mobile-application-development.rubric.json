@@ -1,0 +1,457 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [],
+    "parsed_at": "2026-07-13T07:38:03.878Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Mobile-Application-Development.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.089Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Mobile Application Development",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "planning_process",
+      "name": "Planning Process",
+      "description": "This criterion assesses how thoroughly the planning phase of the project is articulated and supported with concrete evidence.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The planning phase is neither explained nor documented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The process is described, but no physical planning artifacts are provided."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The process is described, and relevant planning documents are presented."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The planning process is detailed using professional vocabulary, and concrete planning materials are shown."
+        }
+      ]
+    },
+    {
+      "id": "appropriate_use_of_classes_modules_and_o",
+      "name": "Appropriate use of classes, modules, and/or components",
+      "description": "This criterion evaluates the effective and suitable implementation of classes, modules, or other reusable components within the application's structure.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The application does not incorporate classes, modules, or components."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Classes, modules, or components are present in the application."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Classes, modules, or components are utilized correctly and suitably."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The application demonstrates highly skilled and proficient application of classes, modules, or components."
+        }
+      ]
+    },
+    {
+      "id": "appropriate_use_of_mobile_app_architectu",
+      "name": "Appropriate use of mobile app architectural patterns",
+      "description": "This criterion assesses the proper and fitting application of established architectural patterns for mobile applications.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The application does not employ any architectural patterns."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The application's use of architectural patterns is not evident or is poorly defined."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Architectural patterns are applied suitably and correctly."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Architectural patterns are implemented with exceptional skill and understanding."
+        }
+      ]
+    },
+    {
+      "id": "innovation_and_creativity",
+      "name": "Innovation and Creativity",
+      "description": "This criterion measures the degree of originality and inventive thought demonstrated in the application.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No new or imaginative ideas are shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Only a minimal level of originality or inventiveness is present."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The application exhibits either innovative or creative qualities."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The application showcases both innovative and creative aspects."
+        }
+      ]
+    },
+    {
+      "id": "ux_design_user_journey_design_rationale_",
+      "name": "UX Design: User Journey, Design Rationale, Accessibility Features",
+      "description": "This criterion evaluates the presentation of the user experience design, including the user's path, the reasoning behind design choices, and any accessibility features.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No user experience design elements are presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Only a few components of the user experience design are shown."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The user experience design is presented, but some details are missing."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The user experience design is fully presented, with specific attention to the design rationale, user journey, and accessibility features."
+        }
+      ]
+    },
+    {
+      "id": "user_interface_is_intuitive_or_clear_ins",
+      "name": "User interface is intuitive or clear instructions are provided",
+      "description": "This criterion assesses whether the user interface is easy to understand without guidance or if explicit instructions are provided for its use.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No guidance is offered, and the application is not straightforward to use."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Either instructions are provided, or the application is not intuitive."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Suitable and easy-to-understand instructions are given."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The application is intuitive, and clear instructions are also available."
+        }
+      ]
+    },
+    {
+      "id": "icons_graphical_elements_are_appropriate",
+      "name": "Icons/graphical elements are appropriate and consistent",
+      "description": "This criterion evaluates the suitability and consistency of the application's icons and other visual elements.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The application lacks a unique icon or custom graphics."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The application features a simple custom icon and basic graphics."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The application includes an icon that conveys information about its purpose."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The application's icon effectively communicates its function and is seamlessly incorporated into the overall graphics."
+        }
+      ]
+    },
+    {
+      "id": "user_input_is_validated",
+      "name": "User input is validated",
+      "description": "This criterion evaluates how effectively the application checks and confirms user-provided data.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "User-entered data is not checked for validity."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "User input undergoes some degree of validation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "User input is thoroughly checked for validity."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Input validation is applied at both the structural (syntactical) and meaning (semantic) levels."
+        }
+      ]
+    },
+    {
+      "id": "program_addresses_all_parts_of_the_promp",
+      "name": "Program addresses all parts of the prompt",
+      "description": "This criterion assesses the extent to which the application addresses every requirement outlined in the prompt.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The application fails to address the given topic or problem."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The application addresses the topic or problem at a basic level."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The application completely addresses the given topic or problem."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The application fully addresses the topic or problem, and its relevance is clearly explained in the instructions."
+        }
+      ]
+    },
+    {
+      "id": "integrated_with_social_media",
+      "name": "Integrated with social media",
+      "description": "This criterion evaluates the extent to which the application incorporates social media functionalities.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Social media features are not included."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Integration with a single social media platform is present."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Integration with two or more social media platforms is present."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The application is designed to function directly with at least one social media application."
+        }
+      ]
+    },
+    {
+      "id": "data_handling_and_storage",
+      "name": "Data Handling and Storage",
+      "description": "This criterion evaluates the methods used for managing and storing data within the application.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No thought has been given to how data is managed and stored."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Minimal consideration of data management and storage, with a basic implementation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Sufficient data management and storage practices are implemented, focusing on data accuracy and protection."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Thorough and secure data management and storage practices are implemented, ensuring data accuracy, availability, and safeguarding."
+        }
+      ]
+    },
+    {
+      "id": "documentation_and_copyright_compliance",
+      "name": "Documentation and copyright compliance",
+      "description": "This criterion assesses the proper citation of sources and adherence to copyright regulations.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Sources are not acknowledged."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Sources or references are rarely cited to support claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Credible and professional sources and resources that back up claims are generally provided."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Strong evidence from credible and professional sources and resources is presented to support claims."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "This criterion evaluates the clarity and structured arrangement of the information presented.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) appeared unprepared."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a coherent flow."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a logical progression."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation progressed logically, and all points were clearly structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "This criterion assesses the consistent exhibition of self-assurance, composed posture, engaging visual contact, and effective vocal delivery.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified abilities were shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the listed abilities (self-assurance, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the listed abilities (self-assurance, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All abilities were demonstrated, enhancing the overall presentation quality."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "This criterion evaluates the capacity to provide clear and accurate responses to inquiries.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Questions are not answered, or responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Responses are incomplete or unclear, indicating limited comprehension."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Most questions are answered accurately and clearly, showing sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Answers are confident, clear, accurate, and insightful, significantly improving the presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "This criterion evaluates compliance with the rules and regulations set for competitive events.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not follow the established guidelines."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The execution was in full alignment with the guidelines: (All conditions must be satisfied) Only permitted technology devices were used (sizing specifications were followed; maximum of three devices) The presentation matched the assigned topic Professional boundaries were maintained during setup (no interaction with judges) No materials were left behind after the presentation Links or QR codes were displayed appropriately (not clicked or scanned by judges) Audio was presented without external speakers (preliminary round) The use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

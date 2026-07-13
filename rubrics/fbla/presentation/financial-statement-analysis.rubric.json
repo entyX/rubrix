@@ -1,0 +1,345 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [],
+    "parsed_at": "2026-07-13T07:31:10.577Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Financial-Statement-Analysis.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.080Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Financial Statement Analysis",
+  "total_points": 140,
+  "criteria": [
+    {
+      "id": "describes_each_financial_statement_and_i",
+      "name": "Describes each financial statement and its purpose",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No explanation of the financial statements is given, or the details provided are wrong or irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The submission refers to some financial statements, but the explanations are vague or not fully developed. The function of each statement might be misunderstood."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "All three financial statements are precisely detailed, and their individual purposes are clearly articulated. The presenter demonstrates comprehension of their role in a business's financial monitoring."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The descriptions for all three financial statements are precise, easy to understand, and thoroughly elaborated. A deep insight into how these statements collectively illustrate the company's overall financial condition is evident."
+        }
+      ]
+    },
+    {
+      "id": "performs_financial_analysis_of_each_fina",
+      "name": "Performs financial analysis of each financial statement",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no examination of the financial statements, or any information presented is inaccurate or irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "An effort to analyze the financial statements is present, but the explanation lacks depth, clarity, or omits crucial details. The focus might be restricted to a single statement."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Each financial statement is thoroughly examined, highlighting significant elements from the Income Statement, Balance Sheet, and Cash Flow Statement. The presenter understands how these components collectively form the complete financial overview."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "A comprehensive and in-depth analysis of all three financial statements is presented. Key figures and patterns are emphasized, their implications are clarified, and their relevance to the company's financial well-being is established. This demonstrates a sophisticated grasp of financial concepts."
+        }
+      ]
+    },
+    {
+      "id": "describes_financial_condition_of_the_com",
+      "name": "Describes financial condition of the company using insights gained from financial analysis",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The company's financial state is not described, or the provided description is incorrect or lacks a basis in analysis."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "A rudimentary or unclear account of the company's financial standing is given, with minimal connection to the financial data or analysis performed."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The company's financial condition is clearly articulated, drawing upon essential insights derived from the financial analysis. This indicates an understanding of the company's overall performance."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "A well-supported description of the company's financial condition is provided, utilizing specific insights from the analysis. This demonstrates a profound understanding of what the figures signify and how they reflect the company's strengths and weaknesses."
+        }
+      ]
+    },
+    {
+      "id": "offers_guidance_for_business_decision_ma",
+      "name": "Offers guidance for business decision making",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No recommendations are put forth, or any ideas presented are disconnected from the financial analysis."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "General or vague suggestions are offered that do not clearly align with the company's financial circumstances."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Clear and practical recommendations for business decisions are provided, grounded in the financial analysis. This shows an awareness of how financial data can inform a company's choices."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Robust, well-considered recommendations are presented, which are tightly linked to the financial data. This demonstrates a deep comprehension of how the company can leverage the analysis for improvement or expansion. It may also include various options or potential outcomes."
+        }
+      ]
+    },
+    {
+      "id": "highlight_key_differences_between_this_y",
+      "name": "Highlight key differences between this year's financial statements and prior periods: revenues, costs, margins, assets, liabilities, etc.",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No variations between time periods are noted, or the response is irrelevant to the financial statements."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "A few changes are mentioned, but with minimal elaboration or explanation. Numbers might be listed without clarifying their significance or impact."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Important differences between the current year and previous years are clearly identified. The explanation covers how key areas such as sales, expenses, and profits have shifted and why these changes are meaningful."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "A comprehensive and insightful comparison of several crucial financial areas is provided. The meaning of the changes is clearly explained, revealing what they indicate about the business's performance over time."
+        }
+      ]
+    },
+    {
+      "id": "analyze_what_changes_reveal_about_the_co",
+      "name": "Analyze what changes reveal about the company's current financial health.",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No examination is offered, or the answer does not pertain to financial health or significant financial domains. Ratios, trends, or comparisons are not utilized."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "A basic or unclear explanation of financial health is provided. Some financial areas are mentioned, but with little detail or support from ratios, trends, or comparisons."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "A clear explanation of the company's financial health is given in key areas such as profitability and liquidity. The analysis is supported by some ratios, trends, or comparisons."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "A detailed and insightful explanation of the company's financial health is provided, utilizing multiple financial areas and specific data. The analysis is strongly supported by carefully chosen ratios, historical trends, and comparisons to industry benchmarks or past performance."
+        }
+      ]
+    },
+    {
+      "id": "recommend_2_3_strategic_business_decisio",
+      "name": "Recommend 2-3 strategic business decisions backed by analysis",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No proposals are offered, or the concepts presented are unrelated to the financial data."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The suggestions are vague, impractical, or not clearly linked to the financial information."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Two to three clear and realistic suggestions are provided, which are relevant to the financial analysis. This demonstrates an understanding of how the company could expand, reduce costs, or mitigate risks."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Two to three thoughtful, innovative, and thoroughly explained suggestions are presented. Each idea is strongly supported by financial data and clearly demonstrates how the company can enhance its operations or achieve future success."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_whi",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources are referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently provided to back up statements."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Generally, credible and professional sources and resources are present to support statements."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Compelling evidence from professionally legitimate sources and resources is supplied to substantiate statements."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) appeared unprepared."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical flow."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation progressed in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation followed a logical sequence, and the statements were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified skills were exhibited."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the listed skills (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the listed skills (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All skills were demonstrated, thereby enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Questions are not addressed, or responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Answers provided are incomplete or unclear, indicating a limited grasp of the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Most questions are answered accurately and clearly, showing a sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Responses are delivered confidently with clear, accurate, and insightful answers that elevate the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the guidelines."
+        },
+        {
+          "label": "Execution Aligned with Guidelines: (All criteria must be met)",
+          "points": 10,
+          "descriptor": "Only permitted technology devices were used (sizing specifications were followed; a maximum of two, with only one facing judges at a time). The presentation aligned with the assigned topic. Professional boundaries were maintained during set-up time (no interaction with judges). No materials were left behind after the presentation. Links or QR codes were displayed appropriately (not clicked or scanned by judges). Audio was presented without external speakers (preliminary round). The use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,347 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:30:17.058Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Event-Planning.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.078Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Event Planning",
+  "total_points": 180,
+  "criteria": [
+    {
+      "id": "event_overview_purpose_goals_target_audi",
+      "name": "Event Overview",
+      "description": "The fundamental reason for the event, its objectives, who it is intended for, and what kind of event it is.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "An event summary is absent, or the details offered are not pertinent or lack essential elements, such as a stated purpose or the nature of the event."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The event summary is imprecise, difficult to understand, or omits multiple necessary details, such as definite objectives or a distinct intended audience."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The event summary distinctly outlines its purpose, objectives, intended participants, and category. The provided information is suitable and consistent with the project's broader scope."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The event summary is comprehensive, clearly expressed, and shows a deliberate connection between its purpose, objectives, target demographic, and classification. The justification is convincing and indicates careful foresight."
+        }
+      ]
+    },
+    {
+      "id": "planning_process_timeline_task_assignmen",
+      "name": "Planning Process",
+      "description": "The schedule of activities, who is responsible for what, and records of organizational gatherings.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no documentation of how the planning was conducted; details regarding the schedule, delegated tasks, and coordination meetings are either missing or not discussed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The method of planning is partial or hard to understand; it might lack one or more components like a schedule or task delegation. There is minimal indication of structured organization."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "A well-defined planning approach is presented, featuring a sensible schedule, specific task allocations, and records of planning sessions. This shows sufficient coordination."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The planning method is thorough and well-organized, including a complete schedule, precise assignment of duties, and documented planning sessions. This demonstrates strong organizational skills and proactive project oversight."
+        }
+      ]
+    },
+    {
+      "id": "budget_full_income_expense_breakdown_inc",
+      "name": "Budget",
+      "description": "A complete breakdown of all money coming in and going out, including gifts, non-cash contributions, and earned revenue.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No financial plan is provided, or the plan lacks information on both revenue and expenditures."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The financial plan is incomplete, unclear, or omits crucial elements such as non-cash support, donations, or sources of income. The level of detail or accuracy is limited."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "A comprehensive and accurate financial plan is presented with clear categorizations of income and expenses. It includes donations, non-cash contributions, and revenue, formatted and organized appropriately."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The financial plan is extensive, meticulously organized, and highly detailed. It features thoughtful classification of all income and expenditures, clear records of donations and non-cash assistance, and reflects strategic financial management and accountability."
+        }
+      ]
+    },
+    {
+      "id": "logistics_venue_vendors_staffing_layout_",
+      "name": "Logistics",
+      "description": "Details about the location, suppliers, personnel, and diagrams showing the arrangement of spaces.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No information about operational details is supplied, or the content is irrelevant or lacks all essential elements (location, suppliers, personnel, and spatial arrangement)."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Operational details are discussed superficially or are missing multiple elements. There is limited clarity regarding the location, coordination with suppliers, personnel, or the event's physical setup."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Operational details are clearly outlined and include pertinent information for the location, suppliers, personnel, and layout diagrams. This demonstrates adequate preparation and coordination."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Operational details are comprehensive, thoroughly documented, and showcase advanced preparation. Plans for the location, suppliers, and personnel are distinctly defined and supported by professional-quality layout diagrams and careful coordination of all components."
+        }
+      ]
+    },
+    {
+      "id": "marketing_promotion_targeted_strategies_",
+      "name": "Marketing & Promotion",
+      "description": "Specific approaches used to publicize the event to its intended audience.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No strategies for publicity or promotion are offered, or the content is irrelevant or unrelated to the event."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Promotional strategies are vague, minimally developed, or not clearly linked to the intended audience. There is limited use of advertising tools or platforms."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Clear and suitable promotional strategies are outlined and customized for the event's target audience. This demonstrates the use of relevant advertising methods and materials."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The plan for publicity and promotion is strategic, inventive, and executed effectively. It shows a strong grasp of the target audience through customized messages, diverse platforms, and measurable outreach techniques. It reflects innovation and alignment with the event's objectives."
+        }
+      ]
+    },
+    {
+      "id": "legal_risk_management_contracts_insuranc",
+      "name": "Legal & Risk Management",
+      "description": "Agreements, protection policies, official permissions, and plans for safety.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No information regarding legal or risk management is provided, or none of the required components are addressed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Limited or unclear consideration of legal and safety matters. One or more key elements (agreements, protection policies, official permissions, or safety plans) are absent or incomplete."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Legal and risk management aspects are clearly addressed, including relevant agreements, protection policies, official permissions, and safety measures. This demonstrates an understanding of standard compliance."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Legal and risk management plans are exhaustive, well-documented, and show a proactive approach to adherence and safety. They include detailed plans, accurate documentation, and careful preparation for potential hazards."
+        }
+      ]
+    },
+    {
+      "id": "execution_summary_date_of_event_photos_c",
+      "name": "Execution Summary",
+      "description": "The date the event took place, photographic evidence, and how difficulties were managed.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No summary of the event's execution is provided, or the event did not happen. Essential elements (date, images, or reflection on challenges) are entirely absent."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The execution summary is incomplete or lacks clarity. It may be missing one or more key elements such as images or an explanation of how difficulties were handled."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The summary offers a clear overview of the event, including its date, images, and a description of challenges encountered with explanations of how they were addressed. This demonstrates successful implementation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The summary is thorough and engaging, featuring a well-recorded event date, strong photographic proof, and a thoughtful analysis of challenges and their resolutions. It demonstrates adaptability, leadership, and a reflective understanding of real-time problem-solving."
+        }
+      ]
+    },
+    {
+      "id": "evaluation_reflection_attendance_satisfa",
+      "name": "Evaluation & Reflection",
+      "description": "Metrics for attendance and participant satisfaction, the financial outcome (whether under or over budget), lessons learned with suggestions for improvement, and evidence of feedback from attendees.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No assessment or reflection is offered. No data, feedback, or analysis is included."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The assessment is limited or vague. It may include some metrics or feedback but lacks depth, completeness, or clear insights. Few or no lessons learned are shared."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The assessment includes clear data on attendance and satisfaction, the financial outcome, and meaningful reflection. It identifies lessons learned and provides reasonable recommendations for enhancement. Some feedback from attendees is documented."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The assessment is comprehensive, driven by data, and deeply reflective. It includes well-analyzed metrics for attendance and satisfaction, a clear financial outcome, actionable strategies for improvement, and strong evidence of attendee feedback. This demonstrates a high level of self-evaluation and dedication to ongoing enhancement."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical flow."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation flowed in a logical sequence; the points made were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Did not exhibit any of the listed capabilities."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Exhibited 1-2 of the mentioned capabilities (self-assurance, composed posture, engaging gaze, or effective vocal delivery)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Exhibited 3 of the mentioned capabilities (self-assurance, composed posture, engaging gaze, or effective vocal delivery)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Exhibited all capabilities, thereby enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not respond to inquiries, or responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Provides incomplete or unclear responses that indicate limited comprehension."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Responds accurately and clearly to most inquiries, demonstrating adequate understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Responds confidently with clear, accurate, and insightful answers that elevate the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution of the project aligns with the specified rules.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Followed",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the established rules."
+        },
+        {
+          "label": "Followed",
+          "points": 10,
+          "descriptor": "The execution aligned with the guidelines: (All criteria must be met) Only allowed technology devices were used (sizing specifications were followed; a maximum of two, with only one facing judges at a time). The presentation matched the assigned topic. Professional boundaries were maintained during setup (no interaction with judges). No materials were left behind after the presentation. Links or QR codes were displayed appropriately (not clicked or scanned by judges). Audio was presented without external speakers (preliminary round). The use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

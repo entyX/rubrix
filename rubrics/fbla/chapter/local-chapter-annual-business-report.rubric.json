@@ -1,0 +1,477 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 1 non-scored row(s) worth 0 points (Penalty Points (5 points for dress code penalty and/or 5 points for late arrival penalty)). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:36:53.570Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Local-Chapter-Annual-Business-Report.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.068Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Local Chapter Annual Business Report",
+  "total_points": 210,
+  "criteria": [
+    {
+      "id": "include_state_of_the_chapter_remarks",
+      "name": "Include \"State of the Chapter\" remarks to current members by chapter president. Report on membership numbers and population size of school and community.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The report lacks any commentary or figures regarding the number of members, the school's size, or the community's demographic information."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The president's comments are not specific or fully developed, and the information about membership or population is either absent or difficult to understand."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The report features a distinct communication from the chapter president and presents precise statistics for membership, the school, and the community's population."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The chapter president delivers a comprehensive \"State of the Chapter\" address to current members, detailing both membership figures and the population sizes of the school and surrounding community."
+        }
+      ]
+    },
+    {
+      "id": "program_of_work_report",
+      "name": "Program of Work",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The report does not contain the Program of Work."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The Program of Work is presented merely as a schedule of activities or events."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The Program of Work is structured as a calendar that incorporates a few objectives."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The Program of Work is a thorough document that clearly connects to the chapter's particular goals and objectives."
+        }
+      ]
+    },
+    {
+      "id": "report_activities_to_benefit_chapter_and",
+      "name": "Report activities to benefit chapter and its members: • Recruitment • Leadership Development • Career Exploration & Preparation • Business Partnerships • Chapter Fundraising • Public Relations & Chapter Publicity",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The report does not detail or mention any activities within the specified categories."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Only a small number of activities are noted, accompanied by insufficient explanation or an ambiguous link to how they help the chapter or its members."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The report covers pertinent activities across the majority of the specified categories, providing explicit accounts of their contribution to the chapter and its members."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "A wide array of successfully executed activities across all categories are thoroughly described, clearly demonstrating a significant positive effect on the chapter's growth and its members' development."
+        }
+      ]
+    },
+    {
+      "id": "describe_activities_to_benefit_other_ind",
+      "name": "Describe activities to benefit other individuals and organizations: • State Projects & Programs • National Projects & Programs • Other community service projects",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The report does not include any descriptions of activities that benefited other individuals or external organizations."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "A few activities are mentioned with minimal detail, or their connection to state, national, or community service initiatives is unclear."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Relevant activities supporting state, national, and community service efforts are described, with a clear explanation of their purpose and results."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Detailed and well-structured accounts of impactful activities are provided across all categories, emphasizing significant service, collaboration, and achievements beyond the chapter."
+        }
+      ]
+    },
+    {
+      "id": "include_conferences_attended_and_recogni",
+      "name": "Include conferences attended and recognition received: • Participation in FBLA conferences • Other chapter and individual recognitions earned • Competitive event winners and participation",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No information about conferences attended, recognitions received, or participation in competitive events is included."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The report offers limited or unclear information regarding conference attendance or awards, with minimal connection to the chapter's involvement."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The report clearly outlines participation in conferences, honors received, and outcomes from competitive events with appropriate detail."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "A comprehensive and well-organized overview of conference engagement, awards, and competitive achievements is provided, showcasing strong chapter participation and success."
+        }
+      ]
+    },
+    {
+      "id": "formatted_and_designed_as_business_repor",
+      "name": "Formatted and designed as business report",
+      "description": "This report is not required to adhere to the Production Test Reference Guide.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The document does not follow any specific formatting."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The formatting is inconsistent, there is excessive unused space, and/or the graphics or photos included are not relevant."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The report maintains a consistent format throughout."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The report utilizes full bleed, makes efficient use of space, includes relevant and well-defined graphics, and maintains consistent formatting."
+        }
+      ]
+    },
+    {
+      "id": "chapter_activity_documentation_included_",
+      "name": "Chapter activity documentation included accurately and professionally displayed.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No supporting documentation is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Documentation is included, but its presentation is not professional."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Supporting documentation is included."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Supporting documentation is included and enhances the overall written report."
+        }
+      ]
+    },
+    {
+      "id": "include_correct_grammar_punctuation_and_",
+      "name": "Include correct grammar, punctuation, and spelling",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The document contains five or more errors in grammar, punctuation, or spelling."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The document contains three or four errors in grammar, punctuation, or spelling."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The document contains no more than two errors in grammar, punctuation, or spelling."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The document contains no more than one error in grammar, punctuation, or spelling."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The report's execution aligns with the guidelines: it was submitted as a PDF, no links or QR codes were used (unless in citations), it was 17 pages or under, it followed the sequence of the rating sheet, it was formatted for 8 1/2\" x 11\" paper, and it included a cover page with all criteria listed, a table of contents, and numbered pages.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the specified guidelines."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "The report was submitted in PDF format, did not contain links or QR codes (except for citations), was 17 pages or less, followed the order of the rating sheet, was formatted for 8 1/2\" x 11\" paper, and included a cover page listing all criteria, a table of contents, and numbered pages."
+        }
+      ]
+    },
+    {
+      "id": "describe_chapters_program_of_work_and_su",
+      "name": "Describe chapter's program of work and summary of year's activities",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no information presented regarding the chapter's program of work or a summary of the year's activities."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The chapter's program of work and a summary of the year's activities are explained concisely."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The chapter's program of work and a summary of the year's activities are clearly outlined."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The chapter's program of work and a summary of the year's activities are clearly outlined. The activities are presented chronologically, linked to chapter goals/objectives, and thoroughly explained."
+        }
+      ]
+    },
+    {
+      "id": "describe_activities_to_benefit_chapter_a",
+      "name": "Describe activities to benefit chapter and its members: • Recruitment • Leadership Development • Career Exploration & Preparation • Business Partnerships • Chapter Fundraising • Public Relations & Chapter Publicity",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No evidence of activities is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "At least one activity is described in two of the specified areas."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "At least one activity is described in four of the specified areas."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "At least one activity is described in all of the specified areas."
+        }
+      ]
+    },
+    {
+      "id": "describe_activities_to_benefit_other_ind_2",
+      "name": "Describe activities to benefit other individuals and organizations: • State Projects & Programs • National Projects & Programs • Other community service projects",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No evidence of activities is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "At least one activity is described in one of the specified areas."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "At least one activity is described in each of the specified areas."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Multiple activities are described in all of the specified areas."
+        }
+      ]
+    },
+    {
+      "id": "describe_conferences_attended_and_recogn",
+      "name": "Describe conferences attended and recognition received: • Participation in FBLA conferences • Other chapter and individual recognition earned • Competitive event winners and participation",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No evidence of activities is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "At least one activity is described in one of the specified areas."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "At least one activity is described in each of the specified areas."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Multiple activities are described in all of the specified areas."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical flow."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation progressed in a sensible order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation flowed in a logical sequence, and the statements were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not exhibit any of the listed skills."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The competitor(s) demonstrated one or two of the specified skills (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The competitor(s) demonstrated three of the specified skills (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The competitor(s) demonstrated all skills, thereby improving the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) do not answer questions, or their responses are completely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) provide incomplete or unclear answers, indicating limited comprehension."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The competitor(s) respond accurately and clearly to most questions, showing adequate understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The competitor(s) respond confidently with clear, accurate, and insightful answers that enhance the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin_2",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution aligns with the guidelines: only permissible technology devices were used (with sizing specifications followed; a maximum of two, with only one facing judges at a time), the presentation matched the assigned topic, professional boundaries were maintained during set-up time (no interaction with judges), no materials were left behind after the presentation, links or QR codes were displayed appropriately (not clicked or scanned by judges), audio was presented without external speakers (in the preliminary round), and the use of food or live animals was avoided.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the specified guidelines."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "Only permissible technology devices were used (sizing specifications were followed; a maximum of two, with only one facing judges at a time). The presentation aligned with the assigned topic. Professional boundaries were maintained during set-up time (no interaction with judges). No materials were left behind after the presentation. Links or QR codes were displayed appropriately (not clicked or scanned by judges). Audio was presented without external speakers (preliminary round). The use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

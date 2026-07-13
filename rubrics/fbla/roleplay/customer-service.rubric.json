@@ -1,0 +1,245 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 1 non-scored row(s) worth 0 points (Penalty Points (Staff Only)). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:27:59.314Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Customer-Service.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.098Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Customer Service (High School) Role Play",
+  "total_points": 100,
+  "criteria": [
+    {
+      "id": "demonstrates_understanding_of_the_role_p",
+      "name": "Demonstrates understanding of the role play and defines problem(s) to be solved",
+      "description": "Shows comprehension of the simulated scenario and clearly identifies the issue(s) that need resolution.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant offered neither an overview of the scenario nor any identified problems."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The participant either presented an overview of the scenario or identified the problem(s)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The participant both presented an overview of the scenario and identified the problem(s)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The participant showcased a thorough understanding of the scenario's summary and precisely articulated the problem(s)."
+        }
+      ]
+    },
+    {
+      "id": "communicates_position_on_role_play_scena",
+      "name": "Communicates position on role play scenario",
+      "description": "Clearly articulates a stance regarding the simulated situation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant did not express any viewpoint."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The participant expressed a viewpoint, but it was irrelevant to the core issue."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The participant expressed a viewpoint directly addressing the core issue."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The participant professionally conveyed their viewpoint concerning the core issue within the scenario."
+        }
+      ]
+    },
+    {
+      "id": "identifies_logical_solution_and_aspects_",
+      "name": "Identifies logical solution and aspects of implementation",
+      "description": "Proposes a sensible resolution and outlines how it would be put into practice.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No resolution was presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "A resolution was offered, but a strategy for putting it into action was missing."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "A reasonable resolution was presented, along with a developed strategy for its execution."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "A practical resolution and a detailed execution strategy were developed, including the identification of required resources."
+        }
+      ]
+    },
+    {
+      "id": "displays_empathy_diplomacy_when_respondi",
+      "name": "Displays empathy/diplomacy when responding to role play scenario",
+      "description": "Shows understanding and tact in their reactions to the simulated situation.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No understanding or tact was demonstrated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Either understanding or tact was evident in the response to the simulated situation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Both understanding and tact were evident in the response to the simulated situation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The demonstration of understanding and tact significantly contributed to resolving the simulated situation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_conflict_resolution_and_clo",
+      "name": "Demonstrates conflict resolution and closure to the role play",
+      "description": "Shows the ability to resolve disagreements and bring the simulated situation to a conclusion.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The situation was not brought to a close."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The situation was concluded OR the disagreement was resolved."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The disagreement was resolved, and the situation reached a conclusion."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The disagreement was resolved, the situation reached a conclusion, and the client (judge) expressed satisfaction."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "The remarks made are structured logically and expressed with clarity.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant did not seem ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The participant was ready, but the delivery lacked a coherent progression."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a coherent progression."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation followed a coherent progression, and the remarks were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "Regularly exhibits self-assurance, composed body language, engaging eye contact, and effective vocal projection.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified abilities were shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the specified abilities (self-assurance, body language, eye contact, or vocal projection) were shown."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the specified abilities (self-assurance, body language, eye contact, or vocal projection) were shown."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All abilities were shown, which improved the overall delivery."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Shows the capacity to provide thorough responses to inquiries.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant was unable to respond to inquiries."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The participant did not provide full responses to inquiries."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The participant provided full responses to inquiries."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The participant engaged with the judges while providing full responses to inquiries."
+        }
+      ]
+    }
+  ]
+}

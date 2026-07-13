@@ -1,0 +1,459 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:27:38.384Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Computer-Game-Simulation-Programming.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.075Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Computer Game & Simulation Programming",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "game_simulation_addresses_all_parts_of_c",
+      "name": "Game/simulation addresses all parts of the concept/topic and guidelines",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The core idea or subject matter is absent, and at least three of the specified rules were disregarded."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The central idea or theme is not completely fleshed out, and either one or two of the instructions were not adhered to."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 9,
+          "descriptor": "The primary concept or subject is thoroughly covered, and every instruction was observed."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 13,
+          "descriptor": "Someone unfamiliar with the concept or topic can readily understand it by interacting with the project, and all instructions were followed."
+        }
+      ]
+    },
+    {
+      "id": "game_simulation_rules_are_well_defined_a",
+      "name": "Game/simulation rules are well-defined and clearly explained",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The instructions contain significant mistakes that hinder the game's functionality."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The instructions include some inaccuracies, but these have only a minor effect on how the game is played."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "No errors were found in the instructions during a standard playthrough of the game."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The judges received a clear explanation of the rules, which are also integrated into the game itself."
+        }
+      ]
+    },
+    {
+      "id": "game_simulation_is_challenging_but_can_b",
+      "name": "Game/simulation is challenging, but can be completed",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The game is either too simple or impossible to finish."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "While the game can be finished, it lacks complexity."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The game presents a good level of difficulty and is achievable."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Players can successfully move through the game using the established rules, and multiple ways to achieve completion are offered."
+        }
+      ]
+    },
+    {
+      "id": "innovation_and_creativity_of_the_game_si",
+      "name": "Innovation and creativity of the game/simulation",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No novel or imaginative elements are shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Very few novel or imaginative elements are shown."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The game exhibits either novelty or imagination."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The game exhibits both novelty and imagination."
+        }
+      ]
+    },
+    {
+      "id": "describes_programming_language_selection",
+      "name": "Describes programming language selection, graphic design tools, game engines, or other software used and evaluates the technical complexity and sophistication of the implementation",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The tools, languages, or software utilized are not identified or described. No explanation of the implementation is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Technologies are mentioned (e.g., programming language or game engine), but the explanation is unclear or lacks detail. There is little to no discussion of complexity or how it was implemented."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The tools and technologies chosen are suitable and clearly outlined. Some discussion regarding the implementation process and its technical difficulty is included."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The tools and technologies (e.g., language, design tools, game engines) are explained in depth with a clear justification for their selection. The implementation showcases sophistication and complexity, along with an assessment of its effectiveness and potential improvements."
+        }
+      ]
+    },
+    {
+      "id": "graphics_game_assets_are_appropriate_for",
+      "name": "Graphics & game assets are appropriate for concept and/or topic",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No visual elements are used; the game relies solely on text."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Visual elements are present but are distracting and detract from the gameplay; the graphic tools used are mentioned but not elaborated upon."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "Visual elements are suitable for the concept or topic, and the development tool is explained."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Visual elements are suitable for the concept or topic, and the tools used for their creation are thoroughly explained."
+        }
+      ]
+    },
+    {
+      "id": "graphics_game_assets_are_consistently_ap",
+      "name": "Graphics & game assets are consistently applied",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Visual elements and assets are missing."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Visual elements and assets are not uniform."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "Visual elements and assets are applied uniformly."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Visual elements and assets are applied uniformly and improve the user's interaction."
+        }
+      ]
+    },
+    {
+      "id": "graphics_game_assets_are_appropriate_for_2",
+      "name": "Graphics & game assets are appropriate for the concept and/or topic, and their quality and consistency enhance the overall user experience",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No principles of visual arrangement are employed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The use of color, contrast, background, text styles, sound, and overall design is distracting or overly busy."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The use of color, contrast, background, text styles, sound, and overall design is fitting for the concept or topic."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The use of color, contrast, background, text styles, sound, and overall design significantly improves the user's interaction."
+        }
+      ]
+    },
+    {
+      "id": "title_screen_functions_provides_clear_in",
+      "name": "Title screen functions & provides clear instructions",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No introductory screen is present."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The introductory screen offers limited guidance or has restricted functionality."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The introductory screen operates correctly and provides explicit directions."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "An introductory screen is provided, but it allows the user to proceed without needing instructions."
+        }
+      ]
+    },
+    {
+      "id": "ux_design_user_journey_design_rationale_",
+      "name": "UX Design: User journey, design rationale, accessibility features",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No user experience design is displayed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Some aspects of user experience design are displayed."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "User experience design is displayed, but specific details are absent."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "User experience design is displayed, with specific information about the design choices, the user's path, and accessibility features emphasized."
+        }
+      ]
+    },
+    {
+      "id": "users_can_easily_navigate_between_pages_",
+      "name": "Users can easily navigate between pages, and the overall user engagement and enjoyment are considered",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The intended experience for the game is not specified."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The user can navigate the game, but the experience and its purpose are not clearly defined."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The user can navigate and complete the game by adhering to the rules."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The game is enjoyable and considers the user's experience."
+        }
+      ]
+    },
+    {
+      "id": "game_simulation_controls_mechanics_are_i",
+      "name": "Game/Simulation controls & mechanics are intuitive",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Control mechanisms and gameplay systems are absent."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Control mechanisms and gameplay systems are not entirely present."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "Control mechanisms and gameplay systems are easy to understand and use."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Control mechanisms and gameplay systems are easy to understand and use, and they improve the user's interaction."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The competitor(s) were ready, but the presentation lacked a coherent structure."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The presentation progressed in a sensible order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The presentation progressed in a sensible order; all points were clearly articulated and well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified abilities were shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "One or two of the specified abilities (self-assurance, composed posture, engaging gaze, or clear vocal delivery) were shown."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "Three of the specified abilities (self-assurance, composed posture, engaging gaze, clear vocal delivery) were shown."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "All abilities were shown, which improved the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not answer questions, or responses are completely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Provides partial or unclear answers that indicate a limited grasp of the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "Answers most questions accurately and clearly, demonstrating sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "Answers confidently with clear, accurate, and insightful responses that enhance the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution of the project aligned with all specified guidelines. This includes using only permitted technology devices (adhering to size specifications; a maximum of three), ensuring the presentation matched the assigned topic, maintaining professional conduct during setup (no interaction with judges), not leaving any materials behind after the presentation, displaying links or QR codes appropriately (not clicked or scanned by judges), presenting audio without external speakers (during the preliminary round), and avoiding the use of food or live animals.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the specified guidelines."
+        },
+        {
+          "label": "Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "The execution of the project aligned with all specified guidelines. This includes using only permitted technology devices (adhering to size specifications; a maximum of three), ensuring the presentation matched the assigned topic, maintaining professional conduct during setup (no interaction with judges), not leaving any materials behind after the presentation, displaying links or QR codes appropriately (not clicked or scanned by judges), presenting audio without external speakers (during the preliminary round), and avoiding the use of food or live animals."
+        }
+      ]
+    }
+  ]
+}

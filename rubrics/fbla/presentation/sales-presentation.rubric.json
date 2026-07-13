@@ -1,0 +1,319 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 1 non-scored row(s) worth 0 points (Penalty Points). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:39:55.830Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Sales-Presentation.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.091Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Sales Presentation",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "presents_appropriate_greeting",
+      "name": "Presents appropriate greeting",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant did not offer an opening statement."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The discussion started, but the customer (judge) initiated the interaction."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The participant(s) began the interaction."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The participant(s) demonstrated originality in their opening, smoothly moving into identifying customer requirements."
+        }
+      ]
+    },
+    {
+      "id": "able_to_determine_needs",
+      "name": "Able to determine needs",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant(s) did not ask any questions to understand requirements."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The participant(s) posed questions, but failed to identify precise customer requirements."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The participant(s) employed questions effectively to ascertain the customer's (judge's) requirements."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The participant(s) used questions to identify the customer's (judge's) requirements and connected these needs directly to the product or service being offered."
+        }
+      ]
+    },
+    {
+      "id": "presenting_the_product_or_service",
+      "name": "Presenting the product or service",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No offering was introduced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The participant(s) could not generate enthusiasm for the offering or its characteristics."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The participant(s) successfully generated interest in the offering by demonstrating knowledge of its features."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The participant(s) successfully transformed desired but non-essential items (wants) into essential items (needs)."
+        }
+      ]
+    },
+    {
+      "id": "able_to_overcome_objections",
+      "name": "Able to overcome objections",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Concerns were neither addressed nor resolved."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "One concern was successfully resolved."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "Between two and three concerns were successfully resolved."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "All concerns were successfully resolved, leading to a completed transaction."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_suggestion_selling",
+      "name": "Demonstrates suggestion selling",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No additional items were proposed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Extra items were suggested, but they were not relevant to the main product or service."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "Extra items were suggested that were relevant to the main product or service."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "Extra items were suggested that were relevant to the product or service and enhanced the overall transaction."
+        }
+      ]
+    },
+    {
+      "id": "able_to_close_the_sale",
+      "name": "Able to close the sale",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The transaction was not proposed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The participant(s) requested the purchase, but not all concerns had been addressed."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The participant(s) requested the purchase, and there was minimal hesitation from the customer in agreeing."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The participant(s) did not need to explicitly ask for the purchase; the presentation itself convinced the customer (judge) to buy."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_develop_rela",
+      "name": "Demonstrates the ability to develop relationship",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No subsequent contact was mentioned."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Ineffective subsequent contact was mentioned."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The transaction was completed, and interest in the product or service was established."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "A connection was formed, resulting in the customer's (judge's) continued patronage."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant(s) did not seem ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The participant(s) were prepared, but the flow of information was not logical."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The presentation progressed in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The presentation progressed in a logical order, and all statements were clearly structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the listed abilities were demonstrated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "One or two of the specified abilities (self-assurance, composed body language, engaging eye contact, or effective voice projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "Three of the specified abilities (self-assurance, composed body language, engaging eye contact, or effective voice projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "All abilities were demonstrated, enhancing the overall delivery."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant(s) were unable to respond to inquiries."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The participant(s) did not fully respond to inquiries."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 7,
+          "descriptor": "The participant(s) fully responded to inquiries."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 9,
+          "descriptor": "The participant(s) engaged with the judges while providing complete answers to inquiries."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": ""
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "Only permitted technology devices were used (size specifications were met; a maximum of two, with only one facing judges at a time). The presentation conformed to the assigned topic. Professional boundaries were maintained during setup (no interaction with judges). No materials were left behind after the presentation. Links or QR codes were displayed appropriately (not clicked or scanned by judges). Audio was presented without external speakers (preliminary round). Live animals were not used. Food was not distributed to or left with judges."
+        }
+      ]
+    }
+  ]
+}

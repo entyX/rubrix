@@ -1,0 +1,289 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [],
+    "parsed_at": "2026-07-13T07:41:51.320Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Visual-Design.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.094Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Visual Design",
+  "total_points": 140,
+  "criteria": [
+    {
+      "id": "description_of_the_event_topic_and_mater",
+      "name": "Description of the event topic and materials",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presentation fails to detail the materials used, or some required components are absent or not fully developed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The subject of the event and at least one of the materials are explained."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Both the event's subject and all associated materials are clearly explained."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The event's subject and all materials are detailed, and the participants effectively show how these various components interrelate."
+        }
+      ]
+    },
+    {
+      "id": "apply_design_principles",
+      "name": "Apply Design Principles",
+      "description": "Create layouts that are visually impactful and serve their intended purpose by applying concepts such as balance, contrast, and alignment, among others.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The layout lacks any application of design principles, appearing chaotic or unstructured. No specific design vocabulary is employed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Certain design principles are incorporated, but their application is inconsistent or lacks a clear objective. The visual arrangement might not be clear or impactful. Design-related terms are used sparingly."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Shows a solid grasp of fundamental design principles. The layout is visually compelling, neatly arranged, and effectively conveys the message or fulfills its purpose. Relevant design vocabulary is utilized, and decisions regarding design are justified with sound explanations."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Expertly and imaginatively applies numerous design principles. The layout is refined, intentional, and visually captivating, significantly boosting the design's overall effect and utility. Design choices are thoroughly supported with precise terminology and insightful explanations that demonstrate a profound understanding of the work."
+        }
+      ]
+    },
+    {
+      "id": "demonstrate_technical_skills",
+      "name": "Demonstrate Technical Skills",
+      "description": "Demonstrate proficiency in using digital design software, including knowledge of correct formatting, file preparation, and software functionalities.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No evidence of technical ability is present; tools are used improperly, or formatting is either absent or incorrect."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "A basic understanding of the tools is evident, but formatting, file setup, or the use of features is incomplete or inconsistent."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Design tools are utilized correctly, with appropriate formatting, file preparation, and proper application of essential features. The work demonstrates technical competence."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Tools and features are employed with expertise and efficiency. Formatting, file setup, and execution are precise and professional, showcasing a strong command of the design software."
+        }
+      ]
+    },
+    {
+      "id": "communicate_visually",
+      "name": "Communicate Visually",
+      "description": "Produce visual elements that clearly convey a message, address the needs of the audience, and support the project's objective.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Visual elements fail to convey a clear message and lack relevance to the audience or the project's goal."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Visuals attempt to communicate a message but are unclear, inconsistent, or not well-suited to the audience or purpose."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Visuals clearly convey the intended message, are appropriate for the target audience, and support the overall purpose of the project."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Visuals are captivating, expertly crafted, and deliver a powerful, focused message. Design choices are highly effective in engaging the audience and reinforcing the project's purpose."
+        }
+      ]
+    },
+    {
+      "id": "explain_the_creative_process",
+      "name": "Explain the Creative Process",
+      "description": "Articulate how concepts were generated, refined, and brought to fruition, including the methods used to overcome challenges.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No explanation of the creative process is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Offers a limited or unclear explanation of the process. Few details are given about idea development or problem-solving."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Clearly describes how ideas were developed and refined. Includes relevant steps and explains how challenges were addressed."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Provides a detailed and thoughtful explanation of the full creative process. Describes brainstorming, revisions, and specific problem-solving strategies that shaped the final design."
+        }
+      ]
+    },
+    {
+      "id": "consistency_in_graphic_design_to_theme",
+      "name": "Consistency in graphic design to theme",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The alignment between graphic design and the theme is not discussed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Explains how the graphic design aligns with the theme."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Visually demonstrates the alignment between the graphic design and the theme."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Emphasizes the interpretation of the topic and design as it relates to graphic design and theme, including the use of visual aids."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical flow."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation progressed in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation progressed in a logical order, and statements were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Did not exhibit any of the specified communication skills."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Exhibited 1-2 of the specified communication skills (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Exhibited 3 of the specified communication skills (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Exhibited all specified communication skills, thereby enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not respond to questions, or responses are completely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Provides incomplete or unclear answers that show limited understanding."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Responds accurately and clearly to most questions, showing adequate understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Responds confidently with clear, accurate, and thoughtful answers that enhance the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not follow the established guidelines."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 10,
+          "descriptor": "Execution Aligned with Guidelines: (All criteria must be met) Used only allowable technology devices (sizing specs followed; maximum of two, with only one facing judges at a time) Presentation aligned with the assigned topic Maintained professional boundaries during set-up time (no interaction with judges) Did not leave materials behind after the presentation Links or QR codes were displayed appropriately (not clicked or scanned by judges) Audio was presented without external speakers (preliminary round) Avoided use of food or live animals"
+        }
+      ]
+    }
+  ]
+}

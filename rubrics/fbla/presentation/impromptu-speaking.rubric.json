@@ -1,0 +1,245 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:33:29.848Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Impromptu-Speaking.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.084Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Impromptu Speaking (High School)",
+  "total_points": 100,
+  "criteria": [
+    {
+      "id": "incorporates_provided_topic",
+      "name": "Incorporates provided topic",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The assigned subject matter is absent from the presentation."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The assigned subject is not integrated into the presentation in an understandable way."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The assigned subject is integrated into the presentation in an understandable way."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The assigned subject is integrated and thoroughly developed throughout the presentation."
+        }
+      ]
+    },
+    {
+      "id": "identify_and_execute_a_consistent_theme",
+      "name": "Identify and execute a consistent theme",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "A central idea is not conveyed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "A central idea is present, but its application varies across the presentation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "A central idea is clearly established and maintained consistently throughout the presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Individual experiences are used to elaborate upon the core idea."
+        }
+      ]
+    },
+    {
+      "id": "include_accurate_and_appropriate_support",
+      "name": "Include accurate and appropriate supporting information",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No corroborating details are offered, or the material used is unsuitable."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Only a single instance of corroborating detail is presented."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Several instances of corroborating details are presented."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Several instances of corroborating details are included to elaborate and improve the presentation."
+        }
+      ]
+    },
+    {
+      "id": "introduce_the_topic_immediately_introduc",
+      "name": "Introduce the topic immediately (Introduction)",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The subject matter is not presented at all."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The opening segment lacks clarity."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The opening segment is clearly delivered, and the subject matter is established right away."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The opening segment is clearly delivered, the subject matter is established right away, and there is a smooth shift into the main content of the presentation."
+        }
+      ]
+    },
+    {
+      "id": "support_the_topic_throughout_body",
+      "name": "Support the topic throughout (Body)",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presentation lacks a defined subject."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Several subjects are introduced without apparent links between them."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Key subjects are identified, linked, and substantiated across the entire presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Seamless transitions are effectively used to reinforce the primary subject."
+        }
+      ]
+    },
+    {
+      "id": "provide_effective_conclusion_closing",
+      "name": "Provide effective conclusion (Closing)",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presentation does not have a concluding section."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The concluding section is not clearly presented."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "An effective concluding section is presented."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The concluding section establishes a connection to the entirety of the presentation."
+        }
+      ]
+    },
+    {
+      "id": "delivers_quality_extemporaneous_presenta",
+      "name": "Delivers quality extemporaneous presentation",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No engagement with the audience occurs."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The presentation is read directly from notes with minimal visual engagement with the audience."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Notes are consulted occasionally while maintaining appropriate visual engagement with the audience."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Notes are consulted occasionally, appropriate visual engagement with the audience is maintained, and suitable body language and hand gestures are employed."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified abilities are demonstrated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 5,
+          "descriptor": "One or two of the specified abilities (self-assurance, composed posture, engaging eye contact, or clear voice delivery) are demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 10,
+          "descriptor": "Three of the specified abilities (self-assurance, composed posture, engaging eye contact, or clear voice delivery) are demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "All specified abilities are demonstrated, thereby enhancing the overall presentation."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,475 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [],
+    "parsed_at": "2026-07-13T07:32:13.371Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Future-Business-Leader.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.082Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Future Business Leader Competitive Events Guidelines",
+  "total_points": 160,
+  "criteria": [
+    {
+      "id": "cover_letter_states_award_applying_for",
+      "name": "Cover Letter: States award applying for",
+      "description": "The cover letter clearly identifies the specific award the applicant is seeking.",
+      "max_points": 4,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The letter does not mention the award being sought."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The award mentioned in the letter does not align with the applicant's qualifications."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The letter names the award and demonstrates how the applicant's qualifications are suitable for it."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 4,
+          "descriptor": "The letter identifies the award and effectively illustrates how the applicant's qualifications and proven experience align with the award's requirements."
+        }
+      ]
+    },
+    {
+      "id": "cover_letter_promotes_self_in_letter",
+      "name": "Cover Letter: Promotes self in letter - lists skills, achievements, volunteerism, experience, etc.",
+      "description": "The cover letter highlights the applicant's strengths, such as their abilities, accomplishments, community involvement, and professional background.",
+      "max_points": 8,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The letter contains no information showcasing the applicant's attributes or accomplishments."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 3,
+          "descriptor": "The applicant details their abilities and educational successes, but does not include any volunteer work or professional experience."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 6,
+          "descriptor": "The applicant outlines their abilities, academic accomplishments, and either volunteer work or professional experience."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 8,
+          "descriptor": "The applicant articulates their skills, educational achievements, and several instances of volunteer work or professional experience."
+        }
+      ]
+    },
+    {
+      "id": "cover_letter_states_resume_included",
+      "name": "Cover Letter: States that the resume is included with the letter and asks for interview",
+      "description": "The cover letter indicates that a resume is attached and requests an interview opportunity.",
+      "max_points": 4,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The letter neither mentions the inclusion of a resume nor asks for an interview."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The letter notes that a resume is enclosed but omits a request for an interview."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The letter confirms the resume's attachment and includes a request for an interview."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 4,
+          "descriptor": "The letter confirms the resume's attachment, requests an interview, and offers to provide further details if needed."
+        }
+      ]
+    },
+    {
+      "id": "resume_targets_award_on_cover_letter",
+      "name": "Resume: Targets award on cover letter",
+      "description": "The resume is tailored to align with the specific award mentioned in the cover letter.",
+      "max_points": 4,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The resume does not indicate a specific award it is intended for."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The award the resume appears to target does not correspond with the one stated in the cover letter."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The award the resume targets is consistent with the award specified in the cover letter."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 4,
+          "descriptor": "The resume effectively reinforces the applicant's suitability for the award highlighted in the cover letter."
+        }
+      ]
+    },
+    {
+      "id": "resume_reader_friendly",
+      "name": "Resume: Reader friendly - categories can be found easily, white space utilized, professional fonts and font sizes",
+      "description": "The resume is easy to read, with clearly identifiable sections, appropriate use of white space, and professional font choices and sizes.",
+      "max_points": 8,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The resume is difficult or impossible to read."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 3,
+          "descriptor": "The resume's visual layout hinders readability."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 6,
+          "descriptor": "The resume is designed for ease of reading."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 8,
+          "descriptor": "The resume exhibits a highly professional design that is well-suited for the intended award."
+        }
+      ]
+    },
+    {
+      "id": "resume_includes_education_activities_etc",
+      "name": "Resume: Includes education, activities, awards/honors, FBLA experience and volunteerism/work experience information",
+      "description": "The resume contains information regarding the applicant's education, extracurricular involvement, honors/recognitions, FBLA participation, and volunteer/work history.",
+      "max_points": 8,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No details about education, activities, volunteer work, or experience are provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 3,
+          "descriptor": "Only one or two of the required sections are present."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 6,
+          "descriptor": "Three or four of the required sections are included."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 8,
+          "descriptor": "Five or more sections are included and effectively support the targeted award."
+        }
+      ]
+    },
+    {
+      "id": "resume_brief_concise_information",
+      "name": "Resume: Brief, concise information",
+      "description": "The resume presents information in a brief and to-the-point manner.",
+      "max_points": 4,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The resume document is not provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Information is presented in lengthy paragraph form rather than concise points."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "Sections are clearly labeled, and the information within them is well-organized."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 4,
+          "descriptor": "Each section contains clearly identified and organized information that strongly supports the targeted award."
+        }
+      ]
+    },
+    {
+      "id": "spelling_grammar_documents_free_of_error",
+      "name": "Spelling & Grammar: Documents are free of spelling, punctuation, and grammatical errors",
+      "description": "All submitted documents are free from errors in spelling, punctuation, and grammar.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The documents contain three or more errors."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The documents contain two errors."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "There are no spelling errors, and no more than one punctuation or grammatical error."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "There are no spelling or grammatical errors, and no more than one punctuation error."
+        }
+      ]
+    },
+    {
+      "id": "all_directions_followed",
+      "name": "All directions followed",
+      "description": "All instructions provided for the submission have been adhered to.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The cover letter exceeds one page, or is addressed incorrectly; the resume exceeds two pages, or includes a photograph or QR code."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The cover letter is no longer than one page and is addressed correctly; the resume is no longer than two pages and does not include a photograph or QR code; all documents are submitted as PDF files."
+        }
+      ]
+    },
+    {
+      "id": "illustrates_participation_leadership_fbl",
+      "name": "Illustrates participation and leadership experiences in FBLA",
+      "description": "The applicant demonstrates their involvement and leadership roles within FBLA.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The applicant's FBLA involvement extends only to paying membership dues and attending a single state or national conference."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The applicant has minimal engagement in FBLA activities OR has had limited leadership opportunities within FBLA."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The applicant can articulate their consistent participation in FBLA throughout high school and discuss their leadership experiences within the organization."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The applicant can articulate how their FBLA participation and leadership experiences have positively influenced other aspects of their life."
+        }
+      ]
+    },
+    {
+      "id": "explains_participation_other_organizatio",
+      "name": "Explains participation in other school and/or community organizations",
+      "description": "The applicant describes their involvement in other school and/or community groups.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no evidence of the applicant's involvement in any other school or community organizations."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The applicant participates in only one additional school or community organization beyond FBLA."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The applicant clearly describes their participation in other school and/or community organizations."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The applicant explains how their involvement in FBLA has complemented or strengthened their participation in other school and/or community organizations."
+        }
+      ]
+    },
+    {
+      "id": "explains_shows_outstanding_achievement",
+      "name": "Explains and shows areas of outstanding achievement",
+      "description": "The applicant articulates and provides evidence of their significant accomplishments.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The applicant has no achievements outside of FBLA."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The applicant has few notable achievements apart from those related to FBLA."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The applicant can clearly describe and demonstrate areas where they have achieved outstanding success."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The applicant can explain how their participation in FBLA has supported or enhanced their other areas of exceptional achievement."
+        }
+      ]
+    },
+    {
+      "id": "indicates_understanding_career_knowledge",
+      "name": "Indicates understanding of career knowledge and career plans",
+      "description": "The applicant conveys their comprehension of career fields and their future professional plans.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The applicant currently has no defined career plans."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The applicant may have a career idea but has not developed concrete plans OR acquired any relevant career knowledge."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The applicant is aware of their career plans and provides some evidence of having gained relevant career knowledge."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The applicant can discuss how their career plans were formulated and how they intend to achieve them. They can also explain how they acquired their career knowledge and how it will be applied."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_proper_greeting_introductio",
+      "name": "Demonstrates proper greeting, introduction, and closing",
+      "description": "The applicant exhibits appropriate use of greetings, self-introductions, and closings.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The applicant fails to use a proper greeting, introduction, OR closing."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The greeting, introduction, OR closing was ineffective."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The applicant uses a strong greeting, introduction, AND closing."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The applicant introduces themselves creatively and either requests or offers a follow-up action in their conclusion."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_strong_self_confidence_asse",
+      "name": "Demonstrates strong self-confidence, appropriate assertiveness, and enthusiasm",
+      "description": "The applicant displays significant self-assurance, appropriate assertiveness, and enthusiasm.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The applicant did not show self-confidence, assertiveness, OR enthusiasm."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The applicant exhibited minimal self-confidence, assertiveness, AND enthusiasm."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The applicant maintained strong eye contact, demonstrated appropriate assertiveness, AND showed enthusiasm."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The applicant took charge of the interview process and made effective use of the allocated time."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_proper_verbal_nonverbal_com",
+      "name": "Demonstrates proper verbal and nonverbal communication skills",
+      "description": "The applicant employs suitable verbal and nonverbal communication techniques.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Both verbal AND nonverbal communication skills are unsuitable."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Verbal and/or nonverbal communication skills are inadequate or distracting."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "All questions were answered clearly using correct grammar and appropriate body language."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Verbal communication skills are outstanding; nonverbal communication appears natural."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "Compliance with the rules and regulations for competitive events.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Followed",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the guidelines."
+        },
+        {
+          "label": "Followed",
+          "points": 10,
+          "descriptor": "The execution was in line with the guidelines: (All criteria must be met) No technology was used. No materials were brought to the interview. No materials were left behind after the presentation."
+        }
+      ]
+    }
+  ]
+}

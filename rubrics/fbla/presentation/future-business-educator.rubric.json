@@ -1,0 +1,477 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Penalty Points: Dress Code Violation, Penalty Points: Late Arrival). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:31:40.105Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Future-Business-Educator.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.081Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Future Business Educator",
+  "total_points": 170,
+  "criteria": [
+    {
+      "id": "documents_are_free_of_spelling_punctuati",
+      "name": "Documents are free of spelling, punctuation, and grammatical errors",
+      "description": "Written materials contain no mistakes in spelling, punctuation, or grammar.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The document contains at least three inaccuracies."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "There are two mistakes present."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The text has no spelling mistakes and a maximum of one error in either punctuation or grammar."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The writing is free of spelling and grammatical mistakes, with no more than one punctuation error."
+        }
+      ]
+    },
+    {
+      "id": "business_academic_standards",
+      "name": "Business & Academic Standards",
+      "description": "Adherence to professional and educational benchmarks.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No benchmarks are specified."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Benchmarks are listed, but they do not pertain to business or academic fields."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Either professional or educational benchmarks are specified."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Professional benchmarks are identified and shown to relate to educational benchmarks."
+        }
+      ]
+    },
+    {
+      "id": "objectives_competencies_presentation_ind",
+      "name": "Objectives (Competencies & Presentation Indicator)",
+      "description": "Goals (Skills and Performance Metrics for the Presentation)",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No goals are provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Goals are stated, but they might not be precise or quantifiable."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "Goals are clearly stated and can be specifically measured."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Goals are identified and correspond to important abilities or ideas crucial for students' education."
+        }
+      ]
+    },
+    {
+      "id": "outcome_measurement",
+      "name": "Outcome & Measurement",
+      "description": "Result and its Assessment",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Neither a result nor its assessment is specified."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Either a result or its assessment is provided."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Both a result and its assessment are provided."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The method for assessing the result aligns with the stated goals."
+        }
+      ]
+    },
+    {
+      "id": "resources_materials",
+      "name": "Resources & Materials",
+      "description": "Available assets and supplies.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The assets and supplies are either not itemized or are unsuitable."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "Assets and supplies are listed, but their implementation is not effective."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "A variety of assets and supplies are itemized with precise citation details."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "Assets and supplies are chosen or created to accommodate varied learning requirements."
+        }
+      ]
+    },
+    {
+      "id": "instructional_activities",
+      "name": "Instructional Activities",
+      "description": "Educational tasks.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The activity plan is too unclear or general to be useful."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The activity plan lacks necessary components or details for effective execution."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The activity plan is clear and structured to encourage critical thinking, problem-solving, or creativity."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The activity plan employs multiple approaches and includes guiding questions suitable for engaging students in advanced thought processes."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_whi",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "Provides evidence for and references the sources utilized during research.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources are referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently cited to support claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Credible professional sources and references that back up claims are generally present."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Strong evidence from credible professional sources and references is provided to support claims."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines (Asset)",
+      "description": "Compliance with Rules: (All requirements must be satisfied) The lesson plan aligns with the assigned topic, was submitted as a PDF, links or QR codes were not used (except for citation purposes), and is no more than 3 pages long.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor failed to meet the specified criteria."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "All requirements must be satisfied: The lesson plan aligns with the assigned topic, was submitted as a PDF, links or QR codes were not used (except for citation purposes), and is no more than 3 pages long."
+        }
+      ]
+    },
+    {
+      "id": "demonstrated_knowledge_of_subject_matter",
+      "name": "Demonstrated knowledge of subject matter",
+      "description": "Exhibited understanding of the topic.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No understanding of the subject matter was shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "A restricted comprehension of the subject matter was exhibited."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "An understanding of the subject matter was exhibited."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "An extensive understanding of the subject matter was exhibited."
+        }
+      ]
+    },
+    {
+      "id": "presented_material_met_the_objectives_of",
+      "name": "Presented material met the objectives of the lesson plan",
+      "description": "The content presented fulfilled the goals of the lesson plan.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No content was presented, or objectives were not stated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Content was presented, but it did not align with the declared lesson plan objectives."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Content was presented and aligned with the declared lesson plan objectives."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Materials fulfill the stated objectives and cater to differences among learners."
+        }
+      ]
+    },
+    {
+      "id": "presented_material_appropriate_for_audie",
+      "name": "Presented material appropriate for audience and subject",
+      "description": "The content presented is suitable for the intended audience and topic.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Activities or materials are not included or are unsuitable for the grade level or topic."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Activities or materials are included but do not offer students clear chances for guided practice."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Activities or materials are included and provide students with opportunities for practice."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Activities or materials engage and motivate students with opportunities to showcase skills."
+        }
+      ]
+    },
+    {
+      "id": "presented_interesting_motivating_and_cre",
+      "name": "Presented interesting, motivating and creative lesson plan",
+      "description": "Delivered an engaging, inspiring, and imaginative lesson plan.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The lesson plan lacks structure."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The lesson plan is structured."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The lesson plan is structured; and is either engaging, inspiring, OR imaginative."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The lesson plan is structured, engaging, inspiring, imaginative, and presented in a professional manner."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_whi_2",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "Provides evidence for and references the sources utilized during research.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources are referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently cited to support claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Credible professional sources and references that back up claims are generally present."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Strong evidence from credible professional sources and references is provided to support claims."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "Consistently exhibits self-assurance, composed body language, captivating eye contact, and effective voice projection.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the listed abilities were shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the listed abilities (self-assurance, body language, eye contact, or voice projection) were shown."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the listed abilities (self-assurance, body language, eye contact, or voice projection) were shown."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All abilities were shown, improving the overall delivery."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_proper_verbal_and_nonverbal",
+      "name": "Demonstrates proper verbal and nonverbal communication skills",
+      "description": "Exhibits appropriate spoken and unspoken communication abilities.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Both spoken and unspoken communication abilities are unsuitable."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Spoken and/or unspoken communication abilities are weak or distracting."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "All inquiries were clearly addressed using correct grammar and suitable body language."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Spoken communication abilities are outstanding; unspoken communication is effortless."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Shows the capacity to answer questions proficiently.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not reply to questions or replies are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Provides incomplete or unclear replies that indicate limited comprehension."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Responds accurately and clearly to most questions, demonstrating sufficient comprehension."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Responds confidently with clear, accurate, and insightful replies that enhance the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin_2",
+      "name": "Adherence to Competitive Events Guidelines (Presentation)",
+      "description": "Compliance with Rules: (All requirements must be satisfied) Only permitted technology devices were used (size specifications were followed; a maximum of two, with only one facing judges at a time), the presentation aligned with the assigned topic, professional boundaries were maintained during setup time (no interaction with judges), no materials were left behind after the presentation, links or QR codes were displayed appropriately (not clicked or scanned by judges), audio was presented without external speakers (preliminary round), and the use of food or live animals was avoided.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor failed to meet the specified criteria."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "All requirements must be satisfied: Only permitted technology devices were used (size specifications were followed; a maximum of two, with only one facing judges at a time), the presentation aligned with the assigned topic, professional boundaries were maintained during setup time (no interaction with judges), no materials were left behind after the presentation, links or QR codes were displayed appropriately (not clicked or scanned by judges), audio was presented without external speakers (preliminary round), and the use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

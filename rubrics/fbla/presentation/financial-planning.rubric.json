@@ -1,0 +1,347 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 1 non-scored row(s) worth 0 points (Staff Only: Penalty Points). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:30:50.962Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Financial-Planning.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.079Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Financial Planning",
+  "total_points": 150,
+  "criteria": [
+    {
+      "id": "demonstrates_understanding_of_the_topic_",
+      "name": "Demonstrates understanding of the topic and defines problem(s) to be solved",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The subject matter was not described or summarized, and no issues were identified."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Either the subject was described and summarized, or the issues were identified."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Both the subject was described and summarized, and the issues were identified."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Shows deep knowledge of the subject summary and clearly outlines the issues."
+        }
+      ]
+    },
+    {
+      "id": "budgeting",
+      "name": "Budgeting:",
+      "description": "Articulate why monitoring earnings and expenditures is crucial. How does sound financial planning help in reaching future monetary objectives?",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "An explanation is absent, or the answer bears no relevance to financial planning, monitoring money in/out, or future financial targets."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The explanation given is unclear, not finished, or shows only a superficial grasp. It might mention monitoring or future objectives but fails to link them explicitly or clarify their significance."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Offers a distinct explanation of the necessity of keeping tabs on income and outgoings, and how financial planning aids in achieving distant financial aims. Displays a basic comprehension of personal money management."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Delivers a thorough and perceptive account of how monitoring earnings and expenditures connects to reaching financial objectives. Exhibits robust financial knowledge and incorporates practical scenarios or illustrations to back up main arguments."
+        }
+      ]
+    },
+    {
+      "id": "debt_management",
+      "name": "Debt Management:",
+      "description": "Which methods can be employed to handle and decrease financial obligations in a sensible manner? Address both immediate and extended strategies.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No methods are offered, or the answer does not pertain to handling financial liabilities."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Provides an insufficient or excessively broad explanation. May mention fundamental approaches but lacks clarity, detail, or a distinction between short-term and long-term methods."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Clearly identifies responsible techniques for managing and reducing financial burdens. Includes both immediate and long-range approaches with appropriate explanations."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Presents a comprehensive and well-organized explanation of various strategies for managing debt, clearly differentiating between short-term and long-term methods. Demonstrates strong financial understanding and includes practical examples or justifications for choosing particular strategies."
+        }
+      ]
+    },
+    {
+      "id": "investments_retirement",
+      "name": "Investments & Retirement:",
+      "description": "Should one prioritize putting money into investments or saving for retirement, or is it possible to do both? Justify your stance using the client's financial situation and aspirations.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No stance or justification is given, or the response does not cover investments, retirement, or the client's financial status."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Offers an ambiguous or unsupported viewpoint. Shows minimal consideration for the client's financial standing or objectives. Displays a limited understanding of balancing investing with retirement savings."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Presents a clear and logical suggestion to prioritize investing, saving for retirement, or a combination of both. Provides reasonable justification based on the client's financial circumstances and goals."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Provides a well-reasoned and customized recommendation rooted in financial principles. Thoroughly examines the client's situation and long-term objectives, clearly explaining how the suggested balance of investing and retirement saving contributes to their financial success."
+        }
+      ]
+    },
+    {
+      "id": "goal_attainment",
+      "name": "Goal Attainment:",
+      "description": "Considering the specified financial objectives, what actions or plans would you advise to help achieve them?",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No strategies or steps are provided, or the response does not address the client's financial goals."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Offers general or vague suggestions that do not align with the specific financial objectives. Minimal explanation or reasoning is provided."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Recommends suitable and achievable actions or plans that correspond with the client's financial goals. The explanation demonstrates a solid grasp of goal-oriented financial planning."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Provides well-structured, actionable, and personalized strategies specifically designed for the client's financial goals. Demonstrates a clear understanding of the planning process with strong reasoning and potential backup plans. May include timelines, priority setting, or methods for tracking progress."
+        }
+      ]
+    },
+    {
+      "id": "recommendations",
+      "name": "Recommendations:",
+      "description": "What specific financial advice or alternative approaches would you propose to enhance the individual's financial prospects?",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No financial suggestions are offered, or the response is irrelevant or off-topic."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Provides vague, overly general, or impractical suggestions. The advice may not be clearly linked to the individual's financial situation or may lack actionable specifics."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Offers pertinent and specific financial suggestions or alternative methods that align with the individual's financial circumstances. The suggestions are practical and clearly explained."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Provides insightful, well-supported, and customized financial suggestions. Demonstrates strong financial reasoning, with alternative approaches and justification for each recommendation that clearly supports an improved financial outlook."
+        }
+      ]
+    },
+    {
+      "id": "professional_guidance",
+      "name": "Professional Guidance:",
+      "description": "Are there financial experts or services the individual should seek advice from? Explain the potential value they could offer.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No financial professionals or services are identified, or the response is unrelated to expert advice."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Mentions a financial professional or service but offers a limited explanation of their role or benefit. Lacks clarity or relevance to the individual's financial requirements."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Identifies suitable financial professionals or services (e.g., financial advisor, tax preparer, credit counselor) and explains how they can assist the individual in achieving their financial goals."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Provides a well-reasoned explanation of multiple relevant financial professionals or services. Clearly articulates the unique value each can provide based on the individual's financial situation and goals. Demonstrates strong understanding of when and why to seek expert guidance."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_whi",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources are referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently cited to back up claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Generally includes professionally credible sources and materials that support the claims made."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Compelling proof from professionally credible sources and materials is provided to substantiate claims."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical progression."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation proceeded in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation flowed logically, and the statements were clearly structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Did not exhibit any of the listed proficiencies."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Demonstrated one or two of the listed proficiencies (self-assurance, body posture, eye contact, or vocal delivery)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Demonstrated three of the listed proficiencies (self-assurance, body posture, eye contact, or vocal delivery)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Demonstrated all proficiencies, thereby enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Does not respond to inquiries, or responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Provides incomplete or unclear responses that indicate a limited grasp."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Answers most inquiries accurately and clearly, showing sufficient comprehension."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Responds confidently with clear, accurate, and thoughtful answers that improve the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution was in line with the guidelines: (All conditions must be satisfied) Only permitted technological devices were used (size specifications were followed; a maximum of two, with only one facing the judges at any given time). The presentation was relevant to the assigned topic. Professional boundaries were maintained during the setup period (no interaction with judges). No materials were left behind after the presentation. Links or QR codes were displayed appropriately (not clicked or scanned by judges). Audio was presented without external speakers (preliminary round). The use of food or live animals was avoided.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Followed",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the guidelines."
+        },
+        {
+          "label": "Followed",
+          "points": 10,
+          "descriptor": "The execution was in line with the guidelines: (All conditions must be satisfied)."
+        }
+      ]
+    }
+  ]
+}

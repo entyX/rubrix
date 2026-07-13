@@ -1,0 +1,319 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:40:20.307Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Social-Media-Strategies.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.092Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Social Media Strategies",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "develops_social_media_campaign",
+      "name": "Develops a social media campaign that effectively addresses the topic for the target audience",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The campaign was not explained."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The explanation of the social media campaign and its relevance to the topic for the target audience was unclear."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The social media campaign successfully addresses the given topic for the intended audience."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The social media campaign effectively addresses the topic for the target audience, supported by evidence."
+        }
+      ]
+    },
+    {
+      "id": "demonstrate_knowledge_social_media_strat",
+      "name": "Demonstrate knowledge of social media strategies and metrics throughout",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No understanding was shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Understanding of social media or metrics was not clearly shown."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Shows an understanding of social media and its associated metrics."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Displays an understanding of social media strategies and metrics, backed by evidence."
+        }
+      ]
+    },
+    {
+      "id": "describe_research_methodology_design_dev",
+      "name": "Describe the research, methodology, design, and development used to create social media strategies",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The research and methodology were not presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The explanation of the research and methodology employed to develop the strategies was unclear."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Provides a clear account of the research and methodology utilized in forming the social media strategies."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Offers a clear description of the research and methodology applied to create social media strategies, supported by evidence."
+        }
+      ]
+    },
+    {
+      "id": "design_and_development_process",
+      "name": "Design and development process",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The design and development process was not explained."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The description of the design and development process was not clear."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Provides a clear explanation of the design and development process."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Offers a clear explanation of the design and development, supported by evidence."
+        }
+      ]
+    },
+    {
+      "id": "describes_social_media_strategies_clear_",
+      "name": "Describes social media strategies used to create a clear call-to-action utilizing a minimum of three social media posts on multiple platforms",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Social media strategies were not presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The social media strategies were described unclearly."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Clearly outlines the social media strategies used to create a distinct call-to-action."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Clearly outlines the social media strategies used to create a distinct call-to-action, supported by evidence."
+        }
+      ]
+    },
+    {
+      "id": "included_three_social_media_posts_on_mul",
+      "name": "Included three social media posts on multiple platforms",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Did not include three social media posts across multiple platforms."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Three social media posts were included, but not across multiple platforms."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three social media posts were included on multiple platforms."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "More than three social media posts were included on multiple platforms, with supporting evidence."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_whi",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Sources were not referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references were rarely cited to back up claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Professionally credible sources and resources that support claims are generally present."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Compelling evidence from professionally credible sources and resources is provided to support claims."
+        }
+      ]
+    },
+    {
+      "id": "statements_well_organized_clearly_stated",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear prepared."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical flow."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a logical sequence."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation flowed in a logical sequence, and statements were well-organized."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified skills were demonstrated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the specified skills (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the specified skills (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All specified skills were demonstrated, enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_ability_to_effectively_answ",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No responses were given to questions, or responses were entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Answers provided were incomplete or unclear, indicating limited comprehension."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Most questions were answered accurately and clearly, showing adequate understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Answers were given confidently, clearly, accurately, and thoughtfully, improving the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution of the presentation aligned with the guidelines: All specified criteria were met, including using only approved technology devices (adhering to size specifications; a maximum of two, with only one facing judges at a time), ensuring the presentation matched the assigned topic, maintaining professional conduct during setup (no interaction with judges), not leaving any materials behind after the presentation, displaying links or QR codes appropriately (not clicked or scanned by judges), presenting audio without external speakers (in the preliminary round), and avoiding the use of food or live animals.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the guidelines."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 10,
+          "descriptor": "The execution of the presentation aligned with the guidelines: All specified criteria were met, including using only approved technology devices (adhering to size specifications; a maximum of two, with only one facing judges at a time), ensuring the presentation matched the assigned topic, maintaining professional conduct during setup (no interaction with judges), not leaving any materials behind after the presentation, displaying links or QR codes appropriately (not clicked or scanned by judges), presenting audio without external speakers (in the preliminary round), and avoiding the use of food or live animals."
+        }
+      ]
+    }
+  ]
+}

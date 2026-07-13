@@ -1,0 +1,263 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:23:57.558Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Broadcast-Journalism.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.070Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Broadcast Journalism",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "broadcast_news_segment",
+      "name": "Broadcast News Segment",
+      "description": "Deliver a news segment that has been recorded in advance, adheres to the specified subject matter, and runs for no more than two minutes.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Either no segment was presented, or its content bore no connection to the designated subject."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "A segment was provided, but it either fails to clearly address the topic, surpasses the allowed duration, or exhibits significant problems with its content or production quality."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The segment directly covers the topic, stays within the time constraint, and shows fundamental production quality and a structured arrangement."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The segment is brief, exceptionally pertinent to the subject, delivered with professionalism, respects the time limit, and showcases outstanding narrative and production standards."
+        }
+      ]
+    },
+    {
+      "id": "visual_editorial_design_segment",
+      "name": "Visual & Editorial Design",
+      "description": "Illustrate how elements such as visual aids, graphical content, scene changes, and the narrative's progression contributed to improving the segment's lucidity, audience interest, and polished appearance.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The segment did not incorporate any visual components, graphics, or editorial features to bolster or improve it."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Simple visuals or scene changes were employed sporadically; the design decisions might detract from understanding or seem unfinished."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Visual and editorial components are suitable and improve both clarity and audience involvement; the narrative progresses coherently and looks professional."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Visuals, graphics, and transitions are well-integrated, refined, and deliberately applied to heighten clarity, captivate the audience, and improve the narrative; the story unfolds smoothly and is executed with expertise."
+        }
+      ]
+    },
+    {
+      "id": "visual_editorial_design_presentation",
+      "name": "Visual & Editorial Design",
+      "description": "Demonstrate insightful consideration by discussing how particular visual and editorial design choices (such as graphics, transitions, pacing, and flow) enhanced the clarity, engagement, and professional quality of the broadcast segment.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no discussion of visual or editorial design choices, or the discussion provided is irrelevant to the segment."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Visual or editorial elements are mentioned generally, but there is little to no explanation of their contribution to clarity, engagement, or professionalism."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Several visual and editorial design choices (e.g., graphics, transitions, pacing, flow) are clearly explained, with connections made to how they supported clarity, engagement, and professionalism."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "A comprehensive and thoughtful reflection is provided with specific instances of visual and editorial design choices; the reasoning behind design decisions is clearly articulated and insightfully linked to improving clarity, audience involvement, and professionalism."
+        }
+      ]
+    },
+    {
+      "id": "production_techniques_tools",
+      "name": "Production Techniques & Tools",
+      "description": "Detail the technologies, instruments, and editing approaches utilized in creating the segment, emphasizing the key creative and technical decisions made.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No account of production tools or methods is given; there is no evidence of editing or creative choices."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "A minimal or unclear explanation of the tools or editing methods employed; it is not clear how the techniques contributed to the final product."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Tools and editing methods are identified with a clear explanation; the description shows how techniques supported the production and narrative."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "A thorough, well-considered explanation of the technologies, tools, and editing decisions is provided; it highlights how each choice enhanced the segment's technical quality and creative impact."
+        }
+      ]
+    },
+    {
+      "id": "research_accuracy_ethical_reporting",
+      "name": "Research, Accuracy & Ethical Reporting",
+      "description": "Articulate the process of researching and verifying news stories, focusing on the use of trustworthy sources, factual correctness, and adherence to ethical journalistic principles.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No explanation of the research process or sources is provided; factual accuracy and ethical standards are not addressed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The explanation of research is minimal or vague; sources lack credibility or are not cited; there is limited attention to accuracy or journalistic ethics."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The research process is explained, with credible sources cited; facts are mostly correct; ethical standards are recognized and generally followed."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "A comprehensive explanation is given for how stories were researched and validated; multiple credible sources are cited; all facts are precise; a clear display of high ethical standards in reporting is evident."
+        }
+      ]
+    },
+    {
+      "id": "statements_well_organized_clearly_stated",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "The presented information is structured logically and articulated with precision.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the sequence of information was not logical."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation progressed in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation flowed in a logical order, and the statements were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "The individual consistently exhibits self-assurance, composed body language, engaging eye contact, and effective vocal projection.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified abilities were shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the listed abilities (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the listed abilities (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All abilities were demonstrated, enhancing the overall quality of the presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_ability_effectively_answer_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "The individual shows proficiency in providing effective responses to questions.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No responses are given to questions, or the responses are entirely irrelevant to the topic."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Answers provided are incomplete or unclear, indicating a limited grasp of the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Most questions are answered accurately and clearly, demonstrating a sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Answers are given confidently, clearly, accurately, and thoughtfully, which improves the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_competitive_events_guidelines",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution aligns with the guidelines for competitive events. All specified criteria must be met, including the pre-recorded segment not exceeding 2 minutes, using only permitted technology devices (adhering to sizing specifications, with a maximum of two and only one facing judges at a time), the presentation matching the assigned topic, maintaining professional conduct during setup (no interaction with judges), not leaving materials behind, properly displaying links or QR codes (not to be clicked or scanned by judges), presenting audio without external speakers (in the preliminary round), and avoiding the use of food or live animals.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the guidelines."
+        },
+        {
+          "label": "Meets Guidelines",
+          "points": 10,
+          "descriptor": "The execution was in line with the guidelines. All criteria were satisfied: the pre-recorded segment did not exceed 2 minutes; only allowed technology devices were used (following sizing specifications; a maximum of two, with only one facing judges at a time); the presentation matched the assigned topic; professional boundaries were maintained during setup (no interaction with judges); no materials were left behind after the presentation; links or QR codes were displayed correctly (not clicked or scanned by judges); audio was presented without external speakers (preliminary round); and the use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

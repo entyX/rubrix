@@ -1,0 +1,315 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Penalty Points (5 points for dress code penalty), Penalty Points (5 points for late arrival penalty)). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:38:41.856Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Parliamentary-Procedure.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.105Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Parliamentary Procedure (High School)",
+  "total_points": 120,
+  "criteria": [
+    {
+      "id": "main_motion",
+      "name": "Main Motion",
+      "description": "The accurate classification of main motions as demonstrated during the role-play scenario.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Completed",
+          "points": 0,
+          "descriptor": "The main motion was not attempted or was entirely incorrect."
+        },
+        {
+          "label": "Completed",
+          "points": 6,
+          "descriptor": "The main motion was attempted, but its application or classification had significant errors, earning between 1 and 6 points."
+        },
+        {
+          "label": "Completed & Correct",
+          "points": 10,
+          "descriptor": "The main motion was correctly identified and applied, earning between 7 and 10 points."
+        }
+      ]
+    },
+    {
+      "id": "subsidiary_motion",
+      "name": "Subsidiary Motion",
+      "description": "The accurate identification and use of subsidiary motions as presented in the role-play.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Completed",
+          "points": 0,
+          "descriptor": "This motion type was not used or was applied incorrectly."
+        },
+        {
+          "label": "Completed",
+          "points": 6,
+          "descriptor": "The motion was introduced, but its execution or classification contained notable inaccuracies, resulting in 1 to 6 points."
+        },
+        {
+          "label": "Completed & Correct",
+          "points": 10,
+          "descriptor": "The motion was correctly classified and utilized, achieving 7 to 10 points."
+        }
+      ]
+    },
+    {
+      "id": "privileged_motion",
+      "name": "Privileged Motion",
+      "description": "The correct classification of privileged motions as demonstrated within the role-play.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Completed",
+          "points": 0,
+          "descriptor": "No privileged motion was presented, or it was completely misapplied."
+        },
+        {
+          "label": "Completed",
+          "points": 6,
+          "descriptor": "A privileged motion was attempted, but its classification or use showed considerable flaws, scoring 1 to 6 points."
+        },
+        {
+          "label": "Completed & Correct",
+          "points": 10,
+          "descriptor": "The privileged motion was accurately classified and implemented, earning 7 to 10 points."
+        }
+      ]
+    },
+    {
+      "id": "incidental_motion",
+      "name": "Incidental Motion",
+      "description": "The accurate categorization of incidental motions as depicted in the role-play.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Completed",
+          "points": 0,
+          "descriptor": "The incidental motion was absent or incorrectly handled."
+        },
+        {
+          "label": "Completed",
+          "points": 6,
+          "descriptor": "An incidental motion was introduced, but its classification or execution contained significant errors, receiving 1 to 6 points."
+        },
+        {
+          "label": "Completed & Correct",
+          "points": 10,
+          "descriptor": "The incidental motion was correctly classified and applied, meriting 7 to 10 points."
+        }
+      ]
+    },
+    {
+      "id": "bring_again_motion",
+      "name": "Bring Again Motion",
+      "description": "The appropriate classification and handling of motions that bring a question before the assembly again, as presented in the role-play.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "O points",
+          "points": 0,
+          "descriptor": "This type of motion was not utilized or was used entirely incorrectly."
+        },
+        {
+          "label": "1-6 points",
+          "points": 6,
+          "descriptor": "The motion was attempted, but its application or classification contained errors, resulting in 1 to 6 points."
+        },
+        {
+          "label": "7-10 points",
+          "points": 10,
+          "descriptor": "The motion was correctly identified and applied, earning 7 to 10 points."
+        }
+      ]
+    },
+    {
+      "id": "call_to_order",
+      "name": "Call to Order",
+      "description": "The proper initiation of the meeting's proceedings.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "O points",
+          "points": 0,
+          "descriptor": "The meeting was not called to order or was done so incorrectly."
+        },
+        {
+          "label": "1-3 points",
+          "points": 3,
+          "descriptor": "The call to order was attempted but contained noticeable flaws, earning 1 to 3 points."
+        },
+        {
+          "label": "4-5 points",
+          "points": 5,
+          "descriptor": "The meeting was properly called to order, meriting 4 to 5 points."
+        }
+      ]
+    },
+    {
+      "id": "problem_addressed",
+      "name": "Problem Addressed",
+      "description": "The extent to which the core issue of the meeting was identified and discussed.",
+      "max_points": 25,
+      "levels": [
+        {
+          "label": "0 points",
+          "points": 0,
+          "descriptor": "The central problem was not identified or was completely misunderstood."
+        },
+        {
+          "label": "1-16 points",
+          "points": 16,
+          "descriptor": "The problem was partially addressed, but with significant gaps or inaccuracies, scoring 1 to 16 points."
+        },
+        {
+          "label": "17-25 points",
+          "points": 25,
+          "descriptor": "The problem was thoroughly and accurately addressed, earning 17 to 25 points."
+        }
+      ]
+    },
+    {
+      "id": "proper_use_of_parliamentary_terms",
+      "name": "Proper Use of Parliamentary Terms",
+      "description": "The correct application of parliamentary language and procedures during the meeting.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "0 points",
+          "points": 0,
+          "descriptor": "Parliamentary terms were not used or were used entirely incorrectly."
+        },
+        {
+          "label": "1-6 points",
+          "points": 6,
+          "descriptor": "Some parliamentary terms were used, but with frequent errors or inappropriate contexts, earning 1 to 6 points."
+        },
+        {
+          "label": "7-10 points",
+          "points": 10,
+          "descriptor": "Parliamentary terms were consistently and correctly applied throughout the meeting, meriting 7 to 10 points."
+        }
+      ]
+    },
+    {
+      "id": "voices_projected_and_expressions_clear",
+      "name": "Voices Projected and Expressions Clear",
+      "description": "The audibility of participants' voices and the clarity of their verbal expressions.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "O points",
+          "points": 0,
+          "descriptor": "Voices were not projected, and expressions were unclear, making communication difficult."
+        },
+        {
+          "label": "1-3 points",
+          "points": 3,
+          "descriptor": "Voices were somewhat projected, and expressions were mostly clear, but with occasional lapses, earning 1 to 3 points."
+        },
+        {
+          "label": "4-5 points",
+          "points": 5,
+          "descriptor": "Voices were consistently projected, and expressions were clear and understandable, meriting 4 to 5 points."
+        }
+      ]
+    },
+    {
+      "id": "presiding_official_remained_impartial",
+      "name": "Presiding Official Remained Impartial",
+      "description": "The presiding officer's ability to maintain neutrality and avoid bias throughout the meeting.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "0 points",
+          "points": 0,
+          "descriptor": "The presiding official showed clear partiality or interfered inappropriately."
+        },
+        {
+          "label": "1-3 points",
+          "points": 3,
+          "descriptor": "The presiding official generally remained impartial but showed minor instances of bias or intervention, earning 1 to 3 points."
+        },
+        {
+          "label": "4-5 points",
+          "points": 5,
+          "descriptor": "The presiding official maintained strict impartiality and facilitated the meeting fairly, meriting 4 to 5 points."
+        }
+      ]
+    },
+    {
+      "id": "members_took_initiative_in_meeting",
+      "name": "Members took initiative in meeting",
+      "description": "The active engagement and self-starting actions of the meeting participants.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "0 points",
+          "points": 0,
+          "descriptor": "Members showed no initiative or participation in the meeting."
+        },
+        {
+          "label": "1-3 points",
+          "points": 3,
+          "descriptor": "Members displayed some initiative, but their contributions were limited or hesitant, earning 1 to 3 points."
+        },
+        {
+          "label": "4-5 points",
+          "points": 5,
+          "descriptor": "Members actively took initiative, contributing meaningfully and driving the meeting forward, meriting 4 to 5 points."
+        }
+      ]
+    },
+    {
+      "id": "meeting_adjournment",
+      "name": "Meeting Adjournment",
+      "description": "The correct and formal conclusion of the meeting.",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "0 points",
+          "points": 0,
+          "descriptor": "The meeting was not adjourned or was done so incorrectly."
+        },
+        {
+          "label": "1-3 points",
+          "points": 3,
+          "descriptor": "The adjournment was attempted but contained noticeable flaws, earning 1 to 3 points."
+        },
+        {
+          "label": "4-5 points",
+          "points": 5,
+          "descriptor": "The meeting was properly adjourned, meriting 4 to 5 points."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "Compliance with all established rules and instructions for the competitive event.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the specified guidelines for the event."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "The presentation was consistent with the assigned topic. No materials were left behind after the presentation. Only items explicitly permitted by the guidelines were brought into the preparation and presentation rooms."
+        }
+      ]
+    }
+  ]
+}

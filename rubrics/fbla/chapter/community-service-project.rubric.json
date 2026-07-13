@@ -1,0 +1,533 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:27:05.843Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Community-Service-Project.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.066Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Community Service Project (High School)",
+  "total_points": 210,
+  "criteria": [
+    {
+      "id": "project_has_specific_goals_and_provides_",
+      "name": "Project has specific goals and provides service to the community and its citizens",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The undertaking does not qualify as a community service initiative."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The project either defines clear objectives OR offers a benefit to the community and its residents, but fails to do both."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The project clearly outlines its objectives AND delivers a service that benefits the community and its members."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The project features objectives that are measurable and suggests subsequent actions or phases to advance the initial efforts."
+        }
+      ]
+    },
+    {
+      "id": "describe_research_into_school_and_or_com",
+      "name": "Describe research into school and/or community needs",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no indication that research into the needs of the school or community was conducted."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "While research was carried out, its methodology and findings are not presented with clarity."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The research was thoroughly performed and its details are presented in a clear and understandable manner."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The research process involved careful planning, successful execution, and a subsequent assessment of its effectiveness."
+        }
+      ]
+    },
+    {
+      "id": "describe_planning_development_and_implem",
+      "name": "Describe planning, development, and implementation of project",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no documentation or proof of the project's planning, creation, or execution."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "An explanation for either the project's planning, its development, or its implementation is absent."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The actions and stages involved in the project's planning, development, and execution are explicitly detailed."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The actions and stages for planning, developing, and implementing the project are described, along with the justification for choosing those particular activities."
+        }
+      ]
+    },
+    {
+      "id": "show_evidence_of_publicity_received",
+      "name": "Show evidence of publicity received",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No proof of the project receiving public attention is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The report mentions publicity, but no supporting evidence of this publicity is available."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The project gained recognition within the school and/or the broader community."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The project achieved recognition through multiple avenues within the school and/or community."
+        }
+      ]
+    },
+    {
+      "id": "report_benefits_to_and_degree_of_impact_",
+      "name": "Report benefits to and degree of impact on the school and/or community",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The influence or advantages for the school and/or community are not discussed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The project was completed and fulfilled a specific function."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The project produced concrete outcomes that positively affected the school and/or community."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The project significantly altered the school and/or community, suggesting its continuation is warranted due to its dynamic impact."
+        }
+      ]
+    },
+    {
+      "id": "evaluate_the_project",
+      "name": "Evaluate the project",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No documentation of the project's assessment is supplied."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The project underwent an evaluation process."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The project was evaluated, and that evaluation was subsequently reviewed."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The project was evaluated, and suggestions for modifications were provided."
+        }
+      ]
+    },
+    {
+      "id": "format_and_design_a_business_report",
+      "name": "Format and design a business report",
+      "description": "This criterion assesses the layout and visual presentation of a business report, without requiring adherence to the Production Test Reference Guide.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The document lacks any discernible formatting."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The formatting is inconsistent, there is excessive unused space, and/or graphics or photos are included that are not relevant."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The report maintains a uniform formatting style throughout."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The report uses full-bleed elements, makes efficient use of space, incorporates relevant and clearly defined graphics, and exhibits consistent formatting."
+        }
+      ]
+    },
+    {
+      "id": "include_correct_grammar_punctuation_and_",
+      "name": "Include correct grammar, punctuation, and spelling",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The document contains 5 or more errors in grammar, punctuation, or spelling."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The document contains 3-4 errors in grammar, punctuation, or spelling."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The document contains no more than 2 errors in grammar, punctuation, or spelling."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The document contains no more than 1 error in grammar, punctuation, or spelling."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines (Pre-Judged Asset)",
+      "description": "This criterion evaluates whether the report's execution aligns with the specified guidelines for competitive events, including submission format, content restrictions, page limits, structural order, and essential components.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Followed",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the established guidelines."
+        },
+        {
+          "label": "Followed",
+          "points": 10,
+          "descriptor": "The execution conformed to the guidelines: The report was submitted as a PDF; links or QR codes were not utilized (except in citations); the report was 17 pages or less; the report followed the rating sheet's sequence and was formatted for 8 1/2\" x 11\" paper; a cover page with all criteria listed, a table of contents, and numbered pages were included; and only one community service project was highlighted."
+        }
+      ]
+    },
+    {
+      "id": "describes_project_development_and_strate",
+      "name": "Describes project development and strategies used to implement project",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No information regarding the project's creation or the methods employed for its execution is presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The project's development is briefly explained, and very few strategies are employed."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The project's development is clearly detailed, and more than one strategy is outlined."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The project's development is clearly detailed. The strategies are presented in chronological order and are thoroughly explained."
+        }
+      ]
+    },
+    {
+      "id": "describes_research_into_school_or_commun",
+      "name": "Describes research into school or community needs",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no indication that research into the needs of the school or community was conducted."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "While research was carried out, its methodology and findings are not presented with clarity."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The research was thoroughly performed and its details are presented in a clear and understandable manner."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The research process involved careful planning, successful execution, and a subsequent assessment of its effectiveness."
+        }
+      ]
+    },
+    {
+      "id": "appropriate_level_of_chapter_member_invo",
+      "name": "Appropriate level of chapter member involvement in project",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The extent of chapter participation is not clarified."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Involvement was restricted to 25% of the chapter members."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The project was clearly a chapter initiative, with 50% of chapter members participating."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Over 75% of chapter members participated, and clear evidence of their impact is provided."
+        }
+      ]
+    },
+    {
+      "id": "degree_of_impact_on_the_community_and_it",
+      "name": "Degree of impact on the community and its citizens",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The influence or advantages for the school and/or community are not discussed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The project was completed and fulfilled a specific function."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The project produced concrete outcomes that positively affected the school and/or community."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The project significantly altered the school and/or community, suggesting its continuation is warranted due to its dynamic impact."
+        }
+      ]
+    },
+    {
+      "id": "evidence_of_publicity_received_presentat",
+      "name": "Evidence of publicity received (Presentation)",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No proof of the project receiving public attention is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The report mentions publicity, but no supporting evidence of this publicity is available."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The project gained promotion or recognition within the school and/or the broader community."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The project achieved promotion or recognition through multiple avenues within the school and/or community."
+        }
+      ]
+    },
+    {
+      "id": "evaluation_of_project_effectiveness",
+      "name": "Evaluation of project effectiveness",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No documentation of the project's assessment is supplied."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The project underwent an evaluation process."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The project was evaluated, and that evaluation was subsequently reviewed."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The project was evaluated, and the team has developed recommendations for modifications should the project be repeated."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready to present."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a coherent structure."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation progressed in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation progressed in a logical order, and all statements were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presenter(s) did not exhibit any of the specified abilities."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The presenter(s) exhibited 1-2 of the specified abilities (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "The presenter(s) exhibited 3 of the specified abilities (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The presenter(s) exhibited all specified abilities, thereby enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presenter(s) do not answer questions, or their responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The presenter(s) provide incomplete or unclear answers, indicating a limited grasp of the topic."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presenter(s) respond accurately and clearly to most questions, demonstrating sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presenter(s) respond confidently with clear, accurate, and insightful answers that elevate the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin_2",
+      "name": "Adherence to Competitive Events Guidelines (Presentation)",
+      "description": "This criterion assesses whether the presentation's execution aligns with the specified guidelines for competitive events, including technology use, topic alignment, professional conduct, material handling, and content restrictions.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Followed",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the established guidelines."
+        },
+        {
+          "label": "Followed",
+          "points": 10,
+          "descriptor": "The execution conformed to the guidelines: Only permissible technology devices were used (sizing specifications were met; a maximum of two, with only one facing judges at a time); the presentation aligned with the assigned topic; professional boundaries were maintained during set-up (no interaction with judges); no materials were left behind after the presentation; links or QR codes were displayed appropriately (not clicked or scanned by judges); audio was presented without external speakers (preliminary round); and the use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

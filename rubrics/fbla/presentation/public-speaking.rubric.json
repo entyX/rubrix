@@ -1,0 +1,291 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 1 non-scored row(s) worth 0 points (Penalty Points). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:39:32.234Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Public-Speaking.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.091Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Public Speaking (High School)",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "topic_theme",
+      "name": "Topic & Theme",
+      "description": "The presentation integrates the given subject matter and maintains a unified central idea.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The designated subject is absent from the presentation."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The given subject is not distinctly integrated into the presentation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The given subject was distinctly integrated into the presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The given subject was distinctly integrated and comprehensively developed throughout the presentation, utilizing personal anecdotes."
+        }
+      ]
+    },
+    {
+      "id": "introduction",
+      "name": "Introduction",
+      "description": "Present the opening segment of the talk.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presentation lacked an opening section."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The opening segment was not distinctly delivered."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The opening segment was distinctly delivered, and the subject was explained."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The opening segment was distinctly delivered, the subject was explained, and an effective bridge to the main content was provided."
+        }
+      ]
+    },
+    {
+      "id": "supporting_information_body",
+      "name": "Supporting Information (Body)",
+      "description": "Present factual and relevant details to back up the main points.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presentation lacked a central subject."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Several subjects were introduced without evident links between them."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The primary subjects were recognized, linked, and substantiated across the entire presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The primary subjects were recognized, linked, and substantiated across the entire presentation, employing fluid transitions to effectively reinforce the main subject."
+        }
+      ]
+    },
+    {
+      "id": "conclusion",
+      "name": "Conclusion",
+      "description": "Deliver a strong closing statement that ties back to the main subject and overall message.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presentation ended without a concluding section."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The closing statement was not distinctly delivered."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "A strong closing statement was delivered."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The closing statement establishes a link to the entirety of the presentation."
+        }
+      ]
+    },
+    {
+      "id": "speech_delivery_pace_filler_words",
+      "name": "Speech Delivery: Pace and Filler Words",
+      "description": "Present the talk at a suitable speed, avoiding unnecessary vocalizations.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The speaker's delivery speed was erratic, either excessively quick or sluggish, combined with an overuse of verbal pauses."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The delivery speed was inconsistent and distracting, accompanied by a noticeable number of verbal pauses."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The speaker maintained a suitable delivery speed with very few verbal pauses."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The speaker maintained a varied and appropriate delivery speed, completely eliminating verbal pauses, which fully captivated the audience."
+        }
+      ]
+    },
+    {
+      "id": "speech_delivery_eye_contact_facial_expre",
+      "name": "Speech Delivery: Eye Contact and Facial Expressions",
+      "description": "Present the talk with diverse facial expressions and maintain excellent visual engagement with the judges.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The speaker fails to make eye contact or exhibit varied facial expressions."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The speaker displays limited varied facial expressions and/or minimal eye contact."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The speaker uses suitable facial expressions and maintains appropriate eye contact."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The speaker maintains appropriate eye contact and facial expressions, and does not rely on notecards."
+        }
+      ]
+    },
+    {
+      "id": "speech_delivery_voice_projection",
+      "name": "Speech Delivery: Voice Projection",
+      "description": "Present the talk with clear and sufficient vocal volume.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The speaker's voice lacks adequate volume."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The speaker's voice projection is minimal."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The speaker uses appropriate voice projection."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The speaker uses appropriate voice projection and clear articulation."
+        }
+      ]
+    },
+    {
+      "id": "speech_delivery_self_confidence_poise_po",
+      "name": "Speech Delivery: Self-confidence, Poise, and Posture",
+      "description": "Present the talk with assurance, composure, and proper body alignment.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The speaker did not exhibit assurance, composure, or proper body alignment."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The speaker exhibited assurance, composure, or proper body alignment."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The speaker exhibited a high degree of assurance, composure, and proper body alignment."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The speaker exhibited a high degree of assurance, composure, proper body alignment, and assertiveness."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_ability_to_effectively_answ",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "Shows the capacity to provide clear and accurate responses to inquiries.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The speaker does not reply to questions, or their replies are completely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The speaker provides incomplete or unclear replies that indicate limited comprehension."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The speaker replies accurately and clearly to most questions, demonstrating sufficient comprehension."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The speaker replies confidently with clear, accurate, and insightful answers that enhance the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The presentation's execution aligns with the specified rules: (All conditions must be satisfied) The presentation matched the assigned subject. No materials were left behind after the presentation. The use of food, live animals, technology, visuals, and props was avoided.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": ""
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "The presentation matched the assigned subject. No materials were left behind after the presentation. The use of food, live animals, technology, visuals, and props was avoided."
+        }
+      ]
+    }
+  ]
+}

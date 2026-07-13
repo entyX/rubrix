@@ -1,0 +1,263 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:40:57.811Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Supply-Chain-Management.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.093Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Supply Chain Management",
+  "total_points": 120,
+  "criteria": [
+    {
+      "id": "summarizes_supply_chain_management",
+      "name": "Summarizes Supply Chain Management",
+      "description": "Provide an overview of the business or supply chain situation, including the industry, product, or service, and describe how supply chain strategy fits into this context.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The business or supply chain subject is not explained, and there is no mention of supply chain strategy."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The explanation of the business or supply chain subject is either unclear or not fully developed, and its connection to supply chain strategy or its function is minimal or hard to understand."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The business or supply chain subject, such as the industry, product, or service, is clearly articulated, and the function of supply chain strategy within a pertinent setting is identified."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The business or supply chain situation is explained comprehensively, with exceptional clarity and specific details. The importance of supply chain strategy is effectively linked to the subject matter with perceptive and pertinent observations, demonstrating a deep grasp of its strategic influence."
+        }
+      ]
+    },
+    {
+      "id": "management_planning",
+      "name": "Management Planning",
+      "description": "Describe the organizational framework and activities of the supply chain, focusing on strategic planning elements like objectives, procedures, and collaborations.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The organizational design of the supply chain is not described, nor are suppliers, schedules, or distribution methods discussed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The supply chain's organizational framework is explained in a rudimentary or confusing manner. Suppliers or manufacturing partners are mentioned only briefly, with little to no link to ethical considerations or the mission. Schedules and logistics are imprecise or incomplete."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The supply chain's structure for the specialized product line is explained. Suppliers and manufacturing partners are identified with some relevance to the mission. A general outline of production schedules and distribution logistics is provided."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The supply chain's structure, specifically designed for a limited-edition product launch, is outlined with clarity and thoroughness. Ethical suppliers and manufacturing partners are chosen, directly aligning with the mission. A well-organized production schedule and a detailed logistics plan for regional or national distribution are presented."
+        }
+      ]
+    },
+    {
+      "id": "financial_planning",
+      "name": "Financial Planning",
+      "description": "Examine the monetary aspects of the supply chain strategy, such as decisions regarding costs versus benefits, budget allocation, and compromises for efficiency.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No financial components are addressed, and there is no evidence of cost estimation, pricing, or risk assessment."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Some fundamental costs or general pricing concepts are mentioned, but they lack specificity or accuracy. Strategies for risk analysis or budgeting are either absent or unclear."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Estimates for production, packaging, and fulfillment costs are provided with reasonable detail. A pricing strategy is proposed, considering both profit and donation targets. Risks and budgetary limitations are briefly touched upon."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Accurate and well-supported estimates are given for all primary cost categories. A carefully considered pricing strategy is developed that balances profitability with the donation margin. Potential financial risks are clearly identified, and realistic approaches to manage budget constraints are suggested."
+        }
+      ]
+    },
+    {
+      "id": "demand_planning",
+      "name": "Demand Planning",
+      "description": "Illustrate how predictions, market trends, and consumer requirements inform decisions and influence other components of the plan.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Demand prediction, market movements, or inventory approaches are not discussed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The discussion of demand patterns or relevance to the youth market is vague or incomplete. Inventory or production is mentioned without a clear connection to insights about demand."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Data from the youth market or social trends is utilized to forecast demand. Suitable inventory strategies are suggested, and an explanation is provided on how production could be adjusted based on initial interest or regional patterns."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "A comprehensive understanding of demand planning is shown through clear forecasting based on market trends and values. Strategic inventory management (e.g., pre-orders, drops) is proposed, and compelling recommendations for production adjustments are provided, supported by reasoning and potential outcomes."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_whi",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources are referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently cited to back up claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Generally, professionally credible sources and resources that support claims are present."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Compelling evidence from professionally credible sources and resources is provided to substantiate claims."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical flow."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation progressed in a logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation flowed in a logical order, and statements were well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified abilities were demonstrated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the listed abilities (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the listed abilities (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All abilities were demonstrated, enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No responses are given to questions, or the responses are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Answers provided are incomplete or unclear, indicating a limited grasp of the topic."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Most questions are answered accurately and clearly, demonstrating sufficient comprehension."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Answers are given confidently, clearly, accurately, and thoughtfully, improving the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution of the project aligns with the specified guidelines (all criteria must be fulfilled).",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) did not adhere to the guidelines."
+        },
+        {
+          "label": "Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "Only permissible technology devices were used (sizing specifications were followed; a maximum of two, with only one facing judges at a time). The presentation was relevant to the assigned topic. Professional boundaries were maintained during setup (no interaction with judges). No materials were left behind after the presentation. Links or QR codes were displayed appropriately (not clicked or scanned by judges). Audio was presented without external speakers (preliminary round). The use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

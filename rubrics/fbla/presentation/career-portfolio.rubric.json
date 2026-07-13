@@ -1,0 +1,291 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:26:01.514Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Career-Portfolio.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.073Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Career Portfolio",
+  "total_points": 110,
+  "criteria": [
+    {
+      "id": "resume",
+      "name": "Resume",
+      "description": "This criterion assesses the presentation of the participant's resume, evaluating how thoroughly it covers their experiences, qualifications, awards, and specific abilities, and how well these elements are connected to their career aspirations.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The resume was absent or not presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The presentation offers an overview of the resume, covering work history, credentials, and particular talents."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The resume review details experiences like employment and volunteer work, along with qualifications, relevant accolades, and distinct abilities."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The resume is presented with several visual aids, clearly explaining the connection between the participant's background, credentials, achievements, and abilities to their chosen profession."
+        }
+      ]
+    },
+    {
+      "id": "career_research",
+      "name": "Career Research",
+      "description": "This criterion evaluates the depth and presentation of research conducted on the desired career path, including how personal qualifications are linked and the inclusion of relevant data.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No information about career research was presented or shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Information gathered about the preferred career is presented."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The participant presents findings on their chosen profession and connects their personal attributes to its requirements."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation includes research and personal qualifications for the career, enhanced by statistics, factual information, salary expectations, and potential challenges."
+        }
+      ]
+    },
+    {
+      "id": "career_related_education",
+      "name": "Career Related Education",
+      "description": "This criterion assesses the participant's ability to share information about their educational background and work experiences, specifically how these elements relate to and prepare them for their future career.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "There is no evidence or discussion of education relevant to the career."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Details are provided regarding academic pursuits and professional experiences."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Information is shared about academic activities and work experiences, explaining how one prepared the individual for the other."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The participant shares information about their academic and work experiences, elaborating on their significant influence on their prospective career."
+        }
+      ]
+    },
+    {
+      "id": "special_skills_or_proficiencies",
+      "name": "Special Skills or Proficiencies",
+      "description": "This criterion evaluates the participant's ability to present their unique skills, awards, or proficiencies, demonstrating their relevance and qualification for their desired career, especially if linked to formal recognition.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No special skills, awards, or proficiencies are presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The participant discusses one particular skill, award, or proficiency pertinent to their desired career."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The participant discusses one specific skill, award, or proficiency they have acquired that is relevant to their desired career, explaining how it qualifies them for that profession."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The participant presents and connects at least one specific skill, award, or proficiency relevant to their desired career that is supported by a certification or endorsement."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_whi",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "This criterion assesses the thoroughness and legitimacy of sources used to support statements made during the presentation, evaluating how consistently and effectively they are cited.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources are referenced."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently provided to back up claims."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Credible and professional sources and resources that support statements are generally included."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Strong evidence from reputable and professional sources and resources is presented to substantiate all claims."
+        }
+      ]
+    },
+    {
+      "id": "use_of_portfolio_in_presentation",
+      "name": "Use of portfolio in presentation",
+      "description": "This criterion evaluates how effectively the participant incorporates their portfolio into the presentation, from merely mentioning it to using it as a tool to enhance the discussion of their career and education.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The portfolio is neither referenced nor utilized during the presentation."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The portfolio is mentioned during the presentation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The portfolio is actively used at some point during the presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The portfolio is employed to enrich the presentation regarding the participant's career and educational background."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "This criterion assesses the clarity and logical structure of the presentation, from a lack of preparation to a well-organized and coherent delivery.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presenter did not seem ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The presenter was prepared, but the sequence of information was not logical."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a coherent and logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation progressed in a logical sequence, and all statements were clearly articulated and well-structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "This criterion evaluates the participant's non-verbal communication skills, including confidence, body language, eye contact, and voice projection, and how consistently these are demonstrated to enhance the presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified skills were exhibited."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the listed skills (self-assurance, posture, gaze, or vocal delivery) were evident."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the listed skills (self-assurance, posture, gaze, or vocal delivery) were evident."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All skills were demonstrated, significantly improving the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "This criterion assesses the participant's capability to answer questions, ranging from inability to respond to providing clear, accurate, and insightful answers that enrich the presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The participant either does not answer questions or provides responses that are entirely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Answers are incomplete or unclear, indicating a limited grasp of the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Most questions are answered accurately and clearly, demonstrating a sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Answers are delivered with confidence, clarity, accuracy, and thoughtfulness, thereby enhancing the entire presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "This criterion evaluates whether the participant followed all specified rules and regulations for the competitive event, including technology use, professional conduct, material handling, and audio presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the established guidelines."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "Only permitted technology devices were used (adhering to size specifications; a maximum of two, with only one facing judges at any time). Professional boundaries were maintained during setup (no interaction with judges). No materials were left behind after the presentation. Links or QR codes were displayed appropriately (not clicked or scanned by judges). Audio was presented without external speakers (during the preliminary round). The use of food or live animals was avoided."
+        }
+      ]
+    }
+  ]
+}

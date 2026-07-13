@@ -1,0 +1,503 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [],
+    "parsed_at": "2026-07-13T07:36:18.029Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Job-Interview.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.088Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Job Interview (High School)",
+  "total_points": 170,
+  "criteria": [
+    {
+      "id": "cover_letter_states_job_applying_for",
+      "name": "Cover Letter: States job applying for",
+      "description": "",
+      "max_points": 4,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The specific position being sought is not mentioned."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The job title mentioned does not align with the applicant's qualifications."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The letter identifies the position and illustrates how the applicant's qualifications are suitable for it."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 4,
+          "descriptor": "The letter clearly names the role and effectively demonstrates how the applicant's qualifications and prior experience are a strong match for it."
+        }
+      ]
+    },
+    {
+      "id": "cover_letter_promotes_self_in_letter",
+      "name": "Cover Letter: Promotes self in letter - lists skills, achievements, volunteerism experiences, etc.",
+      "description": "",
+      "max_points": 8,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The letter contains no content highlighting the applicant's abilities or accomplishments."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 3,
+          "descriptor": "The applicant details their skills and educational successes, but omits any volunteer work or professional experience."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 6,
+          "descriptor": "The letter outlines the applicant's skills, academic accomplishments, and relevant volunteer or professional experience."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 8,
+          "descriptor": "The letter showcases a variety of skills, academic successes, and several instances of volunteer or professional experience."
+        }
+      ]
+    },
+    {
+      "id": "cover_letter_states_resume_included",
+      "name": "Cover Letter: States that the resume is included with the letter and asks for interview",
+      "description": "",
+      "max_points": 4,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The letter neither indicates that a resume is attached nor requests an interview."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The letter mentions the inclusion of a resume but does not make a request for an interview."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The letter confirms the resume's attachment and explicitly requests an interview."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 4,
+          "descriptor": "The letter notes the resume's inclusion, requests an interview, and offers an avenue for further inquiries."
+        }
+      ]
+    },
+    {
+      "id": "resume_targets_job_on_cover_letter",
+      "name": "Resume: Targets job on cover letter",
+      "description": "",
+      "max_points": 4,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The resume does not specify a particular job."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "The job identified in the resume does not correspond with the one mentioned in the cover letter."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "The job specified in the resume is consistent with the one stated in the cover letter."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 4,
+          "descriptor": "The resume's content effectively reinforces the applicant's suitability for the job identified in the cover letter."
+        }
+      ]
+    },
+    {
+      "id": "resume_reader_friendly_categories",
+      "name": "Resume: Reader friendly categories can be found easily, white space utilized, professional fonts and font sizes",
+      "description": "",
+      "max_points": 8,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The resume's layout makes it impossible to read."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 3,
+          "descriptor": "The resume's visual presentation hinders readability."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 6,
+          "descriptor": "The resume is easy to read and navigate."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 8,
+          "descriptor": "The resume's design is highly professional and well-suited for the intended position."
+        }
+      ]
+    },
+    {
+      "id": "resume_includes_education_activities",
+      "name": "Resume: Includes education, activities, awards/honors, and volunteerism/work experience information",
+      "description": "",
+      "max_points": 8,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No information regarding education, activities, volunteer work, or experience is provided."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 3,
+          "descriptor": "Only one or two of the required sections are present."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 6,
+          "descriptor": "Three of the required sections are included."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 8,
+          "descriptor": "Four or more sections are included and effectively support the targeted job."
+        }
+      ]
+    },
+    {
+      "id": "resume_brief_concise_information",
+      "name": "Resume: Brief, concise information",
+      "description": "",
+      "max_points": 4,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The resume exceeds two pages in length."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 1,
+          "descriptor": "Information is presented in paragraph form rather than concise points."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 3,
+          "descriptor": "Sections are clearly labeled, and the information within them is well-organized."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 4,
+          "descriptor": "Each section contains clearly identified and organized information that strongly supports the targeted job."
+        }
+      ]
+    },
+    {
+      "id": "spelling_grammar_documents_are_free_of_e",
+      "name": "Spelling & Grammar: Documents are free of spelling, punctuation, and grammatical errors",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The documents contain three or more errors."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 2,
+          "descriptor": "The documents contain two errors."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 4,
+          "descriptor": "There are no spelling errors, and no more than one punctuation or grammatical error."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "There are no spelling or grammatical errors, and no more than one punctuation error."
+        }
+      ]
+    },
+    {
+      "id": "all_directions_followed",
+      "name": "All directions followed",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The cover letter is longer than one page, or not addressed correctly; the resume is longer than two pages; a photograph, link, or QR code is included."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The cover letter is no more than one page and addressed correctly; the resume is no more than two pages and does not include a photograph, link, or QR code; all documents are submitted as PDF."
+        }
+      ]
+    },
+    {
+      "id": "job_readiness_qualifications",
+      "name": "Job Readiness & Qualifications",
+      "description": "The competitor selects a job that aligns with their current abilities or those they will soon possess; they demonstrate an understanding of the job's responsibilities and its relevance to their career aspirations.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No job is chosen, or the selected job bears no relation to the competitor's skills, experience, or professional interests."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "A job is selected, but its alignment with the competitor's qualifications is weak; the competitor shows limited comprehension of job duties or career relevance."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The chosen job is suitable given the competitor's current or anticipated qualifications; the competitor displays a basic understanding of the role and its connection to their career objectives."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The job is carefully chosen and clearly matches the competitor's current or near-future qualifications; the competitor demonstrates a strong grasp of job responsibilities and explicitly links the role to their long-term career goals."
+        }
+      ]
+    },
+    {
+      "id": "interview_preparation_research",
+      "name": "Interview Preparation & Research",
+      "description": "The competitor provides evidence of having investigated the company or position and integrates this knowledge into their responses.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No proof of research is presented; responses are general and do not relate to the company or role."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Evidence of research is limited or superficial; responses show minimal connection to the company or position."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Research is evident; responses include pertinent details about the company or job and reflect a general understanding of the role."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Thorough research is clearly demonstrated; responses are customized to the company and position, revealing thoughtful insight and intentional readiness."
+        }
+      ]
+    },
+    {
+      "id": "response_quality_critical_thinking",
+      "name": "Response Quality & Critical Thinking",
+      "description": "The competitor answers questions thoughtfully and comprehensively, showcasing problem-solving abilities, decision-making skills, and self-awareness.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Responses are irrelevant, incomplete, or lack any indication of critical thinking or self-awareness."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Responses are brief or vague, with limited explanation or introspection; minimal evidence of problem-solving or decision-making is present."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Responses are clear and mostly comprehensive, demonstrating basic problem-solving and self-awareness with suitable examples."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Responses are thoughtful, well-developed, and insightful; they consistently exhibit critical thinking, sound reasoning, and profound self-reflection."
+        }
+      ]
+    },
+    {
+      "id": "presentation_of_strengths_experiences",
+      "name": "Presentation of Strengths & Experiences",
+      "description": "The competitor clearly articulates relevant skills, experiences, and accomplishments, providing specific examples when appropriate.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor fails to mention any pertinent skills, experiences, or achievements."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "A few strengths or experiences are mentioned, but they lack clarity or specific examples; connections to the job are not evident."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The competitor clearly describes relevant skills and experiences, including at least one specific example to support their qualifications for the position."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The competitor articulates multiple strengths and accomplishments with strong, specific examples; each is clearly linked to the job and demonstrates how they add value."
+        }
+      ]
+    },
+    {
+      "id": "career_goals_motivation",
+      "name": "Career Goals & Motivation",
+      "description": "The competitor communicates their short-term and long-term career objectives and expresses enthusiasm for the position or industry.",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor does not express any career goals or interest in the position or industry."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Career goals are unclear or only short-term; limited enthusiasm or connection to the industry is shown."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The competitor clearly communicates both short-term and long-term goals with appropriate enthusiasm for the position or field."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The competitor clearly articulates thoughtful short-term and long-term goals, showing genuine passion for the position and industry; they demonstrate a clear vision for the future and how the role aligns with it."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_proper_greeting_introductio",
+      "name": "Demonstrates proper greeting, introduction, and closing",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor fails to use a proper greeting, introduction, or closing."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor's greeting, introduction, or closing was ineffective."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The competitor uses a strong greeting, introduction, and closing."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The competitor's self-introduction is creative, and they either request or provide a follow-up action in the conclusion."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor did not exhibit any of the specified skills."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "The competitor demonstrated one or two of the listed skills (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "The competitor demonstrated three of the listed skills (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "The competitor demonstrated all skills, thereby enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_proper_verbal_nonverbal_com",
+      "name": "Demonstrates proper verbal and nonverbal communication skills",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Both verbal and nonverbal communication skills are unsuitable."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Verbal and/or nonverbal communication skills are poor or distracting."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "All questions were answered clearly using correct grammar and appropriate body language."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Verbal communication skills are outstanding; nonverbal communication is natural."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "The execution of the event is in alignment with all specified guidelines.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the guidelines."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 10,
+          "descriptor": "No technology was used; no materials were brought to the interview; no materials were left behind after the presentation."
+        }
+      ]
+    }
+  ]
+}

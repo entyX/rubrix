@@ -1,0 +1,506 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored.",
+      "Point totals disagree: the criteria add up to 220, but the sheet states 230. One of them is wrong — check which."
+    ],
+    "parsed_at": "2026-07-13T07:29:27.197Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Digital-Video-Production.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.077Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Digital Video Production",
+  "total_points": 230,
+  "criteria": [
+    {
+      "id": "video_content_fully_address_concept_topi",
+      "name": "Video Content: Fully address the concept and/or topic",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The main idea or subject matter is disregarded."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The central theme or subject is not explored in sufficient depth."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The main idea or subject is completely covered."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Someone unfamiliar with the subject can easily understand what the video is about."
+        }
+      ]
+    },
+    {
+      "id": "video_content_video_contains_multiple_el",
+      "name": "Video Content: Video contains multiple elements providing evidence of production skill",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The video shows no indication of expertise in its creation."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The video's construction reveals only basic editing abilities."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The video incorporates smooth changes between scenes and utilizes various technical tools."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The video employs several sophisticated filmmaking methods."
+        }
+      ]
+    },
+    {
+      "id": "video_content_grammar_spelling_and_punct",
+      "name": "Video Content: Grammar, spelling, and punctuation",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The video has at least four mistakes in its grammar, spelling, or punctuation."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The video has a maximum of three errors related to spelling, grammar, or punctuation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The video includes a single mistake in grammar, spelling, or punctuation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The video is entirely free of any errors in grammar, spelling, or punctuation."
+        }
+      ]
+    },
+    {
+      "id": "video_content_copyright_information_and_",
+      "name": "Video Content: Copyright information and sources are noted and documented, and video content is original",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Details about copyright or sources are either missing, incorrectly referenced, and the video's material is not unique."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The content infringes on copyright rules and sourcing expectations, or the video's material is not unique."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Copyright details and sources are properly recorded, and the video's material is unique."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Compliance with copyright is documented, sources are cited visually, and the video's content is original."
+        }
+      ]
+    },
+    {
+      "id": "project_evaluation_video_has_logical_flo",
+      "name": "Project Evaluation: Video has logical flow of information",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The sequence of the video does not appear coherent."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The progression fails to connect each part of the video."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The progression is sensible and structured with a clear beginning, middle, and end."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The video is coherent, transitions smoothly, and concludes with a prompt for action."
+        }
+      ]
+    },
+    {
+      "id": "project_evaluation_quality_of_editing_an",
+      "name": "Project Evaluation: Quality of editing and transition",
+      "description": "",
+      "max_points": 15,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No transitions or evidence of video editing are present."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 8,
+          "descriptor": "Transitions exist but are abrupt and do not integrate smoothly."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 12,
+          "descriptor": "Transitions are seamless and function as an integral part of the video."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 15,
+          "descriptor": "Various types of transitions are employed, all integrating flawlessly."
+        }
+      ]
+    },
+    {
+      "id": "project_evaluation_audio_and_visual_elem",
+      "name": "Project Evaluation: Audio and visual elements are coordinated",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Audio and visual components are minimal."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Audio and visual components lack diversity."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Audio utilizes diverse sources, including direct and dubbed sound; visuals incorporate multiple camera angles and techniques."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Audio and visuals draw from various sources and include special effects."
+        }
+      ]
+    },
+    {
+      "id": "project_evaluation_use_of_video_film_tec",
+      "name": "Project Evaluation: Use of video/film techniques",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No use of video technology is apparent."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The video incorporates filmmaking methods."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The video demonstrates sophisticated use of filmmaking methods."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The video includes several advanced filmmaking techniques, such as special effects."
+        }
+      ]
+    },
+    {
+      "id": "video_time",
+      "name": "Video Time",
+      "description": "",
+      "max_points": 5,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The video exceeds two minutes in length."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 5,
+          "descriptor": "The video is two minutes long or less."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_understanding_of_the_event_",
+      "name": "Demonstrates understanding of the event topic",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No comprehension of the event's subject matter."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Understanding of the subject is inconsistent between the video and the presentation."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The subject is effectively conveyed through the presentation."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Expert knowledge of the subject is shown through the presentation."
+        }
+      ]
+    },
+    {
+      "id": "describes_the_use_and_implementation_of_",
+      "name": "Describes the use and implementation of innovative technology",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No explanation is provided for how the technology is used or put into practice."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Either the innovative technology is identified OR its implementation is described."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The use and demonstration of video techniques, equipment, and software are explained and shown."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "An expert-level explanation and demonstration of video techniques, equipment, and software are provided."
+        }
+      ]
+    },
+    {
+      "id": "explains_the_design_and_development_proc",
+      "name": "Explains the design and development process",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No explanation or description of the design and development process is given."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The competitor(s) explain either the design OR the development process."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The competitor(s) explain both the design and the development process."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "An expert-level, industry-standard explanation of both the design and development process is provided."
+        }
+      ]
+    },
+    {
+      "id": "incorporates_video_into_presentation",
+      "name": "Incorporates video into presentation",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The video is not shown."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "A video of any duration is presented."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The video is presented, but its introduction and transition back to the presentation are insufficient."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The video is presented with a suitable introduction and a smooth transition back to the presentation."
+        }
+      ]
+    },
+    {
+      "id": "copyright_and_source_information_is_note",
+      "name": "Copyright and source information is noted and documented, and video content is original",
+      "description": "",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Details about copyright or sources are either missing, incorrectly referenced, and the video's material is not unique."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The content infringes on copyright rules and sourcing expectations, or the video's material is not unique."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "Copyright details and sources are properly recorded, and the video's material is unique."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "Compliance with copyright is documented, sources are cited visually, and the video's content is original."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "How the presentation is delivered.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were ready, but the sequence was not coherent."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation progressed in a sensible order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation progressed in a sensible order, and all statements were clearly structured."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "None of the specified skills were demonstrated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "One or two of the specified skills (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Three of the specified skills (confidence, body language, eye contact, or voice projection) were demonstrated."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "All specified skills were demonstrated, enhancing the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No responses are given to questions, or responses are completely irrelevant."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Answers are incomplete or unclear, indicating a limited grasp of the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Most questions are answered accurately and clearly, showing sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Answers are confident, clear, accurate, and insightful, improving the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "Compliance with rules for competitive events: The pre-recorded segment must not exceed 2 minutes; only permitted technology devices were used (size specifications followed; maximum of two, with only one facing judges at a time); the presentation aligned with the assigned topic; professional boundaries were maintained during setup time (no interaction with judges); no materials were left behind after the presentation; links or QR codes were displayed appropriately (not clicked or scanned by judges); audio was presented without external speakers (preliminary round); and the use of food or live animals was avoided.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Competitor(s) Did Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the established rules."
+        },
+        {
+          "label": "Execution Aligned with Guidelines: (All criteria must be met)",
+          "points": 10,
+          "descriptor": "All specified criteria for execution were met."
+        }
+      ]
+    }
+  ]
+}

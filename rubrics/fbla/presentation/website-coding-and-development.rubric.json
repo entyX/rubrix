@@ -1,0 +1,459 @@
+{
+  "_review": {
+    "status": "confirmed",
+    "warnings": [
+      "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored."
+    ],
+    "parsed_at": "2026-07-13T07:42:24.274Z",
+    "prompt_version": "r-1.0.0",
+    "source_pdf": "Website-Coding-and-Development.pdf",
+    "note": "Machine-parsed from the official rating sheet. plan.md F3: nobody may be graded against this until a human confirms it.",
+    "confirmed_at": "2026-07-13T18:39:43.095Z",
+    "confirmed_by": "ronit (bulk sign-off via scripts/confirm-rubrics.mts)",
+    "paraphrased": true,
+    "paraphrase_prompt_version": "p-1.0.0",
+    "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
+  },
+  "title": "Website Coding & Development",
+  "total_points": 220,
+  "criteria": [
+    {
+      "id": "style",
+      "name": "Style",
+      "description": "This criterion assesses how well the code is formatted, including indentation, the implementation of stylesheets and scripts, and the general structure of the codebase.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The code lacks proper indentation, and no external stylesheets or scripts have been incorporated."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Scripts and stylesheets are present but are not kept in distinct files. The code contains a few comments."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Files are utilized correctly, and different programming languages are kept in their respective, separate files."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The code's indentation and spacing demonstrate careful consideration and planning."
+        }
+      ]
+    },
+    {
+      "id": "website_usability_accessibility_and_navi",
+      "name": "Website Usability, Accessibility, and Navigation",
+      "description": "This measures how straightforward the website is to operate, the clarity of its navigation system, and the inclusion of features that enhance accessibility for all users.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The website presents challenges in terms of user interaction or finding one's way around. There is no indication that accessibility considerations were made."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "A navigation system exists, but it might be hard to understand or inconsistent across pages. Accessibility features are either very basic or have not been thoroughly addressed."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The website is easy for users to interact with, offers a clear way to move between sections, and includes fundamental accessibility elements such as alternative text for images and legible fonts. Its layout contributes to a good user experience."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The website is exceptionally simple and natural to use, with effortless navigation. Accessibility is deeply embedded through features like keyboard operability, appropriate color contrast, and ARIA labels, reflecting a strong commitment to inclusive design and optimal user experience."
+        }
+      ]
+    },
+    {
+      "id": "color_contrast_background_and_font_are_a",
+      "name": "Color/contrast, background, and font are appropriate for the topic",
+      "description": "This criterion assesses the suitability of the chosen colors, visual contrast, background elements, and typography in relation to the subject matter and how they impact the user's interaction.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No fundamental design concepts have been implemented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The selection of colors, contrast levels, typeface, or other design elements detracts from the user's focus."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The colors, contrast, font, and overall design choices are fitting for the concept or topic presented."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The chosen colors, contrast, font, and design elements significantly improve the user's interaction and experience."
+        }
+      ]
+    },
+    {
+      "id": "graphics_appropriate_for_topic",
+      "name": "Graphics appropriate for topic",
+      "description": "This evaluates the incorporation of visual elements, ensuring they are relevant to the topic and improve the user's experience.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No principles of graphic design have been applied."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The visual elements are distracting to the user."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The visuals are suitable for the presented concept or topic."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The visuals significantly enhance the user's overall experience."
+        }
+      ]
+    },
+    {
+      "id": "fully_addresses_the_topic",
+      "name": "Fully addresses the topic",
+      "description": "This assesses how thoroughly and clearly the website covers the assigned subject matter.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The given topic is not adhered to."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The topic is not completely explored."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The topic is comprehensively covered."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Individuals unfamiliar with the topic can understand it based on the website's content."
+        }
+      ]
+    },
+    {
+      "id": "site_contains_multiple_elements_providin",
+      "name": "Site contains multiple elements providing evidence of coding skills",
+      "description": "This evaluates the diversity and sophistication of coding abilities showcased through the website's various components.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No evidence of website coding proficiency is displayed."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The website is built using a restricted set of features."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The website incorporates the use of various coding techniques."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The website demonstrates sophisticated coding abilities."
+        }
+      ]
+    },
+    {
+      "id": "grammar_spelling_and_punctuation",
+      "name": "Grammar, spelling, and punctuation",
+      "description": "This evaluates the precision of grammar, spelling, and punctuation within the website's content.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The website contains errors in grammar or spelling."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The website has three or fewer spelling or grammar mistakes."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The website contains one grammar error and no spelling errors."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The website is completely free of any grammar and spelling errors."
+        }
+      ]
+    },
+    {
+      "id": "substantiates_and_cites_sources_used_whi",
+      "name": "Substantiates and cites sources used while conducting research",
+      "description": "This assesses the use of credible references and proper attribution to support claims made.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No sources are acknowledged."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "Sources or references are infrequently cited to back up statements."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "Generally, legitimate professional sources and resources are present to support statements."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "Compelling evidence from professionally recognized sources and resources is provided to substantiate statements."
+        }
+      ]
+    },
+    {
+      "id": "website_is_compatible_with_multiple_plat",
+      "name": "Website is compatible with multiple platforms",
+      "description": "This evaluates how well the website operates and adapts across various devices and operating systems.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The website does not function on any platforms."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The website is only functional on a single platform."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The website displays correctly on at least two different platforms."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The website operates perfectly across multiple devices, including smartphones, tablets, and desktop computers."
+        }
+      ]
+    },
+    {
+      "id": "website_interactivity_functions_and_is_e",
+      "name": "Website interactivity functions and is error free",
+      "description": "This assesses the interactive features, ensuring they operate without errors and improve the user's experience.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The website's interactive elements contain errors that prevent them from working."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The website's interactive elements have errors but still manage to function."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The website's interactive elements are completely free of errors."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The website's interactive elements are error-free and significantly enhance the user's experience."
+        }
+      ]
+    },
+    {
+      "id": "website_elements_are_consistent_across_a",
+      "name": "Website elements are consistent across all pages",
+      "description": "This evaluates the uniformity of website components and design across all pages to improve the user experience.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "Only a single page is presented."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "The pages lack uniformity."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The pages maintain a consistent appearance."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The pages are consistent, and their elements enhance the user's experience."
+        }
+      ]
+    },
+    {
+      "id": "source_code_documentation_requirements",
+      "name": "Source Code & Documentation Requirements",
+      "description": "This assesses the organization, originality, completeness, and documentation of the source code, including citations and attribution of sources.",
+      "max_points": 20,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "No source code or accompanying documentation is provided. The project appears to be based on a template or lacks original effort."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 9,
+          "descriptor": "Source code is visible but might be incomplete or poorly structured. Documentation is either absent or unclear. There is clear evidence of template usage."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 16,
+          "descriptor": "The source code is original, complete, and can be provided upon request. Documentation includes proper citations and acknowledges all sources. No templates were utilized."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 20,
+          "descriptor": "The source code is meticulously organized, clearly written, and entirely original. All sources and materials are thoroughly documented with a professional presentation. This demonstrates a strong sense of ownership and a deep understanding of the development process."
+        }
+      ]
+    },
+    {
+      "id": "statements_are_well_organized_and_clearl",
+      "name": "Statements are well-organized and clearly stated",
+      "description": "This evaluates the clarity, structure, and logical progression of information conveyed during the presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The competitor(s) did not appear ready to present."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The competitor(s) were prepared, but the presentation lacked a logical flow."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presentation followed a coherent and logical order."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presentation progressed logically, and all statements were clearly and effectively organized."
+        }
+      ]
+    },
+    {
+      "id": "consistently_displays_confidence_poised_",
+      "name": "Consistently displays confidence, poised body language, engaging eye contact, and effective voice projection.",
+      "description": "This assesses the presenter's self-assurance, composed body language, engaging eye contact, and effective vocal delivery throughout the presentation.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presenter did not exhibit any of the specified abilities."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The presenter showed one or two of the listed abilities (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presenter demonstrated three of the listed abilities (confidence, body language, eye contact, or voice projection)."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presenter exhibited all abilities, thereby improving the entire presentation."
+        }
+      ]
+    },
+    {
+      "id": "demonstrates_the_ability_to_effectively_",
+      "name": "Demonstrates the ability to effectively answer questions",
+      "description": "This evaluates the presenter's capability to provide accurate, clear, and thoughtful responses to inquiries.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Demonstrated",
+          "points": 0,
+          "descriptor": "The presenter does not answer questions, or their responses are completely irrelevant to the topic."
+        },
+        {
+          "label": "Below Expectations",
+          "points": 6,
+          "descriptor": "The presenter gives incomplete or unclear answers, indicating a limited grasp of the subject."
+        },
+        {
+          "label": "Meets Expectations",
+          "points": 8,
+          "descriptor": "The presenter responds accurately and clearly to most questions, showing sufficient understanding."
+        },
+        {
+          "label": "Exceeds Expectations",
+          "points": 10,
+          "descriptor": "The presenter answers confidently with clear, accurate, and insightful responses that enhance the overall presentation."
+        }
+      ]
+    },
+    {
+      "id": "adherence_to_competitive_events_guidelin",
+      "name": "Adherence to Competitive Events Guidelines",
+      "description": "Participants must comply with all rules concerning technology devices, presentation subject, professional conduct, material handling, QR codes, audio, food/animals, and templates.",
+      "max_points": 10,
+      "levels": [
+        {
+          "label": "Not Follow Guidelines",
+          "points": 0,
+          "descriptor": "The competitor(s) failed to adhere to the established guidelines."
+        },
+        {
+          "label": "Execution Aligned with Guidelines",
+          "points": 10,
+          "descriptor": "Only permitted technology devices were used (within size specifications; maximum of three). The presentation was relevant to the assigned topic. Professional boundaries were maintained during setup (no interaction with judges). No materials were left behind after the presentation. Links or QR codes were displayed appropriately (not clicked or scanned by judges). Audio was presented without external speakers (preliminary round). The use of food or live animals was avoided. Templates were not used."
+        }
+      ]
+    }
+  ]
+}
