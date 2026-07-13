@@ -67,6 +67,15 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
       const res = await fetch('/api/grade', { method: 'POST', body });
       if (!res.ok || !res.body) {
+        // 413 comes from the hosting platform, not our code, so there's no JSON body to
+        // read — say something useful rather than "something broke".
+        if (res.status === 413) {
+          setError(
+            'That recording is too large to upload. Keep a practice run under ~18 minutes, or split it and grade the halves separately.',
+          );
+          setPhase('failed');
+          return;
+        }
         const j = await res.json().catch(() => null);
         setError(j?.error?.message ?? 'Something broke on our end. It’s logged and we’re on it.');
         setPhase('failed');
@@ -119,10 +128,13 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         const mp3 = await extractAudio(file, (p) => setPrepRatio(p.ratio));
         await grade(mp3);
       } catch (err) {
+        const msg = err instanceof Error ? err.message.split('\n')[0] : '';
+        // extractAudio throws a written-for-humans message when the run is too long.
+        // Don't bury it under a generic "couldn't process that file".
         setError(
-          `We couldn't process that file. Try re-exporting it as an mp4 or mp3. (${
-            err instanceof Error ? err.message.split('\n')[0] : 'unknown error'
-          })`,
+          msg.startsWith('That run is')
+            ? msg
+            : `We couldn't process that file. Try re-exporting it as an mp4 or mp3.${msg ? ` (${msg})` : ''}`,
         );
         setPhase('failed');
       }

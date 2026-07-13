@@ -90,6 +90,22 @@ export async function POST(req: Request) {
 
     return Response.json({ ok: true });
   } catch (err) {
+    // A deployed serverless filesystem is read-only. Confirming a rubric is a maintainer
+    // task done against the repo (`npm run confirm-rubrics`), not something a visitor does
+    // in production — so say that rather than returning an opaque 500.
+    const code = (err as NodeJS.ErrnoException)?.code;
+    if (code === 'EROFS' || code === 'EACCES' || code === 'EPERM') {
+      return Response.json(
+        {
+          error: {
+            code: 'read_only',
+            message:
+              'Rubrics can’t be confirmed on the deployed site — its filesystem is read-only. Confirm it locally with `npm run confirm-rubrics -- --yes` and redeploy.',
+          },
+        },
+        { status: 409 },
+      );
+    }
     console.error('[api/rubrics] confirm failed', err);
     return Response.json(
       { error: { code: 'server', message: "Something broke on our end. It's logged." } },

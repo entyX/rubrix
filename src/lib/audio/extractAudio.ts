@@ -38,8 +38,28 @@ export interface ExtractProgress {
 }
 
 /**
- * Any audio/video file -> mono 64kbps mp3, entirely in the browser.
- * The exact flags from plan.md §9.1: -vn -ac 1 -ar 16000 -b:a 64k
+ * Vercel caps a serverless function's REQUEST BODY at 4.5MB. The mp3 is posted straight
+ * into /api/grade, so that cap is a hard ceiling on how long a run can be — and it does
+ * not exist locally, which is exactly why it only showed up in production (as an opaque
+ * 413). We stay under it by a margin and fail with a sentence a student can act on.
+ */
+export const MAX_UPLOAD_BYTES = 4.2 * 1024 * 1024;
+
+/**
+ * Bitrate. plan.md §9.1 said 64k; at that rate 4.5MB runs out at ~9.5 minutes, which is
+ * less than half the 20-minute limit the product promises.
+ *
+ * 32kbps mono at 16kHz is well above what speech recognition needs (Whisper's own
+ * reference pipeline resamples to 16kHz mono anyway), and it doubles the headroom to
+ * ~19 minutes. The transcript is what the entire grade is built on, so this is the one
+ * knob worth being conservative about — do not drop it further without checking that
+ * transcription accuracy holds.
+ */
+const AUDIO_BITRATE = '32k';
+
+/**
+ * Any audio/video file -> mono mp3, entirely in the browser.
+ * Flags per plan.md §9.1: -vn -ac 1 -ar 16000 (bitrate reduced, see above).
  */
 export async function extractAudio(
   file: File | Blob,
@@ -67,7 +87,7 @@ export async function extractAudio(
       '-vn',            // drop any video stream — it must never leave this machine
       '-ac', '1',       // mono
       '-ar', '16000',   // 16 kHz is plenty for speech
-      '-b:a', '64k',
+      '-b:a', AUDIO_BITRATE,
       outName,
     ]);
 
@@ -75,7 +95,19 @@ export async function extractAudio(
     onProgress?.({ ratio: 1, stage: 'done' });
 
     const bytes = data instanceof Uint8Array ? data : new TextEncoder().encode(String(data));
-    return new Blob([bytes as unknown as BlobPart], { type: 'audio/mpeg' });
+    const mp3 = new Blob([bytes as unknown as BlobPart], { type: 'audio/mpeg' });
+
+    // Catch it here, with a sentence that means something, rather than letting the upload
+    // die on the platform's 4.5MB limit and surface as a bare "413".
+    if (mp3.size > MAX_UPLOAD_BYTES) {
+      const minutes = Math.round((mp3.size / (4 * 1024)) / 60); // 32kbps mono ≈ 4KB/s
+      throw new Error(
+        `That run is about ${minutes} minutes, which is too long to upload in one piece. ` +
+          `Keep a practice run under ~18 minutes, or split it and grade the halves separately.`,
+      );
+    }
+
+    return mp3;
   } finally {
     ff.off('progress', handler);
     // Don't leave the student's video sitting in the wasm filesystem.

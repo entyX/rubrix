@@ -3,7 +3,7 @@
     "status": "confirmed",
     "warnings": [
       "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored.",
-      "Point totals disagree: the criteria add up to 220, but the sheet states 230. One of them is wrong — check which."
+      "Sheet states 230; the scored criteria total 220. The 10-pt gap is the Adherence to Competitive Events Guidelines row (business attire etc.), which is judged in the room and is not AI-assessable. Deliberately excluded — total set to 220."
     ],
     "parsed_at": "2026-07-13T07:29:27.197Z",
     "prompt_version": "r-1.0.0",
@@ -16,7 +16,7 @@
     "paraphrase_note": "Descriptions and level descriptors are restated in our own words (plan.md §20). Criterion names and every point value are exactly as published on the official rating sheet."
   },
   "title": "Digital Video Production",
-  "total_points": 230,
+  "total_points": 220,
   "criteria": [
     {
       "id": "video_content_fully_address_concept_topi",

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-13T18:58:41.534Z",
+  "generated_at": "2026-07-13T19:18:23.173Z",
   "events": [
     {
       "slug": "banking-and-financial-systems",
@@ -202,7 +202,7 @@
       "rubric_status": "confirmed",
       "rubric_warnings": [
         "Dropped 2 non-scored row(s) worth 0 points (Dress Code Penalty, Late Arrival Penalty). Check they really aren't scored.",
-        "Point totals disagree: the criteria add up to 220, but the sheet states 230. One of them is wrong — check which."
+        "Sheet states 230; the scored criteria total 220. The 10-pt gap is the Adherence to Competitive Events Guidelines row (business attire etc.), which is judged in the room and is not AI-assessable. Deliberately excluded — total set to 220."
       ],
       "criteria_count": 18,
       "total_points": 220,
