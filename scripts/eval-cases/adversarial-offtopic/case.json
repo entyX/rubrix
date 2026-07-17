@@ -1,0 +1,17 @@
+{
+  "name": "adversarial-offtopic",
+  "event": "Sales Presentation",
+  "org": "fbla",
+  "rubricRef": "fbla/presentation/sales-presentation.rubric.json",
+  "durationS": 54,
+  "timeLimitS": null,
+  "inputs": { "transcript": "transcript.json" },
+  "expected": {
+    "score_min_pct": 0,
+    "score_max_pct": 40,
+    "tier": "needs_work",
+    "must_mention": [],
+    "notes": "§10 ADVERSARIAL CASE. A speech about school cafeteria food waste, graded against the SALES PRESENTATION rubric. There is no greeting, no product, no customer, no objections, no close — so the grade must be very low and, critically, must invent NOTHING (zero hallucinated quotes). This one is machine-checkable without human labels: if it scores high, or fabricates a 'close', the grader is broken."
+  },
+  "human": null
+}

@@ -1,0 +1,105 @@
+{
+  "full_text": "Hi there, welcome in. My name is Ronit. Are you shopping for anything in particular today? Oh, running shoes, great. Um, can I ask what kind of running you do? Mostly road or trails? Okay, road running, three times a week. And how do your current shoes feel after a long run? Right, so you're getting some heel pain. That usually means the cushioning is worn out. Let me show you the velocity trainer. It has a carbon fiber plate and 8 mm of drop, which is really good for heel strikers like yourself. I know the price is a little higher at $140. But most runners replace cheap shoes twice as often, so it actually costs less per mile. We also have moisture wicking socks that pair really well with these. They prevent blisters on longer runs. So, should I go ahead and ring these up for you today? Great. And I'll add you to our runner's club. You get free gate analysis every six months. So we can make sure the next pair fits you even better. Thanks so much.",
+  "segments": [
+    {
+      "start": 0.23,
+      "end": 1.4,
+      "text": "Hi there, welcome in."
+    },
+    {
+      "start": 2.1,
+      "end": 3.1,
+      "text": "My name is Ronit."
+    },
+    {
+      "start": 3.9,
+      "end": 6,
+      "text": "Are you shopping for anything in particular today?"
+    },
+    {
+      "start": 6.6,
+      "end": 8.6,
+      "text": "Oh, running shoes, great."
+    },
+    {
+      "start": 9.3,
+      "end": 11.9,
+      "text": "Um, can I ask what kind of running you do?"
+    },
+    {
+      "start": 12.5,
+      "end": 14.4,
+      "text": "Mostly road or trails."
+    },
+    {
+      "start": 15.2,
+      "end": 17.8,
+      "text": "Okay, road running, three times a week."
+    },
+    {
+      "start": 18.4,
+      "end": 20.9,
+      "text": "And how do your current shoes feel after a long run?"
+    },
+    {
+      "start": 21.6,
+      "end": 23.7,
+      "text": "Right, so you're getting some heel pain."
+    },
+    {
+      "start": 24.3,
+      "end": 26.6,
+      "text": "That usually means the cushioning is worn out."
+    },
+    {
+      "start": 27.3,
+      "end": 29.1,
+      "text": "Let me show you the velocity trainer."
+    },
+    {
+      "start": 29.7,
+      "end": 35.5,
+      "text": "It has a carbon fiber plate and 8 mm of drop, which is really good for heel strikers like yourself."
+    },
+    {
+      "start": 36.1,
+      "end": 39.5,
+      "text": "I know the price is a little higher at $140."
+    },
+    {
+      "start": 40.3,
+      "end": 45.8,
+      "text": "But most runners replace cheap shoes twice as often, so it actually costs less per mile."
+    },
+    {
+      "start": 46.5,
+      "end": 51.6,
+      "text": "We also have moisture wicking socks that pair really well with these. They prevent blisters on longer runs."
+    },
+    {
+      "start": 52.5,
+      "end": 55.3,
+      "text": "So, should I go ahead and ring these up for you today?"
+    },
+    {
+      "start": 56,
+      "end": 56.5,
+      "text": "Great."
+    },
+    {
+      "start": 57.2,
+      "end": 66.87664399092971,
+      "text": "And I'll add you to our runner's club, you get free gate analysis every six months."
+    },
+    {
+      "start": 66.87664399092971,
+      "end": 66.87664399092971,
+      "text": "So we can make sure the next pair fits you even better."
+    },
+    {
+      "start": 66.87664399092971,
+      "end": 66.87664399092971,
+      "text": "Thanks so much."
+    }
+  ]
+}

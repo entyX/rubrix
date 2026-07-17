@@ -1,0 +1,17 @@
+{
+  "name": "public-speaking-baseline",
+  "event": "Public Speaking",
+  "org": "fbla",
+  "rubricRef": "fbla/presentation/public-speaking.rubric.json",
+  "durationS": 54,
+  "timeLimitS": null,
+  "inputs": { "transcript": "transcript.json" },
+  "expected": {
+    "score_min_pct": 45,
+    "score_max_pct": 85,
+    "tier": "competitive_state",
+    "must_mention": ["food waste", "41"],
+    "notes": "An on-topic public speaking run about cafeteria food waste, with a clear problem/research/solution structure and a real statistic. Delivery/eye-contact criteria are audio-only so they'll be not-judged, and Q&A too — the % is on the assessable subset. BAND IS AN AUTHOR ESTIMATE, NOT HUMAN CONSENSUS — correlation gate stays PENDING until scored by a human."
+  },
+  "human": null
+}

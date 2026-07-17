@@ -1,0 +1,17 @@
+{
+  "name": "weak-ramble",
+  "event": "Public Speaking",
+  "org": "fbla",
+  "rubricRef": "fbla/presentation/public-speaking.rubric.json",
+  "durationS": 33,
+  "timeLimitS": null,
+  "inputs": { "transcript": "transcript.json" },
+  "expected": {
+    "score_min_pct": 0,
+    "score_max_pct": 45,
+    "tier": "needs_work",
+    "must_mention": [],
+    "notes": "§10 DELIBERATELY-WEAK CASE. A short, unstructured, filler-heavy ramble with no thesis, no evidence, no real content. Must land in needs_work with zero hallucinated quotes. Machine-checkable: if the grader is generous here, that's the exact failure mode (§1: generosity-biased scores are worse than none) the harness exists to catch."
+  },
+  "human": null
+}

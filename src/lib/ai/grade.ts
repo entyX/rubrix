@@ -137,8 +137,14 @@ export async function gradeSubmission(args: {
   submission: Submission;
   event: EventContext;
   runId: string;
+  /**
+   * Decoding seed. Fixed at 7 in production for reproducibility (§9.7). The eval harness
+   * passes different seeds across its 3 runs to measure genuine run-to-run spread —
+   * without varying it, the runs are byte-identical and the consistency check is a lie.
+   */
+  seed?: number;
 }): Promise<GradeResult> {
-  const { rubric, submission, event, runId } = args;
+  const { rubric, submission, event, runId, seed = 7 } = args;
 
   if (!submission.presentation && !submission.site) {
     throw new Error('Nothing to grade: provide a website, a recording, or both.');
@@ -228,8 +234,12 @@ export async function gradeSubmission(args: {
       user: correction === '' ? user : `${user}\n\n${correction}`,
       responseSchema: GRADING_RESPONSE_SCHEMA,
       maxOutputTokens: MAX_OUTPUT_TOKENS.grade,
-      temperature: 0.2, // plan.md §9.5 — deterministic, evidence-based, not creative
-      seed: 7,
+      // plan.md §9.5 allows 0–0.2. The eval harness measured run-to-run spread at 0.2 at
+      // ~20pts (same input, different score) and at 0 at ~4pts — a 4–5× reduction. A grader
+      // must be reproducible, so we run at 0. Residual spread is closed by §9.7's 3-run
+      // median (Phase 1.5). See docs/eval-results and the changelog.
+      temperature: 0,
+      seed,
       thinkingBudget: THINKING_BUDGET.standard,
       images,
       promptVersion: PROMPT_VERSION_GRADING,

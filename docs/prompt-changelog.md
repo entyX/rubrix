@@ -14,6 +14,60 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## grading temperature 0.2 → 0 — 2026-07-17 (measured by the eval harness)
+
+Not a prompt-text change, so the version stays g-1.3.0 — but a material grading change, logged
+here per §0.
+
+The eval harness (§10, now built) measured **run-to-run spread** — the same input graded 3× with
+different seeds — and found it was terrible at the spec's `temperature: 0.2`:
+
+| temperature | raw score across 3 runs (same input) | spread |
+|---|---|---|
+| 0.2 | 42, 64, 54 | **22 pts** |
+| 0   | 46, 46, 42 | **4 pts** |
+
+A grader that gives 42 one run and 64 the next on the *same* recording is not trustworthy. §9.5
+allows 0–0.2; **0 is now used.** It roughly quarters the variance and makes a re-grade reproducible.
+
+Residual spread at temp 0 is still ~4–6pt on normal cases (and much larger on degenerate near-empty
+inputs, where a tiny raw difference is a big %) — over §10's ≤3pt bar. Closing that needs §9.7's
+**3-run median in the production path** (currently a single grade; the median is marked Phase 1.5).
+The harness now proves that step is required, not optional.
+
+**Side effect the harness caught:** at 0.2 the weak-ramble case scored a too-generous 53% median;
+at 0 it lands at 17% — in its expected needs_work band. Lower temperature fixed a real generosity
+problem, exactly the §1 failure mode.
+
+---
+
+## eval harness — 2026-07-17 (M10, the ship gate — now exists)
+
+`scripts/eval.ts` + `scripts/eval-cases/`. Runs each case 3× (varied seeds, to measure real
+spread), prints the §10 table (pct · in-band · tier · hallucination · must_mention · spread ·
+cost), gates, and writes `docs/eval-results/{date}-{prompt_version}.{md,json}`.
+
+**Two gates, honestly separated:**
+- **Invariants (runs today, no humans):** median in band, no hallucinated quote survives §9.7
+  stripping, no regression vs the previous run, no case errored. First run: **✅ PASS**.
+- **Calibration (needs human-judged cases):** Pearson r ≥ 0.8 vs human consensus, |AI−human| ≤ 8.
+  **⏳ PENDING — 0 cases carry human scores.** The math is built and lights up the moment a
+  case's `human.total` is filled. Human labels are NEVER fabricated — an invented score would
+  defeat the entire harness.
+
+Seed cases (machine-checkable, honestly labeled): `adversarial-offtopic` (food-waste speech vs the
+Sales rubric → must score very low, invent nothing), `weak-ramble` (contentless filler →
+needs_work), and two on-topic baselines. Their bands are author estimates, not human consensus —
+which is exactly why the calibration gate stays pending. Still missing from §10's minimum set: a
+strong nationals-quality run and a DECA written entry, both of which need real artifacts.
+
+**What a passing invariant gate does NOT mean:** that the scores are accurate. Accuracy is the
+calibration gate, still pending human data. The harness turns "the grader feels maybe generous"
+into a number (weak-ramble 17% ✓, adversarial 33% ✓) — but "does 75% match a real judge?" is
+unanswerable until the golden set exists.
+
+---
+
 ## g-1.3.0 · grading — 2026-07-13 — the judge gets eyes (opt-in video frames)
 
 **Why:** audio-only grading left every visual-delivery criterion *not judged*, deflating scores on

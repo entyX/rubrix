@@ -135,6 +135,37 @@ a one-line change in `grade.ts`.
 
 ---
 
+## D-016 — The eval harness exists, and it splits "works" from "is accurate"
+
+**Date:** 2026-07-17 · **By:** Ronit ("add the eval harness") + agent · **Implements:** plan.md §10
+
+M10 is built (`scripts/eval.ts`). The one honest constraint drove its whole design: **§10's
+headline criterion (Pearson r ≥ 0.8 vs human judges) is uncomputable without real human-scored
+recordings, and that data does not exist.** Fabricating human scores to make the gate green would
+be the single worst thing this project could do. So the harness has two gates:
+
+1. **Invariant gate — runs today.** Spread, hallucination-survival, in-band, no-regression — all
+   machine-checkable. This makes the harness immediately useful as a *regression suite*: change a
+   prompt, model, or post-validation and it tells you if you broke the mechanics.
+2. **Calibration gate — pending human data.** r ≥ 0.8 and |AI−human| ≤ 8 are fully implemented and
+   sit dormant until a case's `human.total` is filled by a real judge.
+
+**It earned its keep on the first run:** it measured that grading at `temperature: 0.2` swung 22
+points on identical input, drove the fix to `temperature: 0` (~4× tighter, and it corrected a real
+generosity bug), and proved that §9.7's 3-run-median *production* path (currently deferred to Phase
+1.5) is actually required to hit the ≤3pt spread bar.
+
+**The load-bearing rule, written into `scripts/eval-cases/case.json` and the runner:** a case's
+`human` field is `null` until a human scores it. Never a guess. The gate reports "PENDING", not a
+passing zero, when labels are absent.
+
+**Still the top open item.** A passing invariant gate means the grader is *stable and honest*, not
+that it is *accurate*. Accuracy needs the golden set: §10's 60 videos × 2 judges (~$2–3K), "the
+highest-ROI spend in the plan." That is a data-collection task for a human, and it is now the one
+thing between this and a defensible public launch.
+
+---
+
 ## D-015 — The judge can SEE the run (opt-in video frames). Amends a "non-negotiable".
 
 **Date:** 2026-07-13 · **By:** Ronit (explicit) · **Amends:** plan.md §20 + CLAUDE.md privacy rule

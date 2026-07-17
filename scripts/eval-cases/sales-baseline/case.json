@@ -1,0 +1,17 @@
+{
+  "name": "sales-baseline",
+  "event": "Sales Presentation",
+  "org": "fbla",
+  "rubricRef": "fbla/presentation/sales-presentation.rubric.json",
+  "durationS": 67,
+  "timeLimitS": null,
+  "inputs": { "transcript": "transcript.json" },
+  "expected": {
+    "score_min_pct": 45,
+    "score_max_pct": 85,
+    "tier": "competitive_state",
+    "must_mention": ["objection", "close"],
+    "notes": "An on-topic running-shoe sales pitch that hits greeting, needs, product, one objection, suggestion sell, and close. A first-run band (55-85% is §9.5's anchor). BAND IS AN AUTHOR ESTIMATE, NOT HUMAN CONSENSUS — the correlation gate stays PENDING until a human scores this. tier is the loose expectation; the pass check is on the % band + spread + zero hallucination."
+  },
+  "human": null
+}

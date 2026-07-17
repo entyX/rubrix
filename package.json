@@ -16,7 +16,8 @@
     "catalog": "tsx scripts/build-catalog.mts",
     "parse-rubrics": "tsx --env-file=.env.local scripts/parse-rubrics.mts",
     "confirm-rubrics": "tsx scripts/confirm-rubrics.mts",
-    "paraphrase-rubrics": "tsx --env-file=.env.local scripts/paraphrase-rubrics.mts"
+    "paraphrase-rubrics": "tsx --env-file=.env.local scripts/paraphrase-rubrics.mts",
+    "eval": "tsx --env-file=.env.local scripts/eval.ts"
   },
   "dependencies": {
     "@ffmpeg/core": "^0.12.10",

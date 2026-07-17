@@ -1,0 +1,12 @@
+{
+  "full_text": "Um, so, hi. Yeah so today I'm gonna talk about, um, like, business and stuff. So business is really important, you know? Um. It's, like, a big part of the economy or whatever. So yeah. Companies do things and, um, make money I guess. That's kind of the main idea. Uh. I think, like, being a leader is good. You should be a good leader. Um. And communication is important too, probably. So. Yeah. I don't really have a lot more to say. Um. Thanks I guess. That's it.",
+  "segments": [
+    { "start": 0.0, "end": 3.5, "text": "Um, so, hi. Yeah so today I'm gonna talk about, um, like, business and stuff." },
+    { "start": 3.5, "end": 8.0, "text": "So business is really important, you know? Um." },
+    { "start": 8.0, "end": 13.0, "text": "It's, like, a big part of the economy or whatever. So yeah." },
+    { "start": 13.0, "end": 18.0, "text": "Companies do things and, um, make money I guess. That's kind of the main idea. Uh." },
+    { "start": 18.0, "end": 23.0, "text": "I think, like, being a leader is good. You should be a good leader. Um." },
+    { "start": 23.0, "end": 28.0, "text": "And communication is important too, probably. So. Yeah." },
+    { "start": 28.0, "end": 33.0, "text": "I don't really have a lot more to say. Um. Thanks I guess. That's it." }
+  ]
+}

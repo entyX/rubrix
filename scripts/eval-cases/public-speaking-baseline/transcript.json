@@ -1,0 +1,75 @@
+{
+  "full_text": "Good morning, judges. Um, so today I want to talk about food waste in our school cafeteria. Every year, American schools throw away about $500 million worth of food. That is, like, a really big number. Our team surveyed 120 students at North Creek High School. We found that 60% of students throw away at least one item from their lunch tray every single day. The main reason they gave was that they did not choose the food themselves. So our solution is a simple pre-order app students pick their meal the night before. The cafeteria only makes what students actually ordered. We piloted this for two weeks with, uh, 30 students. Waste dropped by 41%. The cost to build the app was under $200 because we used a free platform. Um, in conclusion, food waste is a solvable problem. Thank you for your time.",
+  "segments": [
+    {
+      "start": 0.29,
+      "end": 1.19,
+      "text": "Good morning, judges."
+    },
+    {
+      "start": 1.76,
+      "end": 5.46,
+      "text": "Um, so today I want to talk about food waste in our school cafeteria."
+    },
+    {
+      "start": 6.32,
+      "end": 11.22,
+      "text": "Every year, American schools throw away about $500 million worth of food."
+    },
+    {
+      "start": 11.8,
+      "end": 14.4,
+      "text": "That is, like, a really big number."
+    },
+    {
+      "start": 15.2,
+      "end": 18.7,
+      "text": "Our team surveyed 120 students at North Creek High School."
+    },
+    {
+      "start": 19.5,
+      "end": 24.4,
+      "text": "We found that 60% of students throw away at least one item from their lunch tray every single day."
+    },
+    {
+      "start": 25,
+      "end": 28,
+      "text": "The main reason they gave was that they did not choose the food themselves."
+    },
+    {
+      "start": 28.9,
+      "end": 32.6,
+      "text": "So our solution is a simple pre-order app students pick their meal the night before."
+    },
+    {
+      "start": 33.4,
+      "end": 36,
+      "text": "The cafeteria only makes what students actually ordered."
+    },
+    {
+      "start": 36.7,
+      "end": 40,
+      "text": "We piloted this for two weeks with, uh, 30 students."
+    },
+    {
+      "start": 40.8,
+      "end": 42.6,
+      "text": "Waste dropped by 41%."
+    },
+    {
+      "start": 43.3,
+      "end": 47.5,
+      "text": "The cost to build the app was under $200 because we used a free platform."
+    },
+    {
+      "start": 48.2,
+      "end": 51.3,
+      "text": "Um, in conclusion, food waste is a solvable problem."
+    },
+    {
+      "start": 52,
+      "end": 53.2,
+      "text": "Thank you for your time."
+    }
+  ]
+}
