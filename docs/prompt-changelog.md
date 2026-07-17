@@ -14,6 +14,34 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.3.0 · grading — 2026-07-13 — the judge gets eyes (opt-in video frames)
+
+**Why:** audio-only grading left every visual-delivery criterion *not judged*, deflating scores on
+presentation events. Ronit asked for visual grading; DECISIONS D-015 records the privacy decision.
+
+**Diff from g-1.2.0** — rule 5 (modality honesty) gained a video-frames branch:
+
+> VIDEO FRAMES: if still frames from the presentation are attached, then criteria about visual
+> delivery — posture, body language, eye contact, gestures, facial expression, appearance/attire,
+> and any visual aids held up — ARE assessable. Judge them from the frames at confidence "medium"
+> (stills, not motion — you see a moment, not movement). Put observations in "justification"; cite
+> a frame with an evidence item of source "visual". Judge only what the frames actually show — do
+> not infer eye contact you cannot see.
+
+The not-assessable rule is unchanged when there are **no** frames: visual criteria stay *not
+judged*, never zeroed.
+
+**Mechanics:** frames are sampled in the browser (video file never uploaded), sent as image parts
+exactly like the website screenshots already are. `source: "visual"` evidence skips the transcript
+hallucination check (unit-tested). Confidence pinned to medium so the report stays honest that
+these are stills.
+
+**Eval:** none. M10 still not built. Whether frame-based visual scoring is *accurate* — vs the
+model over-reading a single still — is exactly the kind of thing the eval harness must measure, and
+is now a third reason it's the top priority.
+
+---
+
 ## g-1.2.0 · grading — 2026-07-13 — **closes the `assessable` instability**
 
 **Why:** the bug below. The model flip-flopped on whether a question-answering criterion was

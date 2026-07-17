@@ -237,6 +237,23 @@ describe('§9.5 rule 10 — tier boundaries', () => {
   });
 });
 
+describe('visual evidence (video frames)', () => {
+  it('keeps source:"visual" evidence without grounding it against the transcript', () => {
+    const r = hostileResult();
+    // A frame observation that appears nowhere in the transcript. Under the transcript
+    // check it would be stripped as a hallucination; tagged "visual", it must survive.
+    r.criteria[0].evidence = [
+      { quote: 'The presenter stood upright and looked at the camera.', source: 'visual' },
+    ];
+    const { result, report } = run(r);
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence).toHaveLength(1);
+    expect(opening.evidence[0].source).toBe('visual');
+    // The genuinely fabricated transcript quote on the other criterion is still stripped.
+    expect(report.hallucinated_quotes_stripped).toBe(1);
+  });
+});
+
 describe('not-assessable criteria (prejudged submissions)', () => {
   /**
    * The real case: an FBLA website entry judged against a sheet that ALSO scores live

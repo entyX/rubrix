@@ -81,9 +81,10 @@ export const GradingResultJSON = z.object({
         z.object({
           quote: z.string(),
           timestamp_start: z.number().optional(),
-          // Set by post-validation, not the model: document quotes skip the
-          // transcript hallucination check (plan.md §9.7).
-          source: z.enum(['transcript', 'document']).optional(),
+          // 'transcript' quotes are checked against the transcript (§9.7 hallucination
+          // strip). 'document' (site/report) and 'visual' (an observation of a video
+          // frame) are not text quotes, so they skip that check.
+          source: z.enum(['transcript', 'document', 'visual']).optional(),
         }),
       ),
       improvements: z.array(z.string()).min(2).max(4),
@@ -252,11 +253,18 @@ export const GRADING_RESPONSE_SCHEMA = {
               properties: {
                 quote: {
                   type: 'string',
-                  description: 'VERBATIM words from the submission. Never paraphrase.',
+                  description:
+                    'For source "transcript"/"document": VERBATIM words from the submission, never paraphrased. For source "visual": a short description of what a video frame shows.',
                 },
                 timestamp_start: {
                   type: 'number',
-                  description: 'Transcript segment start time in seconds.',
+                  description: 'Transcript segment start time in seconds (spoken evidence only).',
+                },
+                source: {
+                  type: 'string',
+                  enum: ['transcript', 'document', 'visual'],
+                  description:
+                    'Where this evidence came from. Use "visual" for anything you observed in the attached video frames.',
                 },
               },
               required: ['quote'],

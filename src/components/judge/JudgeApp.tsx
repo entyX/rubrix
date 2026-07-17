@@ -34,11 +34,16 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   const [recording, setRecording] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [camOn, setCamOn] = useState(true);
+  // Opt-in: let the judge SEE the run (DECISIONS D-015). Default OFF — §20's default is private.
+  const [seeVideo, setSeeVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Frames from THIS run, kept in memory (as blobs) so the Q&A re-grade can resend them.
+  // Never persisted, never written anywhere — discarded when the run is reset.
+  const framesRef = useRef<Array<{ blob: Blob; atSeconds: number }>>([]);
 
   // Only a HUMAN-CONFIRMED rubric may grade anyone (plan.md F3).
   const parsed = event.rubric !== null;
@@ -54,9 +59,10 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   useEffect(() => stopTracks, [stopTracks]);
 
   const grade = useCallback(
-    async (mp3: Blob) => {
+    async (mp3: Blob, frames: Array<{ blob: Blob; atSeconds: number }>) => {
       setPhase('grading');
       setStage('transcribing');
+      framesRef.current = frames; // held so the Q&A re-grade can resend them
 
       const body = new FormData();
       body.append('audio', new File([mp3], 'run.mp3', { type: 'audio/mpeg' }));
@@ -64,6 +70,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       body.append('eventName', event.name);
       body.append('org', event.org);
       if (event.time_limit_s) body.append('timeLimitS', String(event.time_limit_s));
+      // Key by index so two frames rounding to the same second don't collide; carry the real
+      // timestamp in the filename so the server can caption it.
+      frames.forEach((f, i) => body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`));
 
       const res = await fetch('/api/grade', { method: 'POST', body });
       if (!res.ok || !res.body) {
@@ -113,24 +122,37 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
     [event],
   );
 
-  /** Any file -> mp3, in the browser. The video never leaves this machine. */
+  /**
+   * Any file -> mp3 (always), + still frames (only if the student opted in). The video FILE
+   * never leaves the device either way — audio and frames are extracted here in the browser.
+   */
   const handleFile = useCallback(
-    async (file: File) => {
+    async (file: File, withVideo: boolean) => {
       setError('');
       setPhase('preparing');
+      const hasPicture = file.type.startsWith('video/') || file.type === '';
       setPrepLabel(
-        file.type.startsWith('video/')
-          ? 'Pulling the audio out of your video, right here on your device'
-          : 'Preparing your audio',
+        withVideo && hasPicture
+          ? 'Reading your video on this device — pulling the audio and a few still frames'
+          : file.type.startsWith('video/')
+            ? 'Pulling the audio out of your video, right here on your device'
+            : 'Preparing your audio',
       );
       try {
-        const { extractAudio } = await import('@/lib/audio/extractAudio'); // §11.7: lazy, judge only
+        const { extractAudio, MAX_UPLOAD_BYTES } = await import('@/lib/audio/extractAudio'); // §11.7 lazy
         const mp3 = await extractAudio(file, (p) => setPrepRatio(p.ratio));
-        await grade(mp3);
+
+        let frames: Array<{ blob: Blob; atSeconds: number }> = [];
+        if (withVideo && hasPicture) {
+          const { extractFrames, trimFramesToBudget } = await import('@/lib/video/extractFrames');
+          const raw = await extractFrames(file);
+          // Keep the whole upload under the platform body cap; audio is the big part.
+          frames = trimFramesToBudget(raw, mp3.size, MAX_UPLOAD_BYTES);
+        }
+
+        await grade(mp3, frames);
       } catch (err) {
         const msg = err instanceof Error ? err.message.split('\n')[0] : '';
-        // extractAudio throws a written-for-humans message when the run is too long.
-        // Don't bury it under a generic "couldn't process that file".
         setError(
           msg.startsWith('That run is')
             ? msg
@@ -152,9 +174,13 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       streamRef.current = stream;
       if (videoRef.current && camOn) videoRef.current.srcObject = stream;
 
-      // THE PRIVACY LINE: the recorder is built over an AUDIO-ONLY stream. The camera
-      // feed is a mirror for the student; not one frame of it is captured.
-      const rec = new MediaRecorder(new MediaStream(stream.getAudioTracks()));
+      // THE PRIVACY LINE: by default the recorder is built over an AUDIO-ONLY stream — the
+      // camera is a mirror for the student and not one frame is captured. ONLY if the student
+      // opted in (seeVideo) do we record the video track, and even then the recording stays
+      // on this device: we sample a few stills from it and upload only those (DECISIONS D-015).
+      const recordVideo = seeVideo && camOn && stream.getVideoTracks().length > 0;
+      const recStream = recordVideo ? stream : new MediaStream(stream.getAudioTracks());
+      const rec = new MediaRecorder(recStream);
       chunksRef.current = [];
       rec.ondataavailable = (e) => {
         if (e.data.size > 0) chunksRef.current.push(e.data);
@@ -163,7 +189,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         const blob = new Blob(chunksRef.current, { type: rec.mimeType });
         stopTracks();
         setRecording(false);
-        void handleFile(new File([blob], 'take.webm', { type: rec.mimeType }));
+        void handleFile(new File([blob], 'take.webm', { type: rec.mimeType }), recordVideo);
       };
       recorderRef.current = rec;
       rec.start();
@@ -174,7 +200,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
     } catch {
       setError('We couldn’t reach your microphone. Check your browser permissions and try again.');
     }
-  }, [camOn, handleFile, stopTracks]);
+  }, [camOn, seeVideo, handleFile, stopTracks]);
 
   const stopRecording = useCallback(() => {
     recorderRef.current?.stop();
@@ -209,6 +235,10 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       answers.forEach((a, i) => {
         if (a.clip) body.append(`audio_${i}`, new File([a.clip], `a${i}.webm`, { type: a.clip.type }));
       });
+      // Resend the video frames so visual criteria stay scored through the re-grade.
+      framesRef.current.forEach((f, i) =>
+        body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`),
+      );
 
       const res = await fetch('/api/qa-grade', { method: 'POST', body });
       if (!res.ok || !res.body) {
@@ -399,6 +429,32 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         </div>
       ) : (
         <>
+          {/* video-grading consent (DECISIONS D-015) — opt-in, default off */}
+          <section className="nb bg-[var(--violet)] p-5">
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={seeVideo}
+                disabled={recording}
+                onChange={(e) => setSeeVideo(e.target.checked)}
+                className="mt-1 h-5 w-5 shrink-0 accent-black"
+              />
+              <span>
+                <span className="display text-[15px] uppercase">Let the judge see the run</span>
+                <span className="mt-1 block text-[13px] font-semibold leading-relaxed">
+                  Off by default. Turn it on and the judge can score body language, eye contact,
+                  poise, and appearance instead of skipping them — so the score reflects your whole
+                  presentation.
+                </span>
+                <span className="mt-2 block text-[12px] leading-relaxed opacity-80">
+                  Even then, your <strong>video file is never uploaded or saved</strong>. A handful
+                  of still frames are taken on this device, used once to grade, and discarded. If
+                  you leave this off, only your audio is used — exactly as before.
+                </span>
+              </span>
+            </label>
+          </section>
+
           {/* record */}
           <section className="nb nb-lg bg-white p-5 sm:p-6">
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -458,8 +514,19 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             )}
 
             <p className="mt-3 text-[13px] leading-relaxed opacity-75">
-              The camera is a mirror for you — <strong>only your audio is recorded and uploaded</strong>.
-              No video ever leaves this device.
+              {seeVideo && camOn ? (
+                <>
+                  A few still frames are captured on this device to score your delivery.{' '}
+                  <strong>Your video file is never uploaded or saved</strong> — only the audio and
+                  those stills, only for this grade.
+                </>
+              ) : (
+                <>
+                  The camera is a mirror for you —{' '}
+                  <strong>only your audio is recorded and uploaded</strong>. No video ever leaves
+                  this device.
+                </>
+              )}
             </p>
           </section>
 
@@ -473,7 +540,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
                 className="sr-only"
                 onChange={(e) => {
                   const f = e.target.files?.[0];
-                  if (f) void handleFile(f);
+                  if (f) void handleFile(f, seeVideo);
                 }}
               />
               <span className="display text-[18px] uppercase">Choose a file</span>
@@ -482,7 +549,14 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
               </span>
             </label>
             <p className="mt-3 text-[13px] leading-relaxed opacity-75">
-              Pick a video and the audio is pulled out here in your browser — only that mp3 is sent.
+              {seeVideo ? (
+                <>
+                  The audio and a few still frames are pulled out here in your browser —{' '}
+                  <strong>the video file itself is never uploaded</strong>.
+                </>
+              ) : (
+                <>Pick a video and the audio is pulled out here in your browser — only that mp3 is sent.</>
+              )}
             </p>
           </section>
         </>

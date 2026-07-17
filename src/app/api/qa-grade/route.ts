@@ -50,6 +50,20 @@ export async function POST(req: Request) {
   const runId = randomUUID().slice(0, 8);
   let usage = ZERO_USAGE;
 
+  // Carry the opt-in video frames through the re-grade too — otherwise visual criteria that
+  // were scored on the first pass would flip back to "not judged" once the Q&A is added.
+  const frames: Array<{ base64: string; mimeType: string; atSeconds: number }> = [];
+  for (const [key, val] of form.entries()) {
+    if (key.startsWith('frame_') && val instanceof File) {
+      frames.push({
+        base64: Buffer.from(await val.arrayBuffer()).toString('base64'),
+        mimeType: val.type || 'image/jpeg',
+        atSeconds: Number(val.name.replace(/\.[a-z]+$/i, '')) || 0,
+      });
+    }
+  }
+  frames.sort((a, b) => a.atSeconds - b.atSeconds);
+
   try {
     const draft = JSON.parse(payloadRaw) as unknown;
 
@@ -128,6 +142,7 @@ export async function POST(req: Request) {
         const submission: Submission = {
           presentation: { transcript: payload.transcript, metrics },
           qa: payload.answers,
+          ...(frames.length ? { frames } : {}),
         };
 
         const graded = await gradeSubmission({

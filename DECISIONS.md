@@ -135,6 +135,42 @@ a one-line change in `grade.ts`.
 
 ---
 
+## D-015 — The judge can SEE the run (opt-in video frames). Amends a "non-negotiable".
+
+**Date:** 2026-07-13 · **By:** Ronit (explicit) · **Amends:** plan.md §20 + CLAUDE.md privacy rule
+
+The pipeline was audio-only by design, so every visual-delivery criterion (body language, eye
+contact, poise, appearance, visual aids) came back *not judged* — which deflated scores on
+presentation events. Ronit asked for the judge to "have eyes."
+
+**This changes a rule the spec marks non-negotiable** ("the video file never touches our
+servers"). It was put to the human as an explicit privacy decision, not assumed. The chosen shape
+keeps the *spirit* intact while relaxing the letter:
+
+- **Opt-in, default off.** §20's default stays private. Nothing visual leaves the device unless the
+  student ticks a box that says exactly what will happen.
+- **The video FILE is still never uploaded.** We sample ~9 still frames *in the browser*
+  (`src/lib/video/extractFrames.ts`, canvas — no re-mux of a minor's video), and upload only those
+  JPEGs alongside the audio.
+- **Never stored.** Frames live in the grading request and in memory for the Q&A re-grade, then
+  they're gone. No DB, no disk, no bucket. (There's no persistence layer at all yet — M2.)
+- **Honest fidelity.** Stills, not motion. Visual criteria are judged at confidence **medium**, and
+  the prompt tells the model to judge only what a frame actually shows and not to infer eye contact
+  it can't see. Frame evidence is tagged `source: "visual"` and skips the transcript hallucination
+  check (it's a description, not a quote).
+
+Architecturally this is the **same path the website grader already uses** — screenshots → image
+parts → Gemini. The only new thing is that the images contain a face, which is exactly why it
+needed to be the human's call.
+
+**What did NOT change:** audio is still extracted client-side; the recorder is still audio-only
+*unless* the student opts in; the disclaimer and the "refuses to bluff" behaviour are intact (a
+criterion with no frames AND no recording is still *not judged*, not zeroed).
+
+Prompt bumped to **g-1.3.0** (rule 5 gained the video-frames branch).
+
+---
+
 ## D-013 — No Q&A submitted → the criterion is never scored. Ask the questions instead.
 
 **Date:** 2026-07-13 · **By:** Ronit · **Fixes:** the `assessable`-flag instability

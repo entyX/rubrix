@@ -207,19 +207,30 @@ export function Report({
 
                     <p className="mt-3 text-[15px] leading-relaxed">{c.justification}</p>
 
-                    {c.evidence.map((e, i) => (
-                      <blockquote
-                        key={i}
-                        className="mt-3 border-l-[5px] border-black bg-[var(--paper)] py-2 pl-3 pr-2 text-[14px] italic leading-relaxed"
-                      >
-                        {e.source === 'transcript' && e.timestamp_start !== undefined && (
-                          <span className="mono mr-2 not-italic text-[11px] font-bold">
-                            [{mmss(e.timestamp_start)}]
-                          </span>
-                        )}
-                        “{e.quote}”
-                      </blockquote>
-                    ))}
+                    {c.evidence.map((e, i) =>
+                      e.source === 'visual' ? (
+                        // A description of a video frame, not a spoken quote.
+                        <p
+                          key={i}
+                          className="mt-3 border-l-[5px] border-[var(--violet)] bg-[var(--paper)] py-2 pl-3 pr-2 text-[14px] leading-relaxed"
+                        >
+                          <span className="mono mr-2 text-[11px] font-bold uppercase">seen</span>
+                          {e.quote}
+                        </p>
+                      ) : (
+                        <blockquote
+                          key={i}
+                          className="mt-3 border-l-[5px] border-black bg-[var(--paper)] py-2 pl-3 pr-2 text-[14px] italic leading-relaxed"
+                        >
+                          {e.source === 'transcript' && e.timestamp_start !== undefined && (
+                            <span className="mono mr-2 not-italic text-[11px] font-bold">
+                              [{mmss(e.timestamp_start)}]
+                            </span>
+                          )}
+                          “{e.quote}”
+                        </blockquote>
+                      ),
+                    )}
 
                     <ul className="mt-4 flex flex-col gap-1.5">
                       {c.improvements.map((im, i) => (

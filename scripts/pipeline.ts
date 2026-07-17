@@ -128,6 +128,28 @@ async function main() {
     );
   }
 
+  // ── Video frames (opt-in "eyes", DECISIONS D-015). --frames <dir> of jpg/png stills.
+  const framesDir = arg('--frames');
+  if (framesDir) {
+    const { readdir, readFile: rf } = await import('node:fs/promises');
+    const files = (await readdir(framesDir))
+      .filter((f) => /\.(jpe?g|png)$/i.test(f))
+      .sort();
+    const frames = [];
+    for (let i = 0; i < files.length; i++) {
+      const b = await rf(`${framesDir}/${files[i]}`);
+      frames.push({
+        base64: b.toString('base64'),
+        mimeType: files[i].toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg',
+        atSeconds: submission.presentation
+          ? (submission.presentation.metrics.duration_s * (i + 0.5)) / files.length
+          : i,
+      });
+    }
+    submission.frames = frames;
+    console.log(`   ${frames.length} video frame(s) attached — the judge can see this run.\n`);
+  }
+
   // ── Grade
   console.log('Judging against the rubric…');
   const graded = await gradeSubmission({

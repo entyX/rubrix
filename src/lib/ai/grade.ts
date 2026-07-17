@@ -31,7 +31,7 @@ import {
 } from './schemas';
 import { parseModelJson } from './json';
 import { isGrounded, dropConfidence } from './grounding';
-import { formatTranscriptLines, estimateTokens, MAX_TRANSCRIPT_TOKENS } from '@/lib/transcript/format';
+import { formatTranscriptLines, estimateTokens, MAX_TRANSCRIPT_TOKENS, mmss } from '@/lib/transcript/format';
 import type { DeliveryMetrics } from '@/lib/metrics/delivery';
 import type { SiteCapture } from '@/lib/site/crawl';
 import type { SiteMetrics } from '@/lib/site/metrics';
@@ -56,6 +56,12 @@ export interface Submission {
    * you can't fail an answer to a question nobody asked you.
    */
   qa?: Array<{ question: string; answer: string }>;
+  /**
+   * Still frames sampled from the presentation video, in the browser (DECISIONS D-015).
+   * Present only when the student opted in. These let visual delivery criteria (posture,
+   * eye contact, appearance, gestures, visual aids) actually be judged instead of excluded.
+   */
+  frames?: Array<{ base64: string; mimeType: string; atSeconds: number }>;
 }
 
 /** What post-validation had to change. These are the numbers §10 tracks. */
@@ -182,6 +188,16 @@ export async function gradeSubmission(args: {
     };
   }
 
+  // Video frames -> image parts. Captioned with their timestamp so the model can line them
+  // up with the transcript ("at 1:12 they were reading from notes").
+  for (const f of submission.frames ?? []) {
+    images.push({
+      base64: f.base64,
+      mimeType: f.mimeType,
+      caption: `Still frame from the presentation video at ${mmss(f.atSeconds)}:`,
+    });
+  }
+
   const system = fill(GRADING_SYSTEM, {
     ORG: event.org.toUpperCase(),
     EVENT_NAME: event.eventName,
@@ -196,6 +212,7 @@ export async function gradeSubmission(args: {
     presentation: presPart,
     site: sitePart,
     qa: submission.qa,
+    frameCount: submission.frames?.length ?? 0,
   });
 
   const report = emptyReport();
@@ -304,6 +321,12 @@ export function postValidate(args: {
     let strippedHere = 0;
 
     for (const e of c.evidence) {
+      // 'visual' evidence describes a video frame, not a text quote — nothing to ground it
+      // against, so it skips the hallucination check (like 'document').
+      if (e.source === 'visual') {
+        kept.push(e);
+        continue;
+      }
       if (isGrounded(e.quote, corpus)) {
         kept.push({ ...e, source: e.source ?? (submission.site ? 'document' : 'transcript') });
       } else {

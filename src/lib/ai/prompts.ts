@@ -18,7 +18,7 @@
  *                        See DECISIONS.md D-002 for why transcription moved to Gemini.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.2.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.3.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
 export const PROMPT_VERSION_TRANSCRIBE = 't-1.0.0';
@@ -151,15 +151,25 @@ SCORING RULES
    - A criterion you CAN judge from what was submitted: set "assessable": true and
      score it normally.
    - A criterion the SUBMISSION TYPE cannot evidence at all (judging eye contact or
-     poise with no recording; judging colour contrast with no screenshots): set
-     "assessable": false, set "score": 0, set confidence "low", and explain in
-     not_assessable_reason exactly WHAT the student would need to submit for you to
-     judge it. Do NOT guess, and do NOT quietly treat it as a failure. Missing
-     evidence is not bad work. Code will report these separately so the student is
-     not punished for what they did not send.
+     poise with no recording AND no frames; judging colour contrast with no
+     screenshots): set "assessable": false, set "score": 0, set confidence "low", and
+     explain in not_assessable_reason exactly WHAT the student would need to submit
+     for you to judge it. Do NOT guess, and do NOT quietly treat it as a failure.
+     Missing evidence is not bad work. Code will report these separately so the
+     student is not punished for what they did not send.
    - Partial evidence (a criterion about the site, and the speaker describes the
      site out loud but you cannot see it): assessable true, confidence "low", and
      score only what is actually evidenced.
+   - VIDEO FRAMES: if still frames from the presentation are attached, then criteria
+     about visual delivery — posture, body language, eye contact, gestures, facial
+     expression, appearance/attire, and any visual aids or slides held up — ARE
+     assessable. Set "assessable": true and judge them from the frames. Use confidence
+     "medium": these are stills sampled across the run, not continuous video, so you
+     can see a moment but not motion. Put what you observe in "justification". If you
+     cite a specific frame as evidence, add that evidence item with source "visual"
+     and describe what the frame shows (this is the one case where an evidence entry
+     is a description, not a verbatim quote). Judge only what the frames actually show
+     — do not infer eye contact you cannot see.
    Do not penalize spoken disfluencies ("um", restarts) unless a delivery criterion
    explicitly covers fluency.
 5b. THE Q&A RULE — apply it mechanically, do not exercise judgement here:
@@ -213,10 +223,14 @@ export function buildGradingUser(args: {
   };
   /** Present only once the student has answered the judge's questions (rule 5b). */
   qa?: Array<{ question: string; answer: string }>;
+  /** How many still frames from the video are attached as images (0 = none). */
+  frameCount?: number;
 }): string {
   const contents: string[] = [];
   if (args.site) contents.push('WEBSITE (source code + rendered screenshots + computed site facts)');
   if (args.presentation) contents.push('PRESENTATION (timestamped transcript + computed delivery metrics)');
+  if (args.frameCount)
+    contents.push(`VIDEO FRAMES (${args.frameCount} still images sampled from the presentation)`);
   if (args.qa?.length) contents.push("Q&A SESSION (the judge's questions + the competitor's answers)");
 
   const blocks: string[] = [

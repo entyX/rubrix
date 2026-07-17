@@ -105,6 +105,22 @@ export async function POST(req: Request) {
   const bytes = Buffer.from(await audio.arrayBuffer());
   const runId = randomUUID().slice(0, 8);
 
+  // Opt-in video frames (DECISIONS D-015). Stills only — the video file is never uploaded.
+  // Used for this grade and discarded; nothing is persisted.
+  const frames: Array<{ base64: string; mimeType: string; atSeconds: number }> = [];
+  for (const [key, val] of form.entries()) {
+    if (key.startsWith('frame_') && val instanceof File) {
+      // Timestamp is the filename ("72.jpg"); the field name is just a unique index.
+      const atSeconds = Number(val.name.replace(/\.[a-z]+$/i, '')) || 0;
+      frames.push({
+        base64: Buffer.from(await val.arrayBuffer()).toString('base64'),
+        mimeType: val.type || 'image/jpeg',
+        atSeconds,
+      });
+    }
+  }
+  frames.sort((a, b) => a.atSeconds - b.atSeconds);
+
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
@@ -119,7 +135,10 @@ export async function POST(req: Request) {
         usage = addUsage(usage, tr.usage);
 
         const metrics = computeDeliveryMetrics(tr.transcript, tr.durationS, timeLimitS);
-        const submission: Submission = { presentation: { transcript: tr.transcript, metrics } };
+        const submission: Submission = {
+          presentation: { transcript: tr.transcript, metrics },
+          ...(frames.length ? { frames } : {}),
+        };
         send({ stage: 'transcribed', metrics, warnings: tr.timestampWarnings });
 
         send({ stage: 'judging', label: 'Judging against the rubric…' });
