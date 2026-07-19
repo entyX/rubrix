@@ -2,7 +2,7 @@
 
 /**
  * App shell: sidebar + workspace. The sidebar collapses to a drawer under 1024px so the
- * whole thing still works at 360px (plan.md §11.7 responsive floor).
+ * whole thing still works at 360px (design brief §8 responsive floor).
  */
 import { useState } from 'react';
 import { Sidebar } from './nav/Sidebar';
@@ -21,11 +21,20 @@ export function Shell({ orgs }: { orgs: OrgSection[] }) {
   return (
     <div className="mx-auto flex min-h-full max-w-[1400px] flex-col lg:flex-row">
       {/* ── mobile bar */}
-      <div className="nb sticky top-0 z-30 m-3 flex items-center gap-3 bg-[var(--yellow)] px-3 py-2 lg:hidden">
-        <button onClick={() => setDrawer((d) => !d)} className="nb-btn bg-white px-3 py-1.5 text-[13px]">
+      <div
+        className="sticky top-0 z-30 flex items-center gap-3 px-4 py-3 lg:hidden"
+        style={{ background: 'var(--ink)', borderBottom: '1px solid var(--ink-line)' }}
+      >
+        <button
+          onClick={() => setDrawer((d) => !d)}
+          className="btn btn-secondary h-9 px-3 text-[13px]"
+          style={{ borderColor: 'var(--ink-line)', color: '#fff' }}
+        >
           {drawer ? 'Close' : 'Events'}
         </button>
-        <span className="display text-[16px] uppercase">Rubrix</span>
+        <span className="display text-[16px]" style={{ color: '#fff' }}>
+          Rubrix
+        </span>
       </div>
 
       {/* ── sidebar
@@ -34,17 +43,15 @@ export function Shell({ orgs }: { orgs: OrgSection[] }) {
       <aside
         className={`${drawer ? 'block' : 'hidden'} shrink-0 px-3 pb-4 lg:sticky lg:top-0 lg:block lg:h-screen lg:w-[320px] lg:overflow-y-auto lg:py-6 lg:pl-6 lg:pr-3`}
       >
-        <div className="mb-4 hidden lg:block">
-          <h1 className="display text-[30px] leading-none">RUBRIX</h1>
-          <p className="mt-1.5 text-[12px] font-semibold uppercase tracking-wide opacity-60">
-            Pick your event
-          </p>
+        <div className="mb-5 hidden lg:block">
+          <h1 className="display text-[26px] leading-none">Rubrix</h1>
+          <p className="label mt-2">Pick your event</p>
         </div>
         <Sidebar orgs={orgs} selected={selected} onSelect={pick} />
       </aside>
 
       {/* ── workspace */}
-      <main className="min-w-0 flex-1 px-3 pb-16 lg:px-6 lg:py-6">
+      <main className="min-w-0 flex-1 px-3 py-4 pb-16 lg:px-6 lg:py-6">
         {selected ? (
           <JudgeApp key={selected.slug} event={selected} />
         ) : (
@@ -55,20 +62,15 @@ export function Shell({ orgs }: { orgs: OrgSection[] }) {
   );
 }
 
-/** plan.md §15: never show a blank page. */
+/** Never show a blank page. */
 function Empty({ hasAny }: { hasAny: boolean }) {
   return (
-    <div className="nb-lg nb flex min-h-[70vh] flex-col items-center justify-center bg-white p-8 text-center">
-      <div
-        className="nb mb-6 flex h-20 w-20 items-center justify-center bg-[var(--yellow)]"
-        aria-hidden
-      >
-        <span className="display text-[34px]">?</span>
-      </div>
-      <h2 className="display max-w-[16ch] text-[34px] leading-[1.05] sm:text-[44px]">
-        KNOW YOUR SCORE BEFORE THE JUDGES DO.
+    <div className="card flex min-h-[70vh] flex-col items-center justify-center p-8 text-center">
+      <p className="label mb-4">No event selected</p>
+      <h2 className="display max-w-[18ch] text-[34px] leading-[1.05] sm:text-[46px]">
+        Know your score before the judges do.
       </h2>
-      <p className="mt-4 max-w-[48ch] text-[15px] leading-relaxed opacity-70">
+      <p className="mt-4 max-w-[52ch] text-[15px] leading-relaxed" style={{ color: 'var(--slate)' }}>
         {hasAny
           ? 'Pick an event on the left. Record a practice run or drop one in, and get it back scored line by line against the official rubric — with the exact words that earned each mark.'
           : 'No events loaded yet. Drop the official rating-sheet PDFs into the rubrics folder and run `npm run catalog`.'}

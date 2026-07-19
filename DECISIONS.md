@@ -369,3 +369,39 @@ already hold (`max_points - score`, ranked by points × ease-of-fix), and §9.7 
 establishes the principle that arithmetic is recomputed in code and the model's version
 overwritten. So we compute it. This also guarantees it can never reference a criterion that
 isn't in the rubric.
+
+---
+
+## D-017 — "Score Sheet" replaces neobrutalism (D-011) as the design system
+
+**Date:** 2026-07-18 · **By:** human (explicit design brief) · **Amends:** D-011, plan.md §11
+
+D-011 replaced plan.md §11 "Championship Metal" with a flat neobrutalist skin — hard 3px
+borders, offset shadows, flat rainbow tags, Archivo Black + Space Grotesk. The human has now
+handed a second, full design brief: **"Score Sheet."** The judge's goldenrod score sheet is
+the product's central material — `--sheet #EDE7D1` appears only on surfaces that have
+actually been scored (report header, criterion rows) and nowhere else. Ballpoint blue
+`--pen #1F3BB3` is the only action colour. Judge's red `--mark #B3261E` is reserved for "no
+evidence found" and is never used to mean "you did badly" — a low score with good evidence is
+still an honest score, so the palette doesn't shame it. The signature element is
+`<EvidenceLine>`: criterion + score, the verbatim quote with a timestamp chip, then the
+justification — a score never renders without its evidence in the same visual block.
+
+Neobrutalism is gone: no more `nb-*` primitives, hard offset shadows, or flat rainbow tags.
+**What survives, because it isn't decoration (the same list D-011 carried forward from
+§11.8):** colour is never the only signal, visible focus rings (now 2px `--pen`, 2px offset),
+`prefers-reduced-motion` respected, responsive to 360px, org accent colours (muted so they sit
+quietly against the neutral palette instead of competing with it), every async view has a real
+progress state and a real empty state.
+
+**Fonts:** Bricolage Grotesque (display), Instrument Sans (body/UI), DM Mono (every score,
+timestamp, criterion code, label) — via `next/font/google`, same rationale as D-011: self-hosted
+and preloaded, no runtime request to Google, no layout shift.
+
+**Scope of this pass:** reskinned every page that actually exists today (event picker → rubric
+review → record/upload → grading progress → report → Q&A drill) and added the public
+`/landing` marketing page from plan.md §12. Did **not** build dashboard, wizard, task board,
+officer, or settings pages — those need auth + Supabase (M2/M3), which haven't started yet, and
+`CLAUDE.md`'s milestone gate says not to build ahead of that. Confirmed with the human before
+proceeding (multiple-choice: restyle-existing-plus-landing was chosen over building static
+mock-ups of the unbuilt pages).

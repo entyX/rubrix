@@ -10,7 +10,8 @@
  *   2. Dictate it — Web Speech API, so voice-to-text runs on-device in the browser.
  *   3. Record it — audio only, transcribed server-side, same privacy rule as everything else.
  *
- * Answer all of them, hit the judge, and those criteria get scored for real.
+ * Answer all of them, hit the judge, and those criteria get scored for real. Not scored yet,
+ * so this stays white/paper — goldenrod is reserved for graded surfaces (DECISIONS D-017).
  */
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import type { QAJSON } from '@/lib/ai/schemas';
@@ -164,13 +165,14 @@ export function QADrill({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="nb bg-[var(--violet)] p-5">
-        <h3 className="display text-[22px] leading-tight">THE JUDGE HAS QUESTIONS.</h3>
-        <p className="mt-2 text-[15px] font-semibold leading-relaxed">
-          Your run wasn’t scored on answering questions — nobody asked you any. Answer these and
-          the judge will score that part properly. Type, dictate, or record each answer.
+      <div className="card p-5" style={{ borderColor: 'var(--ink)' }}>
+        <p className="label mb-2">The judge has questions</p>
+        <h3 className="display-md text-[20px] leading-tight">Answer them and get scored for real.</h3>
+        <p className="mt-2 text-[15px] leading-relaxed" style={{ color: 'var(--slate)' }}>
+          Your run wasn&rsquo;t scored on answering questions — nobody asked you any. Type, dictate,
+          or record each answer below.
         </p>
-        <p className="mono mt-3 text-[13px] font-bold">
+        <p className="mono mt-3 text-[13px]">
           {answered} / {qa.questions.length} answered
         </p>
       </div>
@@ -182,13 +184,15 @@ export function QADrill({
         const isRecording = recording === i;
 
         return (
-          <article key={i} className="nb bg-white p-5">
+          <article key={i} className="card p-5">
             <div className="flex items-start justify-between gap-3">
-              <p className="text-[16px] font-bold leading-snug">
-                <span className="mono mr-2 opacity-50">Q{i + 1}</span>
+              <p className="text-[16px] font-semibold leading-snug">
+                <span className="mono mr-2" style={{ color: 'var(--slate)' }}>
+                  Q{i + 1}
+                </span>
                 {q.question}
               </p>
-              <span className="tag shrink-0 bg-[var(--yellow)]">{q.difficulty}</span>
+              <span className="chip shrink-0">{q.difficulty}</span>
             </div>
 
             {/* mode switch */}
@@ -197,11 +201,7 @@ export function QADrill({
                 <button
                   key={k}
                   onClick={() => setMode((ms) => ms.map((x, j) => (j === i ? k : x)))}
-                  className="nb-btn px-3 py-1.5 text-[11px]"
-                  style={{
-                    background: m === k ? 'var(--ink)' : '#fff',
-                    color: m === k ? '#fff' : 'var(--ink)',
-                  }}
+                  className={`chip cursor-pointer ${m === k ? 'chip-active' : ''}`}
                 >
                   {k === 'type' ? 'Type / dictate' : 'Record answer'}
                 </button>
@@ -216,23 +216,24 @@ export function QADrill({
                   rows={4}
                   maxLength={1200}
                   placeholder="Answer out loud first, then write what you actually said."
-                  className="nb-flat mt-3 w-full resize-y bg-[var(--paper)] p-3 text-[15px] leading-relaxed"
+                  className="mt-3 w-full resize-y rounded border border-[var(--rule-2)] p-3 text-[15px] leading-relaxed"
+                  style={{ background: 'var(--paper)' }}
                 />
                 <div className="mt-2 flex flex-wrap items-center gap-3">
                   {speechSupported && (
                     <button
                       onClick={() => toggleDictate(i)}
-                      className="nb-btn px-3 py-1.5 text-[11px]"
-                      style={{ background: isDictating ? 'var(--pink)' : 'var(--cyan)' }}
+                      className={`btn ${isDictating ? 'btn-primary' : 'btn-secondary'} h-9 px-3 text-[12px]`}
+                      style={isDictating ? { background: 'var(--mark)', borderColor: 'var(--mark)' } : undefined}
                     >
-                      {isDictating ? '● Listening — stop' : '🎤 Dictate'}
+                      {isDictating ? '● Listening — stop' : 'Dictate'}
                     </button>
                   )}
-                  <span className="mono text-[11px] font-bold opacity-50">
+                  <span className="mono text-[11px]" style={{ color: 'var(--slate)' }}>
                     {a.text.length}/1200
                   </span>
                   {!speechSupported && (
-                    <span className="text-[11px] font-semibold opacity-50">
+                    <span className="text-[11px]" style={{ color: 'var(--slate)' }}>
                       Dictation needs Chrome or Edge — typing works everywhere.
                     </span>
                   )}
@@ -242,8 +243,8 @@ export function QADrill({
               <div className="mt-3">
                 <button
                   onClick={() => void toggleRecord(i)}
-                  className="nb-btn w-full px-4 py-3 text-[14px]"
-                  style={{ background: isRecording ? 'var(--pink)' : 'var(--lime)' }}
+                  className={`btn w-full ${isRecording ? '' : 'btn-primary'}`}
+                  style={isRecording ? { background: 'var(--mark)', color: '#fff', borderColor: 'var(--mark)' } : undefined}
                 >
                   {isRecording
                     ? `● Recording ${mmss(elapsed)} — stop`
@@ -252,8 +253,8 @@ export function QADrill({
                       : 'Record your answer'}
                 </button>
                 {a.clip && !isRecording && (
-                  <p className="mt-2 text-[13px] font-semibold">
-                    ✓ {mmss(a.clipSeconds)} recorded. We’ll transcribe it and the judge will read
+                  <p className="mt-2 text-[13px]" style={{ color: 'var(--slate)' }}>
+                    {mmss(a.clipSeconds)} recorded. We&rsquo;ll transcribe it and the judge will read
                     what you actually said.
                   </p>
                 )}
@@ -266,7 +267,7 @@ export function QADrill({
       <button
         onClick={() => onSubmit(answers)}
         disabled={!allAnswered || submitting}
-        className="nb-btn sticky bottom-4 bg-[var(--lime)] px-6 py-4 text-[16px]"
+        className="btn btn-primary sticky bottom-4 px-6 text-[15px]"
       >
         {submitting
           ? 'Judging your answers…'

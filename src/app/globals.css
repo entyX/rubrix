@@ -1,44 +1,48 @@
 @import "tailwindcss";
 
-/* ── NEOBRUTALISM ───────────────────────────────────────────────────────────
-   Replaces plan.md §11 "Championship Metal" at the human's direction (DECISIONS D-011).
-   Rules: flat vivid colour, 3px black borders, HARD offset shadows (no blur, ever),
-   heavy display type, zero gradients. Motion is snap, not glide.
-   What §11 still binds: colour is never the only signal, focus rings stay visible,
-   reduced-motion respected, responsive to 360px.                            */
+/* ── SCORE SHEET ─────────────────────────────────────────────────────────────
+   Replaces neobrutalism at the human's direction (DECISIONS D-017, which itself
+   amended D-011 / plan.md §11).
+
+   The material rule: the judge's goldenrod score sheet is the one bold move.
+   --sheet appears ONLY on surfaces that have actually been scored (report header,
+   criterion rows, score history). Everything else is neutral. --pen is the only
+   action colour. --mark means "no evidence found," never "you did badly" — a low
+   score with good evidence is still an honest score, and the palette doesn't shame it.
+   Radius encodes material: 2px on form-paper (--sheet) surfaces, 6px on white app
+   cards, 4px on buttons. Nothing is pill-shaped.                                */
 
 :root {
-  --ink: #0a0a0a;
-  --paper: #fdf6e9;
+  --ink: #14161a;
+  --paper: #f4f4f1;
   --card: #ffffff;
+  --sheet: #ede7d1;
+  --pen: #1f3bb3;
+  --pen-hover: #17309c;
+  --mark: #b3261e;
+  --slate: #5a5f6b;
+  --rule: #dedcd4;
+  --rule-2: #e7e7e3;
+  --pen-wash: rgba(31, 59, 179, 0.12);
+  --ink-line: rgba(255, 255, 255, 0.14);
 
-  --yellow: #ffd93d;
-  --pink: #ff6b9d;
-  --cyan: #4dd8e8;
-  --lime: #b8f14a;
-  --orange: #ff8c42;
-  --violet: #b983ff;
-
-  /* Org accents — plan.md §11.9 keeps these even under the new skin. */
-  --fbla: #2563eb;
-  --deca: #0ea5e9;
-  --tsa: #dc2626;
-  --hosa: #be123c;
-  --fpspi: #7c3aed;
-
-  --hi: #b8f14a;
-  --mid: #ffd93d;
-  --lo: #ff6b9d;
-
-  --border: 3px solid var(--ink);
-  --shadow: 5px 5px 0 var(--ink);
-  --shadow-lg: 8px 8px 0 var(--ink);
-  --shadow-sm: 3px 3px 0 var(--ink);
+  /* Org accents — plan.md §11.9's colours, muted so they read as a small swatch +
+     label rather than a block of saturated colour competing with --pen/--mark. */
+  --fbla: #3b5ba5;
+  --deca: #2e7d8c;
+  --tsa: #a6402e;
+  --hosa: #8b3a5e;
+  --fpspi: #5b4a8f;
 }
 
 @theme inline {
   --color-ink: var(--ink);
   --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-sheet: var(--sheet);
+  --color-pen: var(--pen);
+  --color-mark: var(--mark);
+  --color-slate: var(--slate);
 }
 
 html {
@@ -50,13 +54,8 @@ body {
   color: var(--ink);
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  /* faint grid, so the flat colour has something to sit on */
-  background-image:
-    linear-gradient(rgb(10 10 10 / 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(10 10 10 / 0.045) 1px, transparent 1px);
-  background-size: 26px 26px;
 }
 
 h1,
@@ -64,107 +63,221 @@ h2,
 h3,
 .display {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 400; /* Archivo Black is already black */
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
   line-height: 1.05;
 }
 
-/* ── the one primitive everything is built from ── */
-.nb {
-  border: var(--border);
-  box-shadow: var(--shadow);
-  background: var(--card);
-  border-radius: 0;
-}
-.nb-lg {
-  box-shadow: var(--shadow-lg);
-}
-.nb-sm {
-  box-shadow: var(--shadow-sm);
-}
-.nb-flat {
-  border: var(--border);
-  box-shadow: none;
+/* Card headings / component titles use the display face at a lighter weight. */
+.display-md {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
-/* Buttons snap down onto the page instead of gliding. */
-.nb-btn {
-  border: var(--border);
-  box-shadow: var(--shadow);
-  background: var(--card);
-  font-family: var(--font-display), sans-serif;
+.mono {
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The structural voice: every score, timestamp, criterion code, deadline, label. */
+.label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  color: var(--slate);
+}
+
+/* ── surfaces ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--rule-2);
+  border-radius: 6px;
+}
+
+/* Goldenrod form stock. Graded surfaces ONLY — see the rule above. */
+.sheet {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+/* The one interior detail a form is allowed: the hairline that separates a
+   title block from its rows. */
+.sheet-head {
+  border-bottom: 1px solid var(--rule);
+}
+
+.interactive:hover {
+  border-color: var(--pen);
+  transform: translateY(-1px);
+}
+.interactive {
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease;
+}
+
+/* ── buttons ── */
+.btn {
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 4px;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
   transition:
-    transform 80ms ease,
-    box-shadow 80ms ease;
+    background 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+  white-space: nowrap;
 }
-.nb-btn:hover:not(:disabled) {
-  transform: translate(2px, 2px);
-  box-shadow: 3px 3px 0 var(--ink);
+.btn-primary {
+  background: var(--pen);
+  color: #fff;
+  border: 1px solid var(--pen);
 }
-.nb-btn:active:not(:disabled) {
-  transform: translate(5px, 5px);
-  box-shadow: 0 0 0 var(--ink);
+.btn-primary:hover:not(:disabled) {
+  background: var(--pen-hover);
+  border-color: var(--pen-hover);
 }
-.nb-btn:disabled {
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--ink);
+  color: #fff;
+}
+.btn-ghost {
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  height: auto;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.btn-ghost:hover:not(:disabled) {
+  text-decoration-thickness: 2px;
+}
+.btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  box-shadow: var(--shadow);
 }
 
-/* Sidebar rows: press in on hover, no shadow (they live inside a panel). */
-.nb-row {
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: background 80ms ease;
-}
-.nb-row:hover {
-  border-color: var(--ink);
-  background: var(--yellow);
-}
-.nb-row[aria-current="true"] {
-  border-color: var(--ink);
-  background: var(--lime);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Score bars: flat fill in a bordered trough. */
-.nb-bar {
-  border: 2px solid var(--ink);
+/* ── chips / tags ── */
+.chip {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  padding: 4px 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
   background: var(--card);
+}
+.chip-active {
+  background: var(--pen);
+  color: #fff;
+  border-color: var(--pen);
+}
+.chip-mark {
+  border-color: var(--mark);
+  color: var(--mark);
+}
+
+/* ── score bars: single-colour fill, never a rainbow (§2, "score tiers use
+   weight and label, not a rainbow"). A low score with real evidence is not
+   dressed up or shamed by colour. ── */
+.bar {
+  border-radius: 2px;
+  background: var(--rule);
   overflow: hidden;
 }
-.nb-bar > span {
+.bar > span {
   display: block;
   height: 100%;
+  background: var(--pen);
   transform-origin: left;
-  animation: nb-fill 420ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  animation: bar-fill 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
-@keyframes nb-fill {
+@keyframes bar-fill {
   from {
     transform: scaleX(0);
   }
 }
 
-.tag {
-  font-family: var(--font-display), sans-serif;
-  text-transform: uppercase;
+/* ── the Evidence Line's marks ── */
+.evidence-quote {
+  background: var(--pen-wash);
+  border-bottom: 2px solid var(--pen);
+}
+.timestamp-chip {
+  font-family: var(--font-mono), monospace;
   font-size: 11px;
-  letter-spacing: 0.06em;
-  border: 2px solid var(--ink);
-  padding: 2px 7px;
-  display: inline-block;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 1px 6px;
+  white-space: nowrap;
 }
 
-.mono {
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-variant-numeric: tabular-nums;
+/* ── the signature animation: highlight sweep + score snap, hero only,
+   plays once, ~1.6s total. Disabled under reduced-motion below. ── */
+@keyframes evidence-sweep {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes evidence-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.evidence-animate .ev-quote-text {
+  animation: evidence-fade-up 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.evidence-animate .ev-quote-mark {
+  animation:
+    evidence-fade-up 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    evidence-sweep 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 420ms both;
+}
+.evidence-animate .ev-score {
+  opacity: 0;
+  animation: evidence-fade-up 300ms ease 940ms both;
+}
+.evidence-animate .ev-chip {
+  opacity: 0;
+  animation: evidence-fade-up 300ms ease 1220ms both;
 }
 
 :focus-visible {
-  outline: 3px solid var(--ink);
+  outline: 2px solid var(--pen);
   outline-offset: 2px;
 }
 
@@ -185,8 +298,20 @@ h3,
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .nb-btn:hover:not(:disabled),
-  .nb-btn:active:not(:disabled) {
+  .bar > span {
+    animation: none;
+    transform: none;
+  }
+  .evidence-animate .ev-quote-text,
+  .evidence-animate .ev-quote-mark,
+  .evidence-animate .ev-score,
+  .evidence-animate .ev-chip {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+  .interactive:hover {
     transform: none;
   }
 }

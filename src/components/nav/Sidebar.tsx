@@ -33,45 +33,46 @@ export function Sidebar({
   const toggle = (id: string) => setOpen((o) => ({ ...o, [id]: !o[id] }));
 
   return (
-    <nav aria-label="Events" className="flex flex-col gap-3">
+    <nav aria-label="Events" className="flex flex-col gap-2">
       {orgs.map((org) => {
         const isOpen = open[org.id] ?? false;
         return (
-          <div key={org.id} className="nb bg-white">
+          <div key={org.id} className="card overflow-hidden">
             {/* ── org header */}
             <button
               onClick={() => toggle(org.id)}
               aria-expanded={isOpen}
               className="flex w-full items-center gap-3 px-3 py-3 text-left"
-              style={{ background: org.color, color: '#fff' }}
             >
               <span
-                className="mono text-[15px] font-bold leading-none transition-transform"
-                style={{ transform: isOpen ? 'rotate(90deg)' : 'none' }}
+                className="mono shrink-0 text-[13px] leading-none transition-transform"
+                style={{ transform: isOpen ? 'rotate(90deg)' : 'none', color: 'var(--slate)' }}
                 aria-hidden
               >
-                ▸
+                &#9656;
               </span>
-              <span className="display flex-1 text-[17px] uppercase">{org.name}</span>
               <span
-                className="mono border-2 border-black bg-white px-1.5 py-0.5 text-[11px] font-bold"
-                style={{ color: '#0a0a0a' }}
-              >
+                className="h-2 w-2 shrink-0 rounded-full"
+                style={{ background: org.color }}
+                aria-hidden
+              />
+              <span className="display-md flex-1 text-[15px]">{org.name}</span>
+              <span className="label" style={{ color: 'var(--ink)' }}>
                 {org.total === 0 ? '0' : `${org.ready}/${org.total}`}
               </span>
             </button>
 
             {isOpen && (
-              <div className="border-t-[3px] border-black p-2">
+              <div className="border-t border-[var(--rule-2)] p-2">
                 {org.total === 0 ? (
-                  <p className="px-2 py-4 text-center text-[13px] font-medium opacity-60">
+                  <p className="px-2 py-4 text-center text-[13px]" style={{ color: 'var(--slate)' }}>
                     Nothing here yet.
                   </p>
                 ) : (
                   org.groups.map((g) => (
                     <div key={g.category} className="mb-3 last:mb-1">
-                      <p className="display mb-1.5 px-1 text-[11px] uppercase tracking-wider opacity-55">
-                        {CATEGORY_LABEL[g.category]} · {g.events.length}
+                      <p className="label mb-1.5 px-1">
+                        {CATEGORY_LABEL[g.category]} &middot; {g.events.length}
                       </p>
 
                       <ul className="flex flex-col gap-0.5">
@@ -81,32 +82,38 @@ export function Sidebar({
                           // a human having checked it — only 'confirmed' can grade (F3).
                           const state =
                             e.rubric_status === 'confirmed'
-                              ? { fill: 'var(--lime)', label: '' }
+                              ? { dot: 'var(--pen)', filled: true, label: '' }
                               : e.rubric_status === 'unreviewed'
-                                ? { fill: 'var(--yellow)', label: 'review' }
-                                : { fill: 'transparent', label: 'set up' };
+                                ? { dot: 'var(--ink)', filled: false, label: 'review' }
+                                : { dot: 'var(--rule)', filled: false, label: 'set up' };
 
                           return (
                             <li key={e.slug}>
                               <button
                                 onClick={() => onSelect(e)}
                                 aria-current={isSel}
-                                className="nb-row flex w-full items-center gap-2 px-2 py-1.5 text-left"
+                                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left transition-colors"
+                                style={{
+                                  background: isSel ? 'var(--pen-wash)' : 'transparent',
+                                }}
+                                onMouseEnter={(ev) => {
+                                  if (!isSel) ev.currentTarget.style.background = 'var(--paper)';
+                                }}
+                                onMouseLeave={(ev) => {
+                                  if (!isSel) ev.currentTarget.style.background = 'transparent';
+                                }}
                               >
                                 <span
-                                  className="h-2.5 w-2.5 shrink-0 border-2 border-black"
-                                  style={{ background: state.fill }}
+                                  className="h-2 w-2 shrink-0 rounded-full border"
+                                  style={{
+                                    background: state.filled ? state.dot : 'transparent',
+                                    borderColor: state.dot,
+                                  }}
                                   aria-hidden
                                 />
-                                <span className="flex-1 text-[13px] font-medium leading-snug">
-                                  {e.name}
-                                </span>
-                                {/* Colour is never the only signal (plan.md §11.8). */}
-                                {state.label && (
-                                  <span className="text-[10px] font-bold uppercase opacity-55">
-                                    {state.label}
-                                  </span>
-                                )}
+                                <span className="flex-1 text-[13px] leading-snug">{e.name}</span>
+                                {/* Colour is never the only signal. */}
+                                {state.label && <span className="label">{state.label}</span>}
                               </button>
                             </li>
                           );
@@ -121,11 +128,13 @@ export function Sidebar({
         );
       })}
 
-      <p className="px-1 pt-1 text-[11px] leading-relaxed opacity-55">
-        <strong>Green</strong> = a human checked the rubric; it can grade.{' '}
-        <strong>Yellow (review)</strong> = machine-read from the official sheet, waiting on you.{' '}
-        <strong>Empty (set up)</strong> = no rubric yet. Nobody is scored against a rubric no human
-        has confirmed.
+      <p className="px-1 pt-1 text-[12px] leading-relaxed" style={{ color: 'var(--slate)' }}>
+        <strong style={{ color: 'var(--ink)' }}>Filled</strong>{' '}
+        = a human checked the rubric; it can grade.{' '}
+        <strong style={{ color: 'var(--ink)' }}>Review</strong>{' '}
+        = machine-read from the official sheet, waiting on you.{' '}
+        <strong style={{ color: 'var(--ink)' }}>Set up</strong>{' '}
+        = no rubric yet.
       </p>
     </nav>
   );

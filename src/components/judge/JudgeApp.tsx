@@ -7,6 +7,10 @@
  *   The camera preview is a mirror FOR YOU. It is never recorded and never uploaded.
  *   Only the audio track is captured; any video file you drop is decoded to mp3 on this
  *   machine by ffmpeg.wasm. The video never touches our servers.
+ *
+ * Nothing here is scored yet, so setup/progress states stay white/paper — goldenrod is
+ * reserved for the graded report (DECISIONS D-017, "judge hub is white, not goldenrod,
+ * because nothing has been graded yet").
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Report, type RunResult } from './Report';
@@ -306,7 +310,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       <div className="flex flex-col gap-4">
         <EventHeader event={event} status="Q&A drill" />
         {error && (
-          <div className="nb bg-[var(--pink)] p-4 text-[15px] font-bold" role="alert">
+          <div className="card p-4 text-[15px]" style={{ borderLeft: '3px solid var(--mark)', color: 'var(--mark)' }} role="alert">
             {error}
           </div>
         )}
@@ -332,11 +336,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   // ── judging the Q&A answers
   if (phase === 'qa-grading') {
     return (
-      <div className="nb nb-lg bg-white p-6 sm:p-8">
-        <p className="display text-[13px] uppercase tracking-wider opacity-60">
-          Your answers are with the judge
-        </p>
-        <p className="display mt-4 text-[24px] leading-tight">
+      <div className="card p-6 sm:p-8">
+        <p className="label">Your answers are with the judge</p>
+        <p className="display-md mt-4 text-[24px] leading-tight">
           Judging your answers<span className="blink">…</span>
         </p>
       </div>
@@ -347,25 +349,21 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   if (phase === 'preparing' || phase === 'grading') {
     const activeIdx = STAGES.findIndex((s) => s.key === stage);
     return (
-      <div className="nb nb-lg bg-white p-6 sm:p-8">
-        <p className="display text-[13px] uppercase tracking-wider opacity-60">
-          Your run is with the judge
-        </p>
+      <div className="card p-6 sm:p-8">
+        <p className="label">Your run is with the judge</p>
 
         {phase === 'preparing' ? (
           <>
-            <p className="display mt-4 text-[24px] leading-tight">
+            <p className="display-md mt-4 text-[24px] leading-tight">
               {prepLabel}
               <span className="blink">_</span>
             </p>
             {prepRatio !== null && (
-              <div className="nb-bar mt-5 h-5">
-                <span
-                  style={{ width: `${Math.round(prepRatio * 100)}%`, background: 'var(--cyan)' }}
-                />
+              <div className="bar mt-5 h-2">
+                <span style={{ width: `${Math.round(prepRatio * 100)}%` }} />
               </div>
             )}
-            <p className="mt-4 text-[13px] font-semibold opacity-70">
+            <p className="mt-4 text-[13px]" style={{ color: 'var(--slate)' }}>
               This is happening on your device. Your video is not being uploaded.
             </p>
           </>
@@ -376,17 +374,26 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
               return (
                 <li key={s.key} className="flex items-center gap-3">
                   <span
-                    className="flex h-7 w-7 shrink-0 items-center justify-center border-[3px] border-black"
+                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border"
                     style={{
-                      background:
-                        state === 'done' ? 'var(--lime)' : state === 'active' ? 'var(--yellow)' : '#fff',
+                      borderColor: state === 'todo' ? 'var(--rule)' : 'var(--pen)',
+                      background: state === 'done' ? 'var(--pen)' : 'transparent',
+                      color: '#fff',
                     }}
                     aria-hidden
                   >
-                    {state === 'done' ? '✓' : ''}
+                    {state === 'done' ? (
+                      <span className="text-[13px]">&#10003;</span>
+                    ) : state === 'active' ? (
+                      <span className="h-2 w-2 rounded-full" style={{ background: 'var(--pen)' }} />
+                    ) : null}
                   </span>
                   <span
-                    className={`text-[16px] ${state === 'todo' ? 'font-medium opacity-45' : 'font-bold'}`}
+                    className="text-[15px]"
+                    style={{
+                      fontWeight: state === 'todo' ? 400 : 600,
+                      color: state === 'todo' ? 'var(--slate)' : 'var(--ink)',
+                    }}
                   >
                     {s.label}
                     {state === 'active' && <span className="blink">…</span>}
@@ -406,66 +413,70 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       <EventHeader event={event} status={confirmed ? 'Rubric ready' : 'Rubric not parsed'} />
 
       {error && (
-        <div className="nb bg-[var(--pink)] p-4 text-[15px] font-bold" role="alert">
+        <div className="card p-4 text-[15px]" style={{ borderLeft: '3px solid var(--mark)', color: 'var(--mark)' }} role="alert">
           {error}
         </div>
       )}
 
       {!parsed ? (
         // Never grade on a rubric nobody structured (plan.md F3).
-        <div className="nb nb-lg bg-white p-6 sm:p-8">
-          <h3 className="display text-[24px] leading-tight">THIS RUBRIC ISN’T BUILT YET.</h3>
-          <p className="mt-3 max-w-[60ch] text-[15px] leading-relaxed opacity-75">
+        <div className="card p-6 sm:p-8">
+          <h3 className="display-md text-[22px] leading-tight">This rubric isn&rsquo;t built yet.</h3>
+          <p className="mt-3 max-w-[60ch] text-[15px] leading-relaxed" style={{ color: 'var(--slate)' }}>
             The official rating sheet for {event.name} is in the repo (
-            <code className="mono text-[13px]">{event.source_pdf}</code>), but it hasn’t been
+            <code className="mono text-[13px]">{event.source_pdf}</code>), but it hasn&rsquo;t been
             structured into a rubric yet — and Rubrix will not score you against a rubric no human
             has checked. A wrong rubric gives a confident, wrong score, which is worse than none.
           </p>
-          <p className="mt-4 max-w-[60ch] text-[15px] leading-relaxed opacity-75">
-            Run <code className="mono text-[13px]">npm run parse-rubrics</code> then{' '}
-            <code className="mono text-[13px]">npm run catalog</code>, and it’ll appear here for
+          <p className="mt-4 max-w-[60ch] text-[15px] leading-relaxed" style={{ color: 'var(--slate)' }}>
+            Run <code className="mono text-[13px]">npm run parse-rubrics</code>{' '}
+            then{' '}
+            <code className="mono text-[13px]">npm run catalog</code>, and it&rsquo;ll appear here for
             review.
           </p>
         </div>
       ) : (
         <>
           {/* video-grading consent (DECISIONS D-015) — opt-in, default off */}
-          <section className="nb bg-[var(--violet)] p-5">
+          <section className="card p-5">
             <label className="flex cursor-pointer items-start gap-3">
               <input
                 type="checkbox"
                 checked={seeVideo}
                 disabled={recording}
                 onChange={(e) => setSeeVideo(e.target.checked)}
-                className="mt-1 h-5 w-5 shrink-0 accent-black"
+                className="mt-1 h-4 w-4 shrink-0"
+                style={{ accentColor: 'var(--pen)' }}
               />
               <span>
-                <span className="display text-[15px] uppercase">Let the judge see the run</span>
-                <span className="mt-1 block text-[13px] font-semibold leading-relaxed">
+                <span className="display-md text-[15px]">Let the judge see the run</span>
+                <span className="mt-1 block text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
                   Off by default. Turn it on and the judge can score body language, eye contact,
                   poise, and appearance instead of skipping them — so the score reflects your whole
                   presentation.
                 </span>
-                <span className="mt-2 block text-[12px] leading-relaxed opacity-80">
-                  Even then, your <strong>video file is never uploaded or saved</strong>. A handful
-                  of still frames are taken on this device, used once to grade, and discarded. If
-                  you leave this off, only your audio is used — exactly as before.
+                <span className="mt-2 block text-[12px] leading-relaxed" style={{ color: 'var(--slate)' }}>
+                  Even then, your <strong style={{ color: 'var(--ink)' }}>video file is never
+                  uploaded or saved</strong>. A handful of still frames are taken on this device,
+                  used once to grade, and discarded. If you leave this off, only your audio is used
+                  — exactly as before.
                 </span>
               </span>
             </label>
           </section>
 
           {/* record */}
-          <section className="nb nb-lg bg-white p-5 sm:p-6">
+          <section className="card p-5 sm:p-6">
             <div className="mb-4 flex items-center justify-between gap-3">
-              <h3 className="display text-[18px] uppercase">Record now</h3>
-              <label className="flex cursor-pointer items-center gap-2 text-[13px] font-bold">
+              <h3 className="display-md text-[18px]">Record now</h3>
+              <label className="flex cursor-pointer items-center gap-2 text-[13px] font-medium">
                 <input
                   type="checkbox"
                   checked={camOn}
                   disabled={recording}
                   onChange={(e) => setCamOn(e.target.checked)}
-                  className="h-4 w-4 accent-black"
+                  className="h-4 w-4"
+                  style={{ accentColor: 'var(--pen)' }}
                 />
                 Show camera
               </label>
@@ -473,8 +484,8 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
             {camOn && (
               <div
-                className="nb-flat relative mb-4 overflow-hidden bg-[#111]"
-                style={{ aspectRatio: '16 / 9' }}
+                className="relative mb-4 overflow-hidden rounded"
+                style={{ aspectRatio: '16 / 9', background: '#111' }}
               >
                 <video
                   ref={videoRef}
@@ -485,12 +496,12 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
                   style={{ transform: 'scaleX(-1)' }}
                 />
                 {recording ? (
-                  <div className="nb-sm absolute left-3 top-3 flex items-center gap-2 border-[3px] border-black bg-[var(--pink)] px-2.5 py-1">
-                    <span className="h-2.5 w-2.5 rounded-full bg-black blink" />
-                    <span className="mono text-[13px] font-bold">{mmss(elapsed)}</span>
+                  <div className="absolute left-3 top-3 flex items-center gap-2 rounded px-2.5 py-1" style={{ background: 'var(--mark)' }}>
+                    <span className="h-2 w-2 rounded-full bg-white blink" />
+                    <span className="mono text-[13px] text-white">{mmss(elapsed)}</span>
                   </div>
                 ) : (
-                  <p className="absolute inset-0 flex items-center justify-center text-[14px] font-bold text-white/50">
+                  <p className="absolute inset-0 flex items-center justify-center text-[14px] text-white/50">
                     Camera preview
                   </p>
                 )}
@@ -498,42 +509,44 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             )}
 
             {!recording ? (
-              <button
-                onClick={startRecording}
-                className="nb-btn w-full bg-[var(--lime)] px-5 py-4 text-[17px]"
-              >
+              <button onClick={startRecording} className="btn btn-primary w-full text-[15px]">
                 Start recording
               </button>
             ) : (
               <button
                 onClick={stopRecording}
-                className="nb-btn w-full bg-[var(--pink)] px-5 py-4 text-[17px]"
+                className="btn w-full text-[15px]"
+                style={{ background: 'var(--mark)', color: '#fff' }}
               >
                 Stop &amp; get judged {!camOn && `· ${mmss(elapsed)}`}
               </button>
             )}
 
-            <p className="mt-3 text-[13px] leading-relaxed opacity-75">
+            <p className="mt-3 text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
               {seeVideo && camOn ? (
                 <>
                   A few still frames are captured on this device to score your delivery.{' '}
-                  <strong>Your video file is never uploaded or saved</strong> — only the audio and
-                  those stills, only for this grade.
+                  <strong style={{ color: 'var(--ink)' }}>Your video file is never uploaded or
+                  saved</strong>{' '}
+                  — only the audio and those stills, only for this grade.
                 </>
               ) : (
                 <>
                   The camera is a mirror for you —{' '}
-                  <strong>only your audio is recorded and uploaded</strong>. No video ever leaves
-                  this device.
+                  <strong style={{ color: 'var(--ink)' }}>only your audio is recorded and
+                  uploaded</strong>. No video ever leaves this device.
                 </>
               )}
             </p>
           </section>
 
           {/* upload */}
-          <section className="nb nb-lg bg-white p-5 sm:p-6">
-            <h3 className="display mb-3 text-[18px] uppercase">Or upload a run</h3>
-            <label className="nb-flat flex cursor-pointer flex-col items-center justify-center bg-[var(--cyan)] px-6 py-10 text-center">
+          <section className="card p-5 sm:p-6">
+            <h3 className="display-md mb-3 text-[18px]">Or upload a run</h3>
+            <label
+              className="flex cursor-pointer flex-col items-center justify-center rounded px-6 py-10 text-center"
+              style={{ background: 'var(--paper)', border: '1px dashed var(--rule)' }}
+            >
               <input
                 type="file"
                 accept="video/*,audio/*"
@@ -543,16 +556,17 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
                   if (f) void handleFile(f, seeVideo);
                 }}
               />
-              <span className="display text-[18px] uppercase">Choose a file</span>
-              <span className="mt-1 text-[13px] font-semibold">
+              <span className="display-md text-[16px]">Choose a file</span>
+              <span className="mt-1 text-[13px]" style={{ color: 'var(--slate)' }}>
                 mp4, mov, webm, mp3, m4a · under 20 min
               </span>
             </label>
-            <p className="mt-3 text-[13px] leading-relaxed opacity-75">
+            <p className="mt-3 text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
               {seeVideo ? (
                 <>
                   The audio and a few still frames are pulled out here in your browser —{' '}
-                  <strong>the video file itself is never uploaded</strong>.
+                  <strong style={{ color: 'var(--ink)' }}>the video file itself is never
+                  uploaded</strong>.
                 </>
               ) : (
                 <>Pick a video and the audio is pulled out here in your browser — only that mp3 is sent.</>
@@ -562,7 +576,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         </>
       )}
 
-      <footer className="px-1 text-[11px] leading-relaxed opacity-60">
+      <footer className="px-1 text-[11px] leading-relaxed" style={{ color: 'var(--slate)' }}>
         Rubrix is an independent student-built practice tool and is not affiliated with, sponsored
         by, or endorsed by FBLA, DECA, TSA, HOSA, or FPSPI. AI practice scores are estimates for
         preparation only and do not predict official results.
@@ -573,21 +587,17 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
 function EventHeader({ event, status }: { event: CatalogEvent; status: string }) {
   return (
-    <header className="nb nb-lg bg-[var(--yellow)] p-5 sm:p-6">
-      <p className="display text-[11px] uppercase tracking-wider opacity-70">
+    <header className="card p-5 sm:p-6">
+      <p className="label">
         {event.org.toUpperCase()} · {event.category === 'roleplay' ? 'Role play' : event.category}
       </p>
-      <h2 className="display mt-1.5 text-[30px] leading-none sm:text-[38px]">
-        {event.name.toUpperCase()}
-      </h2>
+      <h2 className="display mt-1.5 text-[28px] leading-none sm:text-[36px]">{event.name}</h2>
       <div className="mt-3 flex flex-wrap gap-2">
         {event.time_limit_s && (
-          <span className="tag bg-white">{Math.round(event.time_limit_s / 60)} min limit</span>
+          <span className="chip">{Math.round(event.time_limit_s / 60)} min limit</span>
         )}
-        {event.total_points !== null && (
-          <span className="tag bg-white">{event.total_points} pts</span>
-        )}
-        <span className="tag bg-white">{status}</span>
+        {event.total_points !== null && <span className="chip">{event.total_points} pts</span>}
+        <span className="chip chip-active">{status}</span>
       </div>
     </header>
   );
