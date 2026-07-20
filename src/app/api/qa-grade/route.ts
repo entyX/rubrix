@@ -70,6 +70,17 @@ export async function POST(req: Request) {
     }
   }
 
+  // Pre-submission materials passthrough (D-019) — same rule as the first grade.
+  let materials: Submission['materials'];
+  const matText = form.get('materialsText');
+  const matName = form.get('materialsName');
+  if (typeof matText === 'string' && matText.trim().length >= 50) {
+    materials = {
+      name: typeof matName === 'string' && matName !== '' ? matName.slice(0, 120) : 'document',
+      text: matText.slice(0, 80_000),
+    };
+  }
+
   // Fallback: raw opt-in frames (D-015), when the first pass graded from stills.
   const frames: Array<{ base64: string; mimeType: string; atSeconds: number }> = [];
   for (const [key, val] of form.entries()) {
@@ -163,6 +174,7 @@ export async function POST(req: Request) {
           qa: payload.answers,
           ...(visual ? { visual } : {}),
           ...(frames.length ? { frames } : {}),
+          ...(materials ? { materials } : {}),
         };
 
         const graded = await gradeSubmission({

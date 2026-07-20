@@ -30,6 +30,11 @@ website URL  ──▶  crawl + screenshots + code facts  ───────�
   phone/tablet/desktop sizes, and reads your actual source code.
 - **Answer the judge's questions** by typing, dictating, or recording — then those criteria get
   scored for real.
+- **Get a time plan** — over the limit and the judge names the exact passages to cut (verbatim,
+  verified against your transcript) with the seconds each buys back at your measured pace;
+  under it and you get targeted additions.
+- **Export the whole report as a PDF** — score, every criterion's feedback and evidence, the
+  time plan, your next-run steps, the Q&A drill, and the full transcript, in one file.
 
 ## Run it
 

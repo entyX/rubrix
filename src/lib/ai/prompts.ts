@@ -20,7 +20,7 @@
  *                        run's sampled frames and writes the visual delivery report.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.4.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.6.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
 export const PROMPT_VERSION_TRANSCRIBE = 't-1.1.0';
@@ -155,10 +155,13 @@ Rules:
   {"title":"NOT_A_RUBRIC","total_points":0,"criteria":[]}.
 Output only JSON matching the RubricJSON schema.`;
 
-// ───────────────────────────────────────────────── grading (g-1.4.0, temp 0)
+// ───────────────────────────────────────────────── grading (g-1.6.0, temp 0)
 //
 // g-1.4.0: rule 5's video branch split in two — a VISUAL DELIVERY REPORT (D-018,
 // grounded quotes) is preferred over raw frames; raw frames remain the fallback.
+// g-1.5.0: PREJUDGED MATERIALS as a third submission type (D-019).
+// g-1.6.0: time coaching (6b, grounded cuts, code-computed seconds), what_worked
+// (7b, no invented praise), next_run_plan (9b) — D-020.
 // Full history in docs/prompt-changelog.md.
 //
 // Base text is plan.md §9.5, verbatim. g-1.1.0 changes exactly three things, so that
@@ -178,11 +181,13 @@ way real judges grade: fair, specific, rigorous, and stingy with top marks.
 Inflated practice scores hurt students at the real competition.
 
 INPUTS: the official rubric (JSON) and a competitor's submission. The submission is
-one or both of:
+one or more of:
   - A WEBSITE: its real source code (HTML/CSS/JS), rendered screenshots at phone,
     tablet and desktop sizes, and computed site facts you can trust.
   - A PRESENTATION: a timestamped transcript of the spoken run, plus computed
     delivery metrics you can trust.
+  - PREJUDGED MATERIALS: the document some events require before competition — a
+    report, business plan, or portfolio — as extracted text.
 Whatever is present is listed under SUBMISSION CONTENTS. Anything not listed is
 simply absent — it was not submitted.
 
@@ -230,6 +235,13 @@ SCORING RULES
      evidence item of source "visual" describing what it shows (this is the one case
      where an evidence entry is a description, not a verbatim quote). Judge only what
      the frames actually show — do not infer eye contact you cannot see.
+   - PREJUDGED MATERIALS: if present, criteria about the pre-submitted document —
+     report content, plan quality, required sections, written organization — ARE
+     assessable. Judge them from the materials text and quote it verbatim with
+     source "document" (quotes are checked against it word for word). If such a
+     criterion exists and NO materials were submitted, it is not assessable;
+     not_assessable_reason must say that attaching the pre-submission document will
+     let you judge it.
    Do not penalize spoken disfluencies ("um", restarts) unless a delivery criterion
    explicitly covers fluency.
 5b. THE Q&A RULE — apply it mechanically, do not exercise judgement here:
@@ -248,17 +260,41 @@ SCORING RULES
 6. Timing (only if a recording was submitted): the event limit is {{TIME_LIMIT}} and
    this run was {{ACTUAL_DURATION}}. Factor pacing into relevant criteria and report
    it in "timing". (The numeric time penalty itself is applied in code, not by you.)
+6b. TIME COACHING — fill "time_coaching" ONLY when a recording AND a time limit both
+   exist; omit it otherwise.
+   - note: 1-2 coach-voice sentences on how this run used its time.
+   - If the run is OVER the limit: propose 2-5 cuts — the passages earning the LEAST
+     rubric credit (repetition, tangents, content no criterion rewards). Each cut's
+     "quote" must be VERBATIM from the transcript — it is checked word for word, and
+     an invented quote is discarded. "reason" says why the rubric loses little by
+     cutting it. Do NOT estimate the time a cut saves; code computes that from the
+     quote's length at the speaker's measured pace.
+   - If the run is well UNDER the limit: propose 1-4 additions — what to add or
+     expand, each tied to a weak criterion via targets_criterion_id.
+   - If it fits: cuts and additions may be empty; still write the note, with one
+     pacing observation.
+   - verdict: your read of over/fits/under. (Code recomputes it from the measured
+     duration either way.)
 7. Improvements: 2-4 per criterion, each ONE concrete action a team could do this
    week ("Move the 40 lines of inline CSS in index.html into styles.css"; "Add alt
    text to the six product images on the gallery page"), never generic advice ("be
    more engaging"). Rate each criterion's fix difficulty: easy (<1hr), medium (an
    evening), hard (multi-day). For a criterion you could not assess, the improvement
    is what to SUBMIT next time.
+7b. what_worked, per criterion: 1-2 sentences naming the strongest GENUINE moment for
+   THIS criterion — point at the specific moment, quote it when possible. If nothing
+   genuinely stood out, say so plainly ("Nothing here rose above baseline."). Never
+   invent praise; the calibration rules apply to praise exactly as they apply to
+   scores. For a criterion you could not assess, write "Not assessable."
 8. point_gaps_ranked: the criteria with the most recoverable points, ranked by
    (points available x ease of fix).
 9. summary: 3-5 sentences, blunt, specific, coach's voice, second person. Open with
    the strongest real moment; end with the single highest-leverage fix. No praise
    sandwiches, no "AI magic".
+9b. next_run_plan: 3-6 ordered steps for the student's NEXT practice run, most
+   valuable first. Each is ONE imperative sentence, specific to THIS run — never
+   generic. Blend the biggest point gaps with the time plan: if you proposed cuts,
+   the plan says what to do with the reclaimed time; if additions, where they go.
 10. tier by overall percentage: needs_work <55, competitive_regional 55-70,
     competitive_state 70-85, competitive_national >85.
 Output ONLY valid JSON matching the GradingResultJSON schema. No fences, no commentary.`;
@@ -289,10 +325,14 @@ export function buildGradingUser(args: {
   visualReportText?: string;
   /** How many frames the vision model watched to write visualReportText. */
   visualFrameCount?: number;
+  /** Pre-submitted prejudged document, as extracted text (D-019). */
+  materials?: { name: string; text: string };
 }): string {
   const contents: string[] = [];
   if (args.site) contents.push('WEBSITE (source code + rendered screenshots + computed site facts)');
   if (args.presentation) contents.push('PRESENTATION (timestamped transcript + computed delivery metrics)');
+  if (args.materials)
+    contents.push(`PREJUDGED MATERIALS (the competitor's pre-submitted document: ${args.materials.name})`);
   if (args.visualReportText)
     contents.push(
       `VISUAL DELIVERY REPORT (a vision system watched ${args.visualFrameCount ?? 'the'} frames sampled across the entire run)`,
@@ -350,6 +390,16 @@ Observations only — judging them is your job. Quote this report VERBATIM for a
 evidence with source "visual"; quotes are checked against it word for word.
 ${args.visualReportText}
 </visual_delivery_report>`,
+    );
+  }
+
+  if (args.materials) {
+    blocks.push(
+      `<prejudged_materials name="${args.materials.name}">
+The competitor's pre-submitted document, as extracted text. Judge document criteria
+from THIS text and quote it verbatim (source "document").
+${args.materials.text}
+</prejudged_materials>`,
     );
   }
 

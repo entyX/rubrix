@@ -95,6 +95,69 @@ export function isGrounded(quote: string, transcriptFullText: string): boolean {
   return bestMatchScore(quote, transcriptFullText) >= FUZZY_THRESHOLD;
 }
 
+/**
+ * Locate a quote in the transcript segments and return the START TIME of the segment
+ * where it begins — or null if it can't be found.
+ *
+ * Why this exists (D-019): the model supplies `timestamp_start` for each evidence
+ * quote, and it gets them wrong — sometimes badly. But every quote that survived the
+ * grounding check above provably EXISTS in the transcript, so its true position is a
+ * fact we can compute. §9.2's rule applies: numbers come from code, not the model.
+ *
+ * Works across segment boundaries: segments are joined word-wise (with a map from
+ * word index -> segment) and the quote is matched exactly first, then fuzzily at
+ * the same ≥85% bar the grounding check uses.
+ */
+export function findQuoteStart(
+  quote: string,
+  segments: Array<{ start: number; end: number; text: string }>,
+): number | null {
+  const quoteWords = normalize(quote).split(' ').filter(Boolean);
+  if (quoteWords.length === 0 || segments.length === 0) return null;
+
+  // Word-level corpus with a parallel map back to the owning segment.
+  const words: string[] = [];
+  const ownerSegment: number[] = [];
+  for (let s = 0; s < segments.length; s++) {
+    for (const w of normalize(segments[s].text).split(' ')) {
+      if (w === '') continue;
+      words.push(w);
+      ownerSegment.push(s);
+    }
+  }
+  if (words.length === 0) return null;
+
+  // Pass 1: exact word-sequence match.
+  outer: for (let i = 0; i + quoteWords.length <= words.length; i++) {
+    for (let j = 0; j < quoteWords.length; j++) {
+      if (words[i + j] !== quoteWords[j]) continue outer;
+    }
+    return segments[ownerSegment[i]].start;
+  }
+
+  // Pass 2: fuzzy window, same threshold and ±1-word wiggle as bestMatchScore.
+  const nq = quoteWords.join(' ');
+  let bestScore = 0;
+  let bestIndex = -1;
+  for (const size of new Set([quoteWords.length, Math.max(1, quoteWords.length - 1), quoteWords.length + 1])) {
+    if (size > words.length) continue;
+    for (let i = 0; i + size <= words.length; i++) {
+      const window = words.slice(i, i + size).join(' ');
+      const lenRatio = Math.min(window.length, nq.length) / Math.max(window.length, nq.length);
+      if (lenRatio < FUZZY_THRESHOLD) continue;
+      const score = similarity(nq, window);
+      if (score > bestScore) {
+        bestScore = score;
+        bestIndex = i;
+      }
+    }
+  }
+  if (bestScore >= FUZZY_THRESHOLD && bestIndex >= 0) {
+    return segments[ownerSegment[bestIndex]].start;
+  }
+  return null;
+}
+
 export type Confidence = 'high' | 'medium' | 'low';
 
 /** plan.md §9.7: a stripped quote drops the criterion's confidence one step. */

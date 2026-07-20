@@ -465,3 +465,95 @@ transcribe t-1.1.0 (segments only), new visual v-1.0.0 (observer, not judge). �
 rule these bumps require an eval run; no `GEMINI_API_KEY` was available in this session, so the
 eval is **pending** — run `npm run eval` before trusting the change. Recorded honestly in
 `docs/prompt-changelog.md`.
+
+---
+
+## D-019 — Timestamps computed in code · pre-submission materials · video default ON
+
+**Date:** 2026-07-19 · **By:** Ronit (explicit, all three) + agent · **Amends:** D-015 (default)
+
+**1. Evidence timestamps are no longer the model's to invent.** Field report: "the times at
+which you say the audio is played is completely wrong sometimes." Root cause: `timestamp_start`
+on each evidence quote was the one number §9.7 still trusted the model with. But a quote that
+survived the grounding check provably EXISTS in the transcript — its position is a fact.
+`postValidate` now locates every transcript quote in the segments (`findQuoteStart` in
+`grounding.ts`: exact word-sequence match, then the same ≥85% fuzzy bar grounding uses, across
+segment boundaries) and **overwrites** the model's timestamp. A quote that isn't in the
+recording at all (e.g. from a typed Q&A answer) loses its timestamp — that precision would be
+fabricated. Corrections are counted in `validation.timestamps_realigned`. §9.2's principle,
+finally applied to the last untrusted number. Pure code change — no prompt bump needed for this
+part, and the fix also rides on Whisper's ASR-measured segment times (D-018) rather than
+LLM-estimated ones.
+
+**2. Prejudged events can now submit their pre-submission.** Some events require materials
+before competition — a report, business plan, portfolio — and their rating sheets score that
+document. Those criteria used to be permanently not-assessable in the web app. Now: an optional
+"Pre-submission materials" card accepts a PDF (or txt/md); `/api/presubmission` extracts the
+text (pdf-parse, in deps since D-014) and hands it straight back — **nothing stored**; the text
+rides in the grade request, joins the §9.7 grounding corpus (so source-"document" quotes are
+checked verbatim, same as everything else), and document criteria get scored for real. The CLI
+grows `--materials <file>`. Notes on shape: text-not-intact-PDF is deliberate — the grade
+request already carries audio near the 4.5MB body cap, a report is prose (D-014's intact-PDF
+rule was about rating-sheet TABLES), and opaque PDFs would make document quotes ungroundable.
+The card shows for every event rather than a per-event flag, because the catalog doesn't record
+which events are prejudged and guessing at org rules is forbidden (CLAUDE.md) — modality
+honesty already handles both directions. Materials-only grading is allowed (grade the report
+before you've recorded anything). Prompt bump: **g-1.5.0** (INPUTS names prejudged materials;
+rule 5 gains the branch).
+
+**3. "Let the judge see the run" now defaults ON.** D-015 made visual grading opt-in,
+default-off. The human has now explicitly flipped the default: the checkbox is pre-checked and
+the student *unchecks* to grade audio-only. Everything else D-015 promised is intact — the
+video file never leaves the device, stills are sampled in the browser, used once, never stored,
+and the consent copy still states exactly what happens. This is a default change, not a consent
+removal: the control remains, in the same place, before anything records.
+
+⚠️ g-1.5.0 requires an eval run (§0); still blocked on a local `GEMINI_API_KEY`, so still
+**pending** — same status as D-018's bumps, tracked in `docs/prompt-changelog.md`.
+
+---
+
+## D-020 — Richer, time-aware feedback + the full-report PDF export
+
+**Date:** 2026-07-20 · **By:** Ronit (explicit: "add more to the feedback… consider how much
+time they have and what they should cut… add a full export button") + agent
+
+**Three additions to the grading contract (prompt g-1.6.0):**
+
+1. **Time coaching.** When a recording AND a time limit exist, the judge now returns
+   `time_coaching`: a coach-voice note, and — when the run is over — 2-5 **cuts**: the
+   passages earning the least rubric credit. The strictness split is the point:
+   - The model picks WHAT to cut (judgment). Every cut's `quote` must be **verbatim from the
+     transcript** — grounded with the same ≥85% check as evidence; an invented cut is
+     discarded and counted (`validation.time_cuts_stripped`).
+   - Code computes the NUMBERS: `verdict` (over / fits / under-with-room, where "under" means
+     >15% of the limit unused — a coaching heuristic, not an org rule; official under-time
+     penalties are still never invented, D-005) is recomputed from the measured duration, and
+     each cut's `seconds_saved` is word count ÷ the speaker's **measured** WPM. The model was
+     told not to estimate time, and isn't trusted to.
+   When the run is well under, the judge proposes 1-4 **additions**, each tied to a weak
+   criterion. When it fits, just the note.
+
+2. **`what_worked` per criterion.** The strongest genuine moment, quoted where possible —
+   with explicit permission to say "nothing here rose above baseline," because invented
+   praise is calibration rot. "Not assessable." for unassessable criteria.
+
+3. **`next_run_plan`.** 3-6 ordered, imperative, run-specific steps blending the biggest
+   point gaps with the time plan (cuts free up seconds; the plan says where they go).
+
+**The PDF export.** A new "Export full report (PDF)" button on the report screen posts the
+run back to `/api/export` (no DB yet — the browser holds the only copy), which Zod-verifies
+the shape and renders a deterministic PDF via **pdf-lib** (pure JS — the deployment target
+can't run a headless browser, same constraint as D-019's text extraction). The PDF carries
+everything: score/tier/bar, the not-judged note, delivery metrics, the judge's note, time
+plan, next-run plan, priorities, every criterion with its verbatim evidence and
+improvements, the full Q&A with answer points, the complete transcript, honesty notes
+(stripped quotes, corrected timestamps, model/prompt/cost), and the non-affiliation
+disclaimer on **every page** (§20 requires it on every grade report). Standard-font WinAnsi
+encoding means text is sanitized to Latin-1 — a visible '?' beats a crashed export.
+Nothing is stored server-side.
+
+⚠️ g-1.6.0 requires an eval run (§0); still blocked on a local `GEMINI_API_KEY` — same
+pending status as g-1.4.0/g-1.5.0. The new post-validation stage is unit-tested (grounded
+cut kept with computed seconds, invented cut stripped, verdict overwritten, coaching deleted
+when no limit exists).

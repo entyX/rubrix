@@ -52,8 +52,36 @@ export function Report({
 }) {
   const [tab, setTab] = useState<'rubric' | 'qa' | 'transcript'>('rubric');
   const [revealed, setRevealed] = useState<Set<number>>(new Set());
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState('');
 
   const r = run.result;
+
+  /** D-020: the whole report — scores, feedback, Q&A, transcript — as one PDF file. */
+  const exportPdf = async () => {
+    setExportError('');
+    setExporting(true);
+    try {
+      const res = await fetch('/api/export', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ run, event: { name: event.name, org: event.org } }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const slug = event.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      a.href = url;
+      a.download = `rubrix-${slug}-${new Date().toISOString().slice(0, 10)}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      setExportError("We couldn't build the PDF this time. Try again in a moment.");
+    } finally {
+      setExporting(false);
+    }
+  };
   const possible = r.assessable_possible ?? r.total_possible;
   const pct = possible > 0 ? (r.total_score / possible) * 100 : 0;
   const notJudged = run.validation.not_assessable_points;
@@ -120,6 +148,95 @@ export function Report({
         <p className="text-[16px] leading-relaxed">{r.summary}</p>
       </section>
 
+      {/* ── time plan (D-020): what to cut when over, what to add when under */}
+      {r.time_coaching && (
+        <section className="card p-5 sm:p-6">
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <p className="label">Time plan</p>
+            <span
+              className="chip"
+              style={
+                r.time_coaching.verdict === 'over'
+                  ? { background: 'var(--mark)', color: '#fff', borderColor: 'var(--mark)' }
+                  : undefined
+              }
+            >
+              {r.time_coaching.verdict === 'over'
+                ? 'Over time'
+                : r.time_coaching.verdict === 'under'
+                  ? 'Room to add'
+                  : 'Fits the limit'}
+            </span>
+          </div>
+          <p className="text-[15px] leading-relaxed">{r.time_coaching.note}</p>
+
+          {r.time_coaching.cuts.length > 0 && (
+            <div className="mt-4">
+              <p className="label mb-2">Cut these first</p>
+              <ul className="flex flex-col gap-3">
+                {r.time_coaching.cuts.map((cut, i) => (
+                  <li key={i} className="text-[14px] leading-relaxed">
+                    <span className="evidence-quote px-[3px] py-[1px]">&ldquo;{cut.quote}&rdquo;</span>
+                    {cut.seconds_saved !== undefined && (
+                      <span className="timestamp-chip ml-2">~{cut.seconds_saved}s back</span>
+                    )}
+                    <span className="mt-1 block text-[13px]" style={{ color: 'var(--slate)' }}>
+                      {cut.reason}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              {r.time_coaching.cuts.some((c) => c.seconds_saved !== undefined) && (
+                <p className="mono mt-3 text-[12px]" style={{ color: 'var(--slate)' }}>
+                  Cutting all of these buys back ~
+                  {Math.round(r.time_coaching.cuts.reduce((a, c) => a + (c.seconds_saved ?? 0), 0))}s
+                  at your measured pace.
+                </p>
+              )}
+            </div>
+          )}
+
+          {r.time_coaching.additions.length > 0 && (
+            <div className="mt-4">
+              <p className="label mb-2">Worth adding</p>
+              <ul className="flex flex-col gap-2">
+                {r.time_coaching.additions.map((add, i) => (
+                  <li key={i} className="flex gap-2 text-[14px] leading-relaxed">
+                    <span className="mono text-[var(--pen)]">+</span>
+                    <span>
+                      {add.suggestion}
+                      {add.targets_criterion_id && (
+                        <span className="text-[13px]" style={{ color: 'var(--slate)' }}>
+                          {' '}
+                          — strengthens {nameOf(add.targets_criterion_id)}
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* ── next run plan (D-020) */}
+      {r.next_run_plan && r.next_run_plan.length > 0 && (
+        <section className="card p-5 sm:p-6">
+          <p className="label mb-3">Your next run</p>
+          <ol className="flex flex-col gap-2">
+            {r.next_run_plan.map((step, i) => (
+              <li key={i} className="flex gap-3 text-[15px] leading-relaxed">
+                <span className="mono shrink-0 font-medium" style={{ color: 'var(--pen)' }}>
+                  {i + 1}.
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
       {/* ── fastest points */}
       {r.point_gaps_ranked.length > 0 && (
         <section>
@@ -178,6 +295,7 @@ export function Report({
               notAssessableReason={c.not_assessable_reason}
               confidence={c.confidence}
               justification={c.justification}
+              whatWorked={c.what_worked}
               evidence={c.evidence.map((e) => ({
                 quote: e.quote,
                 source: e.source,
@@ -242,9 +360,23 @@ export function Report({
         </div>
       )}
 
-      <button onClick={onAgain} className="btn btn-secondary self-start px-6 text-[14px]">
-        Run it again
-      </button>
+      <div className="flex flex-wrap items-center gap-3">
+        <button onClick={onAgain} className="btn btn-secondary px-6 text-[14px]">
+          Run it again
+        </button>
+        <button
+          onClick={() => void exportPdf()}
+          disabled={exporting}
+          className="btn btn-primary px-6 text-[14px]"
+        >
+          {exporting ? 'Building your PDF…' : 'Export full report (PDF)'}
+        </button>
+        {exportError && (
+          <p className="text-[13px]" style={{ color: 'var(--mark)' }} role="alert">
+            {exportError}
+          </p>
+        )}
+      </div>
 
       <footer className="rounded p-4 text-[11px] leading-relaxed" style={{ background: 'var(--card)', border: '1px solid var(--rule-2)', color: 'var(--slate)' }}>
         <p className="mono mb-2" style={{ color: 'var(--ink)' }}>

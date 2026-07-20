@@ -40,8 +40,16 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   const [recording, setRecording] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [camOn, setCamOn] = useState(true);
-  // Opt-in: let the judge SEE the run (DECISIONS D-015). Default OFF — §20's default is private.
-  const [seeVideo, setSeeVideo] = useState(false);
+  // Let the judge SEE the run. Default ON since D-019 (human decision, amending
+  // D-015's default-off): scores should reflect the whole presentation unless the
+  // student explicitly opts out. The video file itself still never leaves the device.
+  const [seeVideo, setSeeVideo] = useState(true);
+  // Pre-submission materials (D-019): extracted text of the prejudged document.
+  const [materials, setMaterials] = useState<{ name: string; text: string; words: number } | null>(
+    null,
+  );
+  const [materialsBusy, setMaterialsBusy] = useState(false);
+  const [materialsError, setMaterialsError] = useState('');
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
@@ -115,6 +123,10 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       body.append('eventName', event.name);
       body.append('org', event.org);
       if (event.time_limit_s) body.append('timeLimitS', String(event.time_limit_s));
+      if (materials) {
+        body.append('materialsName', materials.name);
+        body.append('materialsText', materials.text);
+      }
       if (report) {
         body.append('visualReport', JSON.stringify(report));
         body.append('visualFrameCount', String(frames.length));
@@ -176,7 +188,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         }
       }
     },
-    [event, analyzeVisual],
+    [event, analyzeVisual, materials],
   );
 
   /**
@@ -293,6 +305,11 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       answers.forEach((a, i) => {
         if (a.clip) body.append(`audio_${i}`, new File([a.clip], `a${i}.webm`, { type: a.clip.type }));
       });
+      // Resend the pre-submission materials so document criteria stay scored too.
+      if (materials) {
+        body.append('materialsName', materials.name);
+        body.append('materialsText', materials.text);
+      }
       // Resend the visual evidence so visual criteria stay scored through the re-grade.
       // The report is preferred (tiny, already computed); raw frames are the fallback.
       if (reportRef.current) {
@@ -342,8 +359,31 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         }
       }
     },
-    [run, event],
+    [run, event, materials],
   );
+
+  /** Prejudged document -> extracted text via /api/presubmission (D-019). */
+  const handleMaterials = useCallback(async (file: File) => {
+    setMaterialsError('');
+    setMaterialsBusy(true);
+    try {
+      const body = new FormData();
+      body.append('file', file);
+      const res = await fetch('/api/presubmission', { method: 'POST', body });
+      const j = (await res.json().catch(() => null)) as
+        | { name?: string; text?: string; words?: number; error?: { message?: string } }
+        | null;
+      if (!res.ok || !j?.text) {
+        setMaterialsError(j?.error?.message ?? "We couldn't read that document.");
+        return;
+      }
+      setMaterials({ name: j.name ?? file.name, text: j.text, words: j.words ?? 0 });
+    } catch {
+      setMaterialsError("We couldn't read that document. Check your connection and try again.");
+    } finally {
+      setMaterialsBusy(false);
+    }
+  }, []);
 
   const mmss = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
@@ -516,9 +556,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
               <span>
                 <span className="display-md text-[15px]">Let the judge see the run</span>
                 <span className="mt-1 block text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
-                  Off by default. Turn it on and the judge can score body language, eye contact,
-                  poise, and appearance instead of skipping them — so the score reflects your whole
-                  presentation.
+                  On by default, so the score reflects your whole presentation — body language, eye
+                  contact, poise, and appearance are scored instead of skipped. Uncheck to grade
+                  from audio only.
                 </span>
                 <span className="mt-2 block text-[12px] leading-relaxed" style={{ color: 'var(--slate)' }}>
                   Even then, your <strong style={{ color: 'var(--ink)' }}>video file is never
@@ -528,6 +568,64 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
                 </span>
               </span>
             </label>
+          </section>
+
+          {/* pre-submission materials (D-019) — the prejudged document, if the event has one */}
+          <section className="card p-5">
+            <h3 className="display-md text-[15px]">Pre-submission materials</h3>
+            <p className="mt-1 text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
+              If this event is prejudged — a report, business plan, or portfolio goes in before you
+              present — attach it here and those rubric lines get scored too. Skip it if your event
+              has none.
+            </p>
+            {materials ? (
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-[14px]" style={{ color: 'var(--ink)' }}>
+                  <span aria-hidden>✓ </span>
+                  <strong>{materials.name}</strong>
+                  {materials.words > 0 && (
+                    <span style={{ color: 'var(--slate)' }}>
+                      {' '}
+                      — {materials.words.toLocaleString()} words attached
+                    </span>
+                  )}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setMaterials(null)}
+                  className="text-[13px] font-medium underline"
+                  style={{ color: 'var(--pen)' }}
+                >
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <label
+                className="mt-3 flex cursor-pointer items-center justify-center rounded px-4 py-3 text-[14px] font-medium"
+                style={{ background: 'var(--paper)', border: '1px dashed var(--rule)' }}
+              >
+                <input
+                  type="file"
+                  accept=".pdf,.txt,.md,application/pdf,text/plain"
+                  className="sr-only"
+                  disabled={materialsBusy}
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) void handleMaterials(f);
+                    e.target.value = '';
+                  }}
+                />
+                {materialsBusy ? 'Reading your document…' : 'Attach a PDF'}
+              </label>
+            )}
+            {materialsError && (
+              <p className="mt-2 text-[13px]" style={{ color: 'var(--mark)' }} role="alert">
+                {materialsError}
+              </p>
+            )}
+            <p className="mt-2 text-[12px] leading-relaxed" style={{ color: 'var(--slate)' }}>
+              Read once to grade, never stored.
+            </p>
           </section>
 
           {/* record */}

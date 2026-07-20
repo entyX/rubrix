@@ -89,6 +89,7 @@ function hostileResult(): GradingResultJSON {
         assessable: true,
         confidence: 'high',
         justification: 'Great hook.',
+        what_worked: 'The direct greeting lands cleanly.',
         evidence: [{ quote: 'Good morning judges.', timestamp_start: 0 }], // REAL
         improvements: ['Tighten it', 'Add a stat'],
         difficulty: 'easy',
@@ -100,6 +101,7 @@ function hostileResult(): GradingResultJSON {
         assessable: true,
         confidence: 'high',
         justification: 'Cited figures.',
+        what_worked: 'The revenue figure is concrete.',
         evidence: [
           // PLANTED FAKE QUOTE — never appears in the transcript.
           {
@@ -112,6 +114,7 @@ function hostileResult(): GradingResultJSON {
       },
     ],
     point_gaps_ranked: [],
+    next_run_plan: ['Open with the revenue figure', 'Source the statistic', 'End on the ask'],
   };
 }
 
@@ -389,6 +392,158 @@ describe('not-assessable criteria (prejudged submissions)', () => {
       event: { ...EVENT, timeLimitS: 420 },
     });
     expect(result.timing).toBeUndefined();
+  });
+});
+
+describe('evidence timestamps recomputed in code (D-019)', () => {
+  it('overwrites a wrong model timestamp with the real segment start', () => {
+    const r = hostileResult();
+    // "Thank you." actually starts at 12s; the model claims 4s. Code wins.
+    r.criteria[0].evidence = [{ quote: 'Thank you.', timestamp_start: 4, source: 'transcript' }];
+    const { result, report } = run(r);
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence[0].timestamp_start).toBe(12);
+    expect(report.timestamps_realigned).toBe(1);
+  });
+
+  it('fills in a missing timestamp when the quote is locatable', () => {
+    const r = hostileResult();
+    r.criteria[0].evidence = [{ quote: 'Our revenue tripled in the third quarter', source: 'transcript' }];
+    const { result } = run(r);
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence[0].timestamp_start).toBe(3);
+  });
+
+  it('leaves an already-correct timestamp alone without counting it', () => {
+    const { result, report } = run(hostileResult());
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence[0].timestamp_start).toBe(0); // was correct
+    expect(report.timestamps_realigned).toBe(0);
+  });
+
+  it('strips the timestamp from a grounded quote that is not in the recording', () => {
+    // A quote from a typed Q&A answer grounds against the corpus but has no audio
+    // position — a timestamp on it would be fabricated precision.
+    const subWithQa: Submission = {
+      presentation: { transcript: TRANSCRIPT, metrics: METRICS },
+      qa: [{ question: 'Why now?', answer: 'Because our margins doubled after the pivot.' }],
+    };
+    const r = hostileResult();
+    r.criteria[0].evidence = [
+      { quote: 'Because our margins doubled after the pivot.', timestamp_start: 7 },
+    ];
+    const { result, report } = postValidate({
+      result: r,
+      rubric: RUBRIC,
+      submission: subWithQa,
+      event: EVENT,
+    });
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence).toHaveLength(1); // grounded — it IS real evidence
+    expect(opening.evidence[0].timestamp_start).toBeUndefined();
+    expect(report.timestamps_realigned).toBe(1);
+  });
+});
+
+describe('pre-submission materials (D-019)', () => {
+  const SUB_WITH_MATERIALS: Submission = {
+    presentation: { transcript: TRANSCRIPT, metrics: METRICS },
+    materials: {
+      name: 'marketing-plan.pdf',
+      text: 'Our marketing plan targets three school districts with a five hundred dollar budget over six weeks.',
+    },
+  };
+  const runWithMaterials = (r: GradingResultJSON) =>
+    postValidate({ result: r, rubric: RUBRIC, submission: SUB_WITH_MATERIALS, event: EVENT });
+
+  it('keeps a document quote taken verbatim from the materials', () => {
+    const r = hostileResult();
+    r.criteria[0].evidence = [
+      { quote: 'targets three school districts with a five hundred dollar budget', source: 'document' },
+    ];
+    const { result } = runWithMaterials(r);
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence).toHaveLength(1);
+    expect(opening.evidence[0].source).toBe('document');
+    expect(opening.evidence[0].timestamp_start).toBeUndefined(); // documents have no audio time
+  });
+
+  it('strips an invented document quote and drops confidence', () => {
+    const r = hostileResult();
+    r.criteria[0].evidence = [
+      { quote: 'The plan includes a SWOT analysis with twelve competitor profiles.', source: 'document' },
+    ];
+    const { result, report } = runWithMaterials(r);
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence).toHaveLength(0);
+    expect(opening.confidence).toBe('medium');
+    expect(report.hallucinated_quotes_stripped).toBe(2); // invented doc quote + planted fake
+  });
+});
+
+describe('time coaching (D-020) — judgment from the model, numbers from code', () => {
+  const coaching = () => ({
+    verdict: 'fits' as const, // the model's opinion — code overwrites it
+    note: 'You ran long.',
+    cuts: [
+      // REAL passage from the transcript — must survive, with seconds computed.
+      { quote: 'Good morning judges.', reason: 'A greeting earns no rubric credit.' },
+      // INVENTED passage — must be stripped and counted.
+      { quote: 'As I mentioned in my lengthy introduction about the weather today.', reason: 'Off-topic.' },
+    ],
+    additions: [],
+  });
+
+  it('is deleted entirely when the event has no time limit', () => {
+    const r = hostileResult();
+    r.time_coaching = coaching();
+    const { result } = run(r); // EVENT.timeLimitS is null
+    expect(result.time_coaching).toBeUndefined();
+  });
+
+  it('recomputes the verdict from the measured duration, overwriting the model', () => {
+    const r = hostileResult();
+    r.time_coaching = coaching(); // model claims 'fits'
+    const { result } = postValidate({
+      result: r,
+      rubric: RUBRIC,
+      submission: SUBMISSION,
+      event: { ...EVENT, timeLimitS: 10 }, // actual 14s > 10s limit
+    });
+    expect(result.time_coaching!.verdict).toBe('over');
+  });
+
+  it('reads a comfortably-short run as "under" and a close one as "fits"', () => {
+    const r1 = hostileResult();
+    r1.time_coaching = coaching();
+    const under = postValidate({
+      result: r1, rubric: RUBRIC, submission: SUBMISSION,
+      event: { ...EVENT, timeLimitS: 300 }, // 14s of a 300s limit
+    });
+    expect(under.result.time_coaching!.verdict).toBe('under');
+
+    const r2 = hostileResult();
+    r2.time_coaching = coaching();
+    const fits = postValidate({
+      result: r2, rubric: RUBRIC, submission: SUBMISSION,
+      event: { ...EVENT, timeLimitS: 15 }, // 14s of a 15s limit — inside the 15% band
+    });
+    expect(fits.result.time_coaching!.verdict).toBe('fits');
+  });
+
+  it('keeps grounded cuts with code-computed seconds and strips invented ones', () => {
+    const r = hostileResult();
+    r.time_coaching = coaching();
+    const { result, report } = postValidate({
+      result: r, rubric: RUBRIC, submission: SUBMISSION,
+      event: { ...EVENT, timeLimitS: 10 },
+    });
+    const tc = result.time_coaching!;
+    expect(tc.cuts).toHaveLength(1); // the invented cut is gone
+    expect(tc.cuts[0].quote).toBe('Good morning judges.');
+    // 3 words at the measured 94 wpm: 3/94*60 = 1.9s — computed, never estimated.
+    expect(tc.cuts[0].seconds_saved).toBeCloseTo(1.9, 1);
+    expect(report.time_cuts_stripped).toBe(1);
   });
 });
 

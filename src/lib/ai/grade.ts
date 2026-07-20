@@ -32,7 +32,7 @@ import {
 } from './schemas';
 import { renderVisualReport } from './visual';
 import { parseModelJson } from './json';
-import { isGrounded, dropConfidence } from './grounding';
+import { isGrounded, dropConfidence, findQuoteStart } from './grounding';
 import { formatTranscriptLines, estimateTokens, MAX_TRANSCRIPT_TOKENS, mmss } from '@/lib/transcript/format';
 import type { DeliveryMetrics } from '@/lib/metrics/delivery';
 import type { SiteCapture } from '@/lib/site/crawl';
@@ -73,6 +73,13 @@ export interface Submission {
    * grounded against it in postValidate — no more free pass for visual claims.
    */
   visual?: { report: VisualReportJSON; frameCount: number };
+  /**
+   * Pre-submission materials (D-019): the prejudged document some events require — a
+   * report, plan, or portfolio — as extracted text. Criteria that can only be
+   * evidenced by that document become assessable when this is present; its text joins
+   * the grounding corpus so source-"document" quotes are checked like everything else.
+   */
+  materials?: { name: string; text: string };
 }
 
 /** What post-validation had to change. These are the numbers §10 tracks. */
@@ -91,6 +98,13 @@ export interface ValidationReport {
   schema_retry_issues?: string;
   not_assessable: string[];
   not_assessable_points: number;
+  /**
+   * D-019: how many evidence timestamps the model got wrong and code corrected (or
+   * removed, when the quote isn't from the recording at all).
+   */
+  timestamps_realigned: number;
+  /** D-020: proposed time-coaching cuts whose "verbatim" quote wasn't in the recording. */
+  time_cuts_stripped: number;
 }
 
 export interface GradeResult {
@@ -127,6 +141,8 @@ export function groundingCorpus(sub: Submission): string {
   // here with the SAME function that renders it into the prompt is what makes the
   // grounding check honest: the judge quotes exactly what it was shown.
   if (sub.visual) parts.push(renderVisualReport(sub.visual.report));
+  // Pre-submitted materials are quotable evidence for prejudged criteria (D-019).
+  if (sub.materials) parts.push(sub.materials.text);
   return parts.join('\n\n');
 }
 
@@ -144,6 +160,8 @@ function emptyReport(): ValidationReport {
     schema_retry_used: false,
     not_assessable: [],
     not_assessable_points: 0,
+    timestamps_realigned: 0,
+    time_cuts_stripped: 0,
   };
 }
 
@@ -161,8 +179,8 @@ export async function gradeSubmission(args: {
 }): Promise<GradeResult> {
   const { rubric, submission, event, runId, seed = 7 } = args;
 
-  if (!submission.presentation && !submission.site) {
-    throw new Error('Nothing to grade: provide a website, a recording, or both.');
+  if (!submission.presentation && !submission.site && !submission.materials) {
+    throw new Error('Nothing to grade: provide a recording, a website, or pre-submission materials.');
   }
 
   // ---- assemble the prompt inputs
@@ -239,6 +257,7 @@ export async function gradeSubmission(args: {
     frameCount: submission.visual ? 0 : (submission.frames?.length ?? 0),
     visualReportText: submission.visual ? renderVisualReport(submission.visual.report) : undefined,
     visualFrameCount: submission.visual?.frameCount,
+    materials: submission.materials,
   });
 
   const report = emptyReport();
@@ -382,6 +401,30 @@ export function postValidate(args: {
     c.evidence = kept;
   }
 
+  // ---- D-019: evidence timestamps are computed in code, never trusted (§9.2's rule,
+  // applied to the one number the model was still allowed to make up). Every grounded
+  // transcript quote provably exists in the segments, so its true position is a fact:
+  // find it and overwrite. A quote that is NOT in the recording (e.g. from a typed
+  // Q&A answer) loses its timestamp — that precision would be fabricated.
+  if (submission.presentation) {
+    const segs = submission.presentation.transcript.segments;
+    for (const c of result.criteria) {
+      for (const e of c.evidence) {
+        if (e.source !== undefined && e.source !== 'transcript') continue;
+        const found = findQuoteStart(e.quote, segs);
+        if (found !== null) {
+          if (e.timestamp_start === undefined || Math.abs(e.timestamp_start - found) > 1) {
+            report.timestamps_realigned++;
+          }
+          e.timestamp_start = found;
+        } else if (e.timestamp_start !== undefined) {
+          delete e.timestamp_start;
+          report.timestamps_realigned++;
+        }
+      }
+    }
+  }
+
   // ---- step 3: arithmetic. Trust the sum, overwrite the model.
   const computedTotal = result.criteria.reduce((sum, c) => sum + c.score, 0);
   const totalPossible = rubric.criteria.reduce((sum, c) => sum + c.max_points, 0);
@@ -407,6 +450,43 @@ export function postValidate(args: {
   const computedTier = tierFromPct(pct);
   report.tier_overwritten = result.tier !== computedTier;
   result.tier = computedTier;
+
+  // ---- D-020: time coaching — the model's judgment, code's numbers.
+  if (result.time_coaching) {
+    if (!submission.presentation || event.timeLimitS === null) {
+      // Nothing to coach on: no recording, or the event has no limit. A time plan
+      // here would be advice about evidence that doesn't exist.
+      delete result.time_coaching;
+    } else {
+      const tc = result.time_coaching;
+      const actual = submission.presentation.metrics.duration_s;
+      const limit = event.timeLimitS;
+      // Verdict is arithmetic, not opinion. "under" means comfortably under — more
+      // than 15% of the limit unused (a coaching heuristic, not an org rule; official
+      // under-time penalties vary by event and are never invented here — D-005).
+      tc.verdict = actual > limit ? 'over' : actual < limit * 0.85 ? 'under' : 'fits';
+
+      // Every cut must be verbatim from the RECORDING — same bar as evidence quotes.
+      // Time saved is computed from the quote's word count at the speaker's own
+      // measured pace; the model was told not to estimate it, and isn't trusted to.
+      const transcriptText = submission.presentation.transcript.full_text;
+      const wpm = submission.presentation.metrics.words_per_minute;
+      const kept: typeof tc.cuts = [];
+      for (const cut of tc.cuts) {
+        if (!isGrounded(cut.quote, transcriptText)) {
+          report.time_cuts_stripped++;
+          continue;
+        }
+        const words = cut.quote.trim() === '' ? 0 : cut.quote.trim().split(/\s+/).length;
+        kept.push({
+          quote: cut.quote,
+          reason: cut.reason,
+          ...(wpm > 0 ? { seconds_saved: Number(((words / wpm) * 60).toFixed(1)) } : {}),
+        });
+      }
+      tc.cuts = kept;
+    }
+  }
 
   // Timing is computed in code, never by the LLM (§9.2). Only when a run exists.
   if (event.timeLimitS !== null && submission.presentation) {

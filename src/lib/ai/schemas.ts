@@ -49,6 +49,39 @@ export const TIERS = [
   'competitive_national',
 ] as const;
 
+/**
+ * Time coaching (D-020): the judge decides WHAT to cut or add; code decides the
+ * NUMBERS. `verdict` is recomputed from the measured duration, every cut's `quote`
+ * must be verbatim from the transcript (grounded like evidence, stripped if not),
+ * and `seconds_saved` is computed from the quote's word count at the speaker's own
+ * measured pace — the model never estimates time.
+ */
+export const TimeCoachingJSON = z.object({
+  verdict: z.enum(['over', 'fits', 'under']),
+  note: z.string(),
+  cuts: z
+    .array(
+      z.object({
+        quote: z.string(),
+        reason: z.string(),
+        /** Filled by postValidate from word count ÷ measured WPM. Never the model's. */
+        seconds_saved: z.number().optional(),
+      }),
+    )
+    .max(5)
+    .default([]),
+  additions: z
+    .array(
+      z.object({
+        suggestion: z.string(),
+        targets_criterion_id: z.string().optional(),
+      }),
+    )
+    .max(4)
+    .default([]),
+});
+export type TimeCoachingJSON = z.infer<typeof TimeCoachingJSON>;
+
 export const GradingResultJSON = z.object({
   total_score: z.number(),
   total_possible: z.number(),
@@ -77,6 +110,12 @@ export const GradingResultJSON = z.object({
       confidence: z.enum(['high', 'medium', 'low']),
       not_assessable_reason: z.string().optional(),
       justification: z.string(),
+      /**
+       * D-020: the strongest genuine moment for THIS criterion, or a plain statement
+       * that nothing stood out. Never invented praise — the prompt says so and the
+       * calibration rules still apply.
+       */
+      what_worked: z.string(),
       evidence: z.array(
         z.object({
           quote: z.string(),
@@ -98,6 +137,10 @@ export const GradingResultJSON = z.object({
       difficulty: z.enum(['easy', 'medium', 'hard']),
     }),
   ),
+  /** D-020: 3-6 ordered steps for the NEXT practice run, most valuable first. */
+  next_run_plan: z.array(z.string()).min(3).max(6),
+  /** D-020: present only when a recording AND a time limit exist (postValidate enforces). */
+  time_coaching: TimeCoachingJSON.optional(),
   timing: z
     .object({
       limit_s: z.number(),
@@ -353,6 +396,11 @@ export const GRADING_RESPONSE_SCHEMA = {
           confidence: { type: 'string', enum: ['high', 'medium', 'low'] },
           not_assessable_reason: { type: 'string' },
           justification: { type: 'string' },
+          what_worked: {
+            type: 'string',
+            description:
+              'The strongest genuine moment for THIS criterion (1-2 sentences, quote when possible). If nothing stood out, say so plainly. "Not assessable." for unassessable criteria. Never invented praise.',
+          },
           evidence: {
             type: 'array',
             items: {
@@ -396,6 +444,7 @@ export const GRADING_RESPONSE_SCHEMA = {
           'assessable',
           'confidence',
           'justification',
+          'what_worked',
           'evidence',
           'improvements',
           'difficulty',
@@ -414,6 +463,61 @@ export const GRADING_RESPONSE_SCHEMA = {
         required: ['criterion_id', 'points_available', 'difficulty'],
       },
     },
+    next_run_plan: {
+      type: 'array',
+      description:
+        '3 to 6 ordered steps for the NEXT practice run, most valuable first. One imperative sentence each, specific to THIS run.',
+      minItems: 3,
+      maxItems: 6,
+      items: { type: 'string' },
+    },
+    time_coaching: {
+      type: 'object',
+      description:
+        'ONLY when a recording AND a time limit exist. The time plan: what to cut if over, what to add if under.',
+      properties: {
+        verdict: { type: 'string', enum: ['over', 'fits', 'under'] },
+        note: {
+          type: 'string',
+          description: "1-2 coach-voice sentences on how the run used its time.",
+        },
+        cuts: {
+          type: 'array',
+          description:
+            'When over the limit: 2-5 passages earning the LEAST rubric credit. quote must be VERBATIM from the transcript — it is checked word for word. Do NOT estimate time saved; code computes it.',
+          maxItems: 5,
+          items: {
+            type: 'object',
+            properties: {
+              quote: { type: 'string', description: 'VERBATIM words from the transcript.' },
+              reason: {
+                type: 'string',
+                description: 'Why the rubric loses little by cutting this passage.',
+              },
+            },
+            required: ['quote', 'reason'],
+          },
+        },
+        additions: {
+          type: 'array',
+          description:
+            'When well under the limit: 1-4 things to add or expand, each tied to a weak criterion.',
+          maxItems: 4,
+          items: {
+            type: 'object',
+            properties: {
+              suggestion: { type: 'string' },
+              targets_criterion_id: {
+                type: 'string',
+                description: 'The rubric criterion this addition would strengthen.',
+              },
+            },
+            required: ['suggestion'],
+          },
+        },
+      },
+      required: ['verdict', 'note', 'cuts', 'additions'],
+    },
   },
   required: [
     'total_score',
@@ -423,6 +527,7 @@ export const GRADING_RESPONSE_SCHEMA = {
     'top_priorities',
     'criteria',
     'point_gaps_ranked',
+    'next_run_plan',
   ],
 } as const;
 

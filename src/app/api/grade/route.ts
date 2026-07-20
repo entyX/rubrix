@@ -125,6 +125,18 @@ export async function POST(req: Request) {
     }
   }
 
+  // Pre-submission materials (D-019): extracted text from /api/presubmission, riding
+  // along as a string. Criteria about the prejudged document become gradeable.
+  let materials: Submission['materials'];
+  const matText = form.get('materialsText');
+  const matName = form.get('materialsName');
+  if (typeof matText === 'string' && matText.trim().length >= 50) {
+    materials = {
+      name: typeof matName === 'string' && matName !== '' ? matName.slice(0, 120) : 'document',
+      text: matText.slice(0, 80_000),
+    };
+  }
+
   // Opt-in video frames (DECISIONS D-015), the fallback path when no report exists.
   // Stills only — the video file is never uploaded. Used for this grade and discarded.
   const frames: Array<{ base64: string; mimeType: string; atSeconds: number }> = [];
@@ -161,6 +173,7 @@ export async function POST(req: Request) {
           presentation: { transcript: tr.transcript, metrics },
           ...(visual ? { visual } : {}),
           ...(frames.length ? { frames } : {}),
+          ...(materials ? { materials } : {}),
         };
         send({ stage: 'transcribed', metrics, warnings: tr.timestampWarnings });
 

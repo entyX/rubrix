@@ -14,6 +14,69 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.6.0 · grading — 2026-07-20 — time coaching, what_worked, next_run_plan (D-020)
+
+**Why:** the human asked for more feedback, time-aware coaching ("consider how much time
+they have and what they should cut"), and a full PDF export (the export needs no prompt
+change; it ships alongside).
+
+**Diff from g-1.5.0** — three additions, everything else untouched:
+
+1. **Rule 6b (time coaching):** only when a recording AND a limit exist. Over the limit →
+   2-5 cuts, each quote VERBATIM from the transcript ("it is checked word for word, and an
+   invented quote is discarded"), reason tied to the rubric, and — load-bearing — *"Do NOT
+   estimate the time a cut saves; code computes that from the quote's length at the
+   speaker's measured pace."* Well under → 1-4 additions targeting weak criteria. Fits →
+   note only. Verdict stated but recomputed in code either way.
+2. **Rule 7b (what_worked):** per criterion, the strongest GENUINE moment — *"Never invent
+   praise; the calibration rules apply to praise exactly as they apply to scores"* — with
+   plain "nothing stood out" explicitly sanctioned.
+3. **Rule 9b (next_run_plan):** 3-6 ordered, imperative, run-specific steps; if cuts were
+   proposed, the plan says what to do with the reclaimed time.
+
+**Post-validation riding along (§9.7):** a new time-coaching stage — deleted when no
+recording/limit; verdict recomputed from measured duration (over / fits / under at >15%
+unused); cut quotes grounded against the transcript (strips counted in
+`validation.time_cuts_stripped`); `seconds_saved` computed as words ÷ measured WPM.
+Unit-tested without a key.
+
+**Schema:** `what_worked` and `next_run_plan` are REQUIRED (enforced in the Gemini response
+schema so absence doesn't burn retries, per D-010); `time_coaching` optional by design.
+`seconds_saved` deliberately does not exist in the model-facing schema at all.
+
+**Eval:** ⚠️ **PENDING — still blocked on a local GEMINI_API_KEY** (same status as
+g-1.4.0/g-1.5.0 below). New risks the harness should watch when it runs: what_worked
+inviting generosity drift (the anchor band check covers it), and cut-quote grounding
+survival rates.
+
+---
+
+## g-1.5.0 · grading — 2026-07-19 — pre-submission materials + timestamps recomputed in code (D-019)
+
+**Why:** (a) prejudged events (report/plan/portfolio submitted before competition) had their
+document criteria permanently not-assessable in the web app; (b) evidence timestamps were
+"completely wrong sometimes" — `timestamp_start` was the one number §9.7 still let the model
+invent.
+
+**Diff from g-1.4.0** — two additions, nothing else touched:
+1. INPUTS gains a third submission type: PREJUDGED MATERIALS (extracted text of the
+   pre-submitted document).
+2. Rule 5 gains the branch: materials present → document criteria assessable, quoted verbatim
+   with source "document" (grounded against the materials text); materials absent → such
+   criteria not assessable, with a not_assessable_reason inviting the upload.
+
+**Post-validation change (§9.7, no prompt involved):** every transcript-sourced quote's
+timestamp is now located in the segments in code (`findQuoteStart`) and the model's value is
+**overwritten**; quotes not present in the recording lose their timestamp. Tracked as
+`validation.timestamps_realigned`. This closes the last number the model was trusted with —
+same principle as the D-007 arithmetic overwrite.
+
+**Eval:** ⚠️ **PENDING — still blocked on a local GEMINI_API_KEY** (same status as g-1.4.0
+below). The timestamp realignment and materials grounding are unit-tested; calibration impact
+of the new materials branch is unmeasured until the harness runs.
+
+---
+
 ## g-1.4.0 · grading + t-1.1.0 · transcription + v-1.0.0 · visual — 2026-07-19 — open-source eyes and ears (D-018)
 
 **Why:** three field complaints — video grading felt thin, runs sometimes died on JSON errors,

@@ -24,6 +24,9 @@ export interface EvidenceLineProps {
   notAssessableReason?: string;
   confidence?: 'high' | 'medium' | 'low';
   justification?: string;
+  /** D-020: the strongest genuine moment for this criterion. Plain "nothing stood
+   *  out" statements render too — honest is the house style. */
+  whatWorked?: string;
   evidence?: EvidenceQuote[];
   improvements?: string[];
   defaultExpanded?: boolean;
@@ -42,6 +45,7 @@ export function EvidenceLine({
   notAssessableReason,
   confidence,
   justification,
+  whatWorked,
   evidence = [],
   improvements = [],
   defaultExpanded = false,
@@ -93,6 +97,15 @@ export function EvidenceLine({
               </span>
             </p>
           ))}
+
+          {whatWorked && whatWorked !== 'Not assessable.' && (
+            <p className="mb-2 text-[14px] leading-relaxed">
+              <span className="label mr-2" style={{ color: 'var(--pen)' }}>
+                What worked
+              </span>
+              {whatWorked}
+            </p>
+          )}
 
           {justification && (
             <p className="text-[14px] leading-relaxed" style={{ color: 'var(--slate)' }}>

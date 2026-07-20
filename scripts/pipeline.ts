@@ -16,6 +16,8 @@
  *   --frames <dir>      still frames (jpg/png) sampled from the run. With an
  *                       OPENROUTER_API_KEY set they become a whole-run visual report
  *                       (D-018); without one they attach to the judge raw.
+ *   --materials <file>  the prejudged pre-submission document (PDF or txt/md) —
+ *                       report, plan, portfolio (D-019)
  *   --rubric <path>     rubric JSON
  *   --event  <name>     event name        (default: "Website Coding & Development")
  *   --org    <slug>     fbla|deca|tsa|hosa (default: fbla)
@@ -58,7 +60,7 @@ async function main() {
   const site = arg('--site');
   const audio = arg('--audio');
 
-  if (!site && !audio) {
+  if (!site && !audio && !arg('--materials')) {
     console.error(
       'Nothing to grade.\n\n' +
         '  npm run judge -- --site <url-or-folder> --rubric <path>\n' +
@@ -181,6 +183,24 @@ async function main() {
     }
   }
 
+  // ── Pre-submission materials (D-019): the prejudged document, as extracted text.
+  const materialsPath = arg('--materials');
+  if (materialsPath) {
+    const raw = await readFile(materialsPath);
+    let text: string;
+    if (/\.pdf$/i.test(materialsPath)) {
+      const { PDFParse } = await import('pdf-parse');
+      text = (await new PDFParse({ data: new Uint8Array(raw) }).getText()).text;
+    } else {
+      text = raw.toString('utf8');
+    }
+    text = text.replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim().slice(0, 80_000);
+    submission.materials = { name: path.basename(materialsPath), text };
+    console.log(
+      `Pre-submission materials: ${path.basename(materialsPath)} (${text.split(/\s+/).length} words)\n`,
+    );
+  }
+
   // ── Grade
   console.log('Judging against the rubric…');
   const graded = await gradeSubmission({
@@ -258,6 +278,21 @@ async function main() {
 
   if (r.timing) console.log(`\nTIMING\n  ${r.timing.note}`);
 
+  if (r.time_coaching) {
+    const tc = r.time_coaching;
+    console.log(`\nTIME PLAN (${tc.verdict.toUpperCase()})\n  ${tc.note}`);
+    for (const cut of tc.cuts) {
+      const secs = cut.seconds_saved !== undefined ? ` (~${cut.seconds_saved}s back)` : '';
+      console.log(`  cut: "${cut.quote.replace(/\s+/g, ' ').slice(0, 60)}${cut.quote.length > 60 ? '…' : ''}"${secs}`);
+    }
+    for (const add of tc.additions) console.log(`  add: ${add.suggestion}`);
+  }
+
+  if (r.next_run_plan?.length) {
+    console.log('\nYOUR NEXT RUN');
+    r.next_run_plan.forEach((s, i) => console.log(`  ${i + 1}. ${s}`));
+  }
+
   if (qa) {
     console.log(`\nJUDGE Q&A (${qa.qa.questions.length} questions)`);
     for (const q of qa.qa.questions.slice(0, 3)) console.log(`  [${q.difficulty}] ${q.question}`);
@@ -271,6 +306,8 @@ async function main() {
     `  arithmetic overwritten       : ${v.arithmetic_overwritten ? `yes (model said ${v.model_total}, real sum ${v.computed_total})` : 'no'}`,
   );
   console.log(`  tier overwritten             : ${v.tier_overwritten ? 'yes' : 'no'}`);
+  console.log(`  timestamps realigned         : ${v.timestamps_realigned}`);
+  console.log(`  time cuts stripped           : ${v.time_cuts_stripped}`);
   console.log(`  scores clamped               : ${v.scores_clamped.join(', ') || 'none'}`);
   console.log(`  not assessable               : ${v.not_assessable.join(', ') || 'none'}`);
   console.log(`  retries used                 : schema=${v.schema_retry_used} coverage=${v.coverage_retry_used}`);
