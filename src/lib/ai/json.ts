@@ -25,7 +25,28 @@ export function parseModelJson<T>(raw: string, schema: z.ZodType<T>): ParseOutco
   try {
     parsed = JSON.parse(text);
   } catch (err) {
-    return { ok: false, issues: `not valid JSON (${(err as Error).message})` };
+    // Last-resort repair: some failures are stray prose around an otherwise-valid
+    // object ("Here is the JSON: {...} Hope that helps!"). Try the outermost braces
+    // before giving up. A TRUNCATED object still fails here — by design: half a
+    // grade parsed "successfully" would be a wrong score, not a save.
+    const first = text.indexOf('{');
+    const last = text.lastIndexOf('}');
+    if (first !== -1 && last > first) {
+      try {
+        parsed = JSON.parse(text.slice(first, last + 1));
+      } catch {
+        parsed = undefined;
+      }
+    }
+    if (parsed === undefined) {
+      const truncated = !text.trimEnd().endsWith('}');
+      return {
+        ok: false,
+        issues:
+          `not valid JSON (${(err as Error).message})` +
+          (truncated ? ' — output does not end in "}", likely truncated at the token cap' : ''),
+      };
+    }
   }
 
   const result = schema.safeParse(parsed);

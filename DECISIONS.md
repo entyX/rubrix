@@ -405,3 +405,63 @@ officer, or settings pages — those need auth + Supabase (M2/M3), which haven't
 `CLAUDE.md`'s milestone gate says not to build ahead of that. Confirmed with the human before
 proceeding (multiple-choice: restyle-existing-plus-landing was chosen over building static
 mock-ups of the unbuilt pages).
+
+---
+
+## D-018 — Open-source eyes and ears: Qwen3-VL watches the whole run, Whisper transcribes it
+
+**Date:** 2026-07-19 · **By:** Ronit ("use an open source model... we want all the frames") + agent
+· **Amends:** D-002 (single-provider), extends D-015
+
+**The three complaints this answers:** video grading felt weak, runs sometimes died on JSON
+errors, and the judge never saw the whole video. All three traced to the same design: the judge
+saw at most 9 stills (silently trimmed to ≤5 to fit Vercel's 4.5MB body cap next to the audio),
+and transcription was a single-shot LLM JSON call that truncated on long runs. The Gemini key is
+also low on credit, so "send Gemini the whole video" was ruled out by the human.
+
+**The shape: Gemini stays the judge; open-source models become the senses.**
+
+- **Eyes — Qwen3-VL (235B-A22B) via OpenRouter.** The browser now samples one frame every ~8s
+  across the ENTIRE run (up to 60, 640px), posts them to the new `/api/visual` in their own
+  request (own body budget — no more fighting the audio), and the vision model writes a
+  timestamped, observations-only **visual delivery report** with an explicit `cannot_see` list.
+  The judge grades visual criteria from that report. ~1-2¢/run.
+- **Ears — Whisper large-v3 via Groq.** A real ASR system: timestamps measured from the audio,
+  no JSON to hallucinate, fillers preserved (biased via prompt), ~$0.11/audio-hour vs Gemini's
+  3.3× audio token rate. This was D-002's explicitly-kept escape hatch, now real.
+- **Judge of last resort.** If Gemini itself returns quota/billing errors, `gemini.ts` reroutes
+  that call (text+images only) to the OpenRouter model, loudly logged — a dead key no longer
+  hard-fails a student's grade. `RUBRIX_OSS_FALLBACK=off` disables.
+
+**Strictness got TIGHTER, not looser.** Previously `source:"visual"` evidence skipped the §9.7
+hallucination check entirely — the judge could invent visual observations. Now, when a report
+exists, every visual quote must be verbatim from the report (rendered by the same function that
+builds the prompt block, so grounding is honest) or it is stripped and confidence drops. The
+calibration wording (rule 4) is untouched. Confidence for visual criteria stays capped at
+medium — stills, not motion.
+
+**Graceful degradation, in order:** report (OpenRouter key set) → raw frames to Gemini (no key /
+visual call failed — the pre-D-018 path, unchanged) → audio-only (no consent), where visual
+criteria stay *not judged*, never zeroed.
+
+**JSON hardening shipped alongside** (all three were real failure modes on long videos):
+transcription output no longer duplicates every word (`full_text` is derived in code from the
+segments — half the output tokens), transcription gets the same one-retry loop grading has
+always had, `gemini.ts` detects `MAX_TOKENS` truncation and retries with a doubled cap instead
+of surfacing "unusable JSON", silence now reads as "no intelligible speech" instead of a schema
+error, and `json.ts` salvages stray-prose-wrapped objects (but never truncated ones — half a
+grade is a wrong grade).
+
+**Privacy:** unchanged from D-015. The video file never leaves the device; the same opt-in
+stills now go to OpenRouter instead of Google; audio goes to Groq instead of Google when its key
+is set. Neither provider stores them, nothing is persisted, and the consent copy says what
+actually happens.
+
+**Cost per graded video run, after:** Whisper ~0.03¢ + visual report ~1-2¢ + Gemini judging
+~3-4¢ ≈ **5¢** — and the expensive audio modality is off the Gemini key entirely.
+
+**Prompts:** grading g-1.4.0 (rule 5 split: report-grounded branch + raw-frames branch),
+transcribe t-1.1.0 (segments only), new visual v-1.0.0 (observer, not judge). ⚠️ Per the §0
+rule these bumps require an eval run; no `GEMINI_API_KEY` was available in this session, so the
+eval is **pending** — run `npm run eval` before trusting the change. Recorded honestly in
+`docs/prompt-changelog.md`.

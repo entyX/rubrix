@@ -14,6 +14,46 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.4.0 · grading + t-1.1.0 · transcription + v-1.0.0 · visual — 2026-07-19 — open-source eyes and ears (D-018)
+
+**Why:** three field complaints — video grading felt thin, runs sometimes died on JSON errors,
+and the judge never saw the whole video (≤9 stills, silently trimmed to ≤5 by the upload cap).
+Plus a hard constraint: the Gemini key is low on credit.
+
+**g-1.4.0 (diff from g-1.3.0)** — rule 5's video branch split in two:
+
+> VISUAL DELIVERY REPORT: if present (a vision system watched frames sampled across the ENTIRE
+> run), visual-delivery criteria ARE assessable, confidence "medium" at most. Evidence uses
+> source "visual" and the quote MUST be verbatim from the report — it is checked against the
+> report exactly like transcript quotes; an invented observation is stripped. Respect the
+> report's "cannot see" list.
+> RAW VIDEO FRAMES (no report): the g-1.3.0 behaviour, unchanged.
+
+This is a strictness INCREASE: source-"visual" evidence used to skip the §9.7 hallucination
+check entirely; with a report present it is now grounded like everything else (postValidate
+change, unit-tested). Calibration wording (rule 4) untouched.
+
+**t-1.1.0 (diff from t-1.0.0):** the model returns segments only; `full_text` is derived in
+code by joining them. The old shape wrote every word twice and truncated long runs mid-JSON at
+the output cap — the main "unusable JSON" source on video uploads. Also: one corrective retry
+(same loop grading has), and silence now returns an empty segments array (surfaced as "no
+intelligible speech", not a schema failure). When `GROQ_API_KEY` is set this prompt isn't used
+at all — Whisper large-v3 on Groq transcribes with ASR-measured timestamps.
+
+**v-1.0.0 (new):** the open-source vision model (Qwen3-VL via OpenRouter) is an OBSERVER, not a
+judge — timestamped, strictly-visible observations; per-dimension patterns across the run; an
+explicit `cannot_see` list; no identity speculation; temperature 0. Its rendered report is both
+the judge's prompt block and the grounding corpus for visual quotes — same function, so honest
+quotes always ground.
+
+**Eval:** ⚠️ **PENDING — blocked on a key, not skipped by choice.** No `GEMINI_API_KEY` was
+available in this session, so `npm run eval` could not be run. Under §0 this change must not be
+called good until the harness passes (and the visual path still has no eval case at all — a
+frames-bearing case is the obvious next addition). Mechanics are covered by unit tests
+(grounded-visual stripping, derived full_text, truncation repair, sampling plan).
+
+---
+
 ## grading temperature 0.2 → 0 — 2026-07-17 (measured by the eval harness)
 
 Not a prompt-text change, so the version stays g-1.3.0 — but a material grading change, logged

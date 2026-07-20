@@ -73,7 +73,12 @@ Do not invent product behavior. Do not guess at FBLA rules. Do not make up rubri
 
 ## AI/LLM SPECIFIC RULES
 
-**Provider: Google Gemini (`gemini-2.5-flash`), one key for everything.** Grading AND transcription (D-002). Two traps, both verified the hard way:
+**Provider: Google Gemini (`gemini-2.5-flash`) is THE JUDGE.** Grading, Q&A, rubric parsing (D-002).
+The senses are open-source when their keys exist (D-018): transcription = Whisper large-v3 via
+Groq (`GROQ_API_KEY`), whole-run visual analysis = Qwen3-VL via OpenRouter (`OPENROUTER_API_KEY`),
+each degrading to the Gemini-only path without its key. Never move JUDGING off Gemini silently —
+the only sanctioned exception is the loudly-logged quota-death fallback in `gemini.ts`
+(`RUBRIX_OSS_FALLBACK=off` disables). Two Gemini traps, both verified the hard way:
 - Use `ai.models.generateContent(...)` with `responseMimeType: 'application/json'` + `responseSchema`. **Do NOT use the newer `ai.interactions.create(...)`** — on 2.5-flash it *silently ignores* `response_format` and returns prose. A silently-unenforced schema in a grader fails as a wrong score, not as an error (D-003).
 - `thinkingLevel` 400s on 2.5-flash. Use the numeric `thinkingBudget` (0 = off). Thought tokens bill at the **output** rate, so it is a real cost lever.
 
@@ -143,13 +148,16 @@ src/lib/
   ai/
     prompts.ts       # PROMPTS ARE CODE. versioned. never inline one elsewhere.
     schemas.ts       # Zod (§9.3) + the Gemini responseSchemas
-    models.ts        # model id + pricing constants (with source URL) + cost math
-    gemini.ts        # the ONLY place that talks to the API. timeout/retry/usage logging.
-    json.ts          # fence-strip + Zod parse (§9.7 step 1)
+    models.ts        # model ids + pricing constants (with source URLs) + cost math
+    gemini.ts        # the ONLY module importing the Gemini SDK. timeout/retry/usage logging.
+    openrouter.ts    # the ONLY module talking to OpenRouter (Qwen3-VL, D-018). Same contract.
+    groq.ts          # the ONLY module talking to Groq (Whisper large-v3, D-018).
+    visual.ts        # frames -> visual delivery report + its deterministic rendering
+    json.ts          # fence-strip + brace-salvage + Zod parse (§9.7 step 1)
     grounding.ts     # fuzzy quote matching — the hallucination check (§9.7 step 4)
     grade.ts         # the judge + postValidate() (§9.5, §9.7). Takes site AND/OR audio.
     qa.ts            # judge Q&A (§9.6)
-    transcribe.ts    # audio -> timestamped transcript
+    transcribe.ts    # audio -> timestamped transcript (Whisper-first, Gemini fallback)
   site/
     crawl.ts         # URL or local folder -> pages, source, screenshots @3 viewports
     metrics.ts       # §9.2 for websites — deterministic. NO LLM TOUCHES THESE NUMBERS.
@@ -169,7 +177,8 @@ runs/                # gitignored. graded run output.
   this means telling a student they failed a section they never submitted.
 - `postValidate()` in `grade.ts` is a **pure function** so the planted-fake-quote test (§17 M8)
   can run with no API key. Keep it pure.
-- `gemini.ts` is the only module importing the SDK. Swapping providers should touch one file.
+- One module per provider: `gemini.ts` (SDK), `openrouter.ts` (fetch), `groq.ts` (fetch).
+  Swapping or removing a provider touches exactly one file; nothing else may call an AI API.
 - **Thinking tokens count against `maxOutputTokens` on Gemini.** Too low a cap truncates the
   JSON mid-string and fails Zod. Don't lower `MAX_OUTPUT_TOKENS.grade` without doing the maths.
 

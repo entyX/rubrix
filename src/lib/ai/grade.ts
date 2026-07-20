@@ -27,8 +27,10 @@ import {
   GRADING_RESPONSE_SCHEMA,
   type RubricJSON,
   type TranscriptJSON,
+  type VisualReportJSON,
   TIERS,
 } from './schemas';
+import { renderVisualReport } from './visual';
 import { parseModelJson } from './json';
 import { isGrounded, dropConfidence } from './grounding';
 import { formatTranscriptLines, estimateTokens, MAX_TRANSCRIPT_TOKENS, mmss } from '@/lib/transcript/format';
@@ -60,8 +62,17 @@ export interface Submission {
    * Still frames sampled from the presentation video, in the browser (DECISIONS D-015).
    * Present only when the student opted in. These let visual delivery criteria (posture,
    * eye contact, appearance, gestures, visual aids) actually be judged instead of excluded.
+   * When `visual` is also present, the frames are NOT re-sent to the judge — the report
+   * already covers them; the raw frames are the fallback path only.
    */
   frames?: Array<{ base64: string; mimeType: string; atSeconds: number }>;
+  /**
+   * The visual delivery report (DECISIONS D-018): the open-source vision model watched
+   * frames sampled across the WHOLE run and wrote timestamped observations. The judge
+   * scores visual criteria from this text, and every source-"visual" evidence quote is
+   * grounded against it in postValidate — no more free pass for visual claims.
+   */
+  visual?: { report: VisualReportJSON; frameCount: number };
 }
 
 /** What post-validation had to change. These are the numbers §10 tracks. */
@@ -112,6 +123,10 @@ export function groundingCorpus(sub: Submission): string {
   // The student's Q&A answers are legitimate quotable evidence too — without this,
   // every quote from an answer would be stripped as a hallucination.
   if (sub.qa) parts.push(sub.qa.map((t) => t.answer).join('\n'));
+  // The visual report is quotable evidence for visual criteria — and rendering it
+  // here with the SAME function that renders it into the prompt is what makes the
+  // grounding check honest: the judge quotes exactly what it was shown.
+  if (sub.visual) parts.push(renderVisualReport(sub.visual.report));
   return parts.join('\n\n');
 }
 
@@ -194,14 +209,17 @@ export async function gradeSubmission(args: {
     };
   }
 
-  // Video frames -> image parts. Captioned with their timestamp so the model can line them
-  // up with the transcript ("at 1:12 they were reading from notes").
-  for (const f of submission.frames ?? []) {
-    images.push({
-      base64: f.base64,
-      mimeType: f.mimeType,
-      caption: `Still frame from the presentation video at ${mmss(f.atSeconds)}:`,
-    });
+  // Video frames -> image parts, but ONLY when no visual report exists (D-018): the
+  // report already covers every sampled frame, so re-attaching them would just spend
+  // Gemini tokens on pixels the open-source model has already read.
+  if (!submission.visual) {
+    for (const f of submission.frames ?? []) {
+      images.push({
+        base64: f.base64,
+        mimeType: f.mimeType,
+        caption: `Still frame from the presentation video at ${mmss(f.atSeconds)}:`,
+      });
+    }
   }
 
   const system = fill(GRADING_SYSTEM, {
@@ -218,7 +236,9 @@ export async function gradeSubmission(args: {
     presentation: presPart,
     site: sitePart,
     qa: submission.qa,
-    frameCount: submission.frames?.length ?? 0,
+    frameCount: submission.visual ? 0 : (submission.frames?.length ?? 0),
+    visualReportText: submission.visual ? renderVisualReport(submission.visual.report) : undefined,
+    visualFrameCount: submission.visual?.frameCount,
   });
 
   const report = emptyReport();
@@ -331,9 +351,11 @@ export function postValidate(args: {
     let strippedHere = 0;
 
     for (const e of c.evidence) {
-      // 'visual' evidence describes a video frame, not a text quote — nothing to ground it
-      // against, so it skips the hallucination check (like 'document').
-      if (e.source === 'visual') {
+      // 'visual' evidence: when a visual REPORT exists, the quote must be verbatim
+      // from it — the report text is in the corpus, so it goes through the same
+      // grounding check as everything else. Only the raw-frames fallback (the judge
+      // describing pixels no text can vouch for) still skips the check.
+      if (e.source === 'visual' && !submission.visual) {
         kept.push(e);
         continue;
       }

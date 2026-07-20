@@ -13,6 +13,9 @@
  *
  *   --site   <url|dir>  live URL, or a local folder of source files
  *   --audio  <file>     presentation recording (mp3/m4a/wav). AUDIO ONLY — never video.
+ *   --frames <dir>      still frames (jpg/png) sampled from the run. With an
+ *                       OPENROUTER_API_KEY set they become a whole-run visual report
+ *                       (D-018); without one they attach to the judge raw.
  *   --rubric <path>     rubric JSON
  *   --event  <name>     event name        (default: "Website Coding & Development")
  *   --org    <slug>     fbla|deca|tsa|hosa (default: fbla)
@@ -34,9 +37,11 @@ import { captureSite } from '@/lib/site/crawl';
 import { computeSiteMetrics } from '@/lib/site/metrics';
 import { gradeSubmission, type Submission } from '@/lib/ai/grade';
 import { generateQA } from '@/lib/ai/qa';
+import { buildVisualReport } from '@/lib/ai/visual';
+import { hasOpenRouter } from '@/lib/ai/openrouter';
 import { RubricJSON } from '@/lib/ai/schemas';
 import { mmss } from '@/lib/transcript/format';
-import { addUsage, costCents, ZERO_USAGE, COST_TARGET_CENTS, GEMINI_MODEL } from '@/lib/ai/models';
+import { addUsage, ZERO_USAGE, COST_TARGET_CENTS, GEMINI_MODEL } from '@/lib/ai/models';
 
 function arg(flag: string, fallback?: string): string | undefined {
   const i = process.argv.indexOf(flag);
@@ -90,6 +95,10 @@ async function main() {
 
   const t0 = Date.now();
   let usage = ZERO_USAGE;
+  // Real money spent, summed from each call's own accounting. Not derivable from
+  // `usage` alone any more: Whisper bills per audio hour and OpenRouter reports its
+  // own charge (D-018), neither of which are Gemini tokens.
+  let cents = 0;
   const submission: Submission = {};
 
   // ── Website
@@ -119,6 +128,7 @@ async function main() {
     console.log('Transcribing your run…');
     const tr = await transcribeAudioFile(audio, runId);
     usage = addUsage(usage, tr.usage);
+    cents += tr.costCents;
     for (const w of tr.timestampWarnings) console.warn(`   ⚠️  ${w}`);
     const metrics = computeDeliveryMetrics(tr.transcript, tr.durationS, timeLimitS);
     submission.presentation = { transcript: tr.transcript, metrics };
@@ -128,7 +138,7 @@ async function main() {
     );
   }
 
-  // ── Video frames (opt-in "eyes", DECISIONS D-015). --frames <dir> of jpg/png stills.
+  // ── Video frames (opt-in "eyes", DECISIONS D-015/D-018). --frames <dir> of jpg/png stills.
   const framesDir = arg('--frames');
   if (framesDir) {
     const { readdir, readFile: rf } = await import('node:fs/promises');
@@ -146,8 +156,29 @@ async function main() {
           : i,
       });
     }
-    submission.frames = frames;
-    console.log(`   ${frames.length} video frame(s) attached — the judge can see this run.\n`);
+    if (frames.length > 0 && hasOpenRouter()) {
+      // D-018: the open-source vision model watches the frames and writes the report;
+      // the judge grades from the report and its quotes are grounded against it.
+      console.log('Watching your run…');
+      const analysis = await buildVisualReport({
+        frames,
+        durationS: submission.presentation?.metrics.duration_s ?? null,
+        runId,
+      });
+      cents += analysis.costCents;
+      submission.visual = { report: analysis.report, frameCount: frames.length };
+      console.log(
+        `   visual report from ${frames.length} frame(s) — ` +
+          `${analysis.report.observations.length} observation(s)` +
+          (analysis.retryUsed ? ' (schema retry used)' : '') +
+          '\n',
+      );
+    } else if (frames.length > 0) {
+      submission.frames = frames;
+      console.log(
+        `   ${frames.length} video frame(s) attached raw — set OPENROUTER_API_KEY for the whole-run visual report.\n`,
+      );
+    }
   }
 
   // ── Grade
@@ -159,6 +190,7 @@ async function main() {
     runId,
   });
   usage = addUsage(usage, graded.usage);
+  cents += graded.costCents;
 
   // ── Q&A
   let qa = null;
@@ -171,10 +203,11 @@ async function main() {
       runId,
     });
     usage = addUsage(usage, qa.usage);
+    cents += qa.costCents;
   }
 
   const elapsedS = (Date.now() - t0) / 1000;
-  const total = costCents(usage);
+  const total = cents;
   const r = graded.result;
   const v = graded.report;
 

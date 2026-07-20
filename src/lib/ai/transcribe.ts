@@ -1,21 +1,27 @@
 /**
- * Transcription — plan.md §9.1, with the producer swapped from OpenAI Whisper to
- * Gemini (DECISIONS.md D-002). Output shape is unchanged: {full_text, segments}.
+ * Transcription — plan.md §9.1. Output shape is always {full_text, segments}.
+ *
+ * Producer history: Whisper (spec) → Gemini (D-002, one key) → Whisper large-v3 via
+ * Groq when GROQ_API_KEY is set, Gemini otherwise (D-018). D-002's escape hatch
+ * ("swap transcription back to Whisper without touching the grader") is now real.
  *
  * PRIVACY (CLAUDE.md, non-negotiable): only audio is ever handled here. The
- * original video never reaches this module, this server, or Gemini.
+ * original video never reaches this module, this server, or any provider.
  */
 import { parseBuffer } from 'music-metadata';
 import { readFile } from 'node:fs/promises';
 import { generate, MAX_OUTPUT_TOKENS, THINKING_BUDGET } from './gemini';
+import { groqTranscribe, hasGroq } from './groq';
 import {
   TRANSCRIBE_SYSTEM,
   TRANSCRIBE_USER,
   PROMPT_VERSION_TRANSCRIBE,
+  validationRetryMessage,
 } from './prompts';
-import { TranscriptJSON, TRANSCRIPT_RESPONSE_SCHEMA } from './schemas';
+import { TranscriptJSON, TranscriptModelJSON, TRANSCRIPT_RESPONSE_SCHEMA } from './schemas';
 import { parseModelJson } from './json';
-import type { TokenUsage } from './models';
+import { transcriptFromSegments } from '@/lib/transcript/format';
+import { addUsage, ZERO_USAGE, type TokenUsage } from './models';
 
 /** Inline request cap is 20MB total. Beyond that the Files API is required. */
 const MAX_INLINE_BYTES = 18 * 1024 * 1024;
@@ -136,35 +142,90 @@ export async function transcribeAudio(
     );
   }
 
-  const res = await generate({
-    system: TRANSCRIBE_SYSTEM,
-    user: TRANSCRIBE_USER,
-    responseSchema: TRANSCRIPT_RESPONSE_SCHEMA,
-    maxOutputTokens: MAX_OUTPUT_TOKENS.transcribe,
-    temperature: 0, // verbatim transcription: no creativity wanted at all
-    seed: 7,
-    thinkingBudget: THINKING_BUDGET.off, // nothing to deliberate about; thought tokens bill at the output rate
-    audio: { base64: bytes.toString('base64'), mimeType },
-    promptVersion: PROMPT_VERSION_TRANSCRIBE,
-    runId,
-    label: 'transcribe',
-  });
-
-  const parsed = parseModelJson(res.text, TranscriptJSON);
-  if (!parsed.ok) {
-    throw new Error(`Transcription returned unusable JSON: ${parsed.issues}`);
+  // The EARS (D-018): Whisper via Groq when a key is present — a real ASR system,
+  // with timestamps measured from the audio rather than estimated by an LLM, at
+  // ~$0.11/audio-hour instead of Gemini's 3.3× audio token rate. Falls back to the
+  // Gemini path below on any failure, so a Groq outage never fails a student's run.
+  if (hasGroq()) {
+    try {
+      const g = await groqTranscribe(bytes, mimeType, runId, durationS);
+      if (g.transcript.segments.length === 0 || g.transcript.full_text.trim() === '') {
+        throw new Error('No intelligible speech found in that recording.');
+      }
+      const { transcript, warnings } = sanitizeSegments(g.transcript, durationS);
+      return {
+        transcript,
+        durationS,
+        usage: ZERO_USAGE, // token accounting is Gemini-specific; Whisper bills per audio hour
+        costCents: g.costCents,
+        timestampWarnings: warnings,
+      };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.startsWith('No intelligible speech')) throw err; // a real verdict, not an outage
+      console.warn(`[transcribe] run=${runId} Groq failed (${msg.split('\n')[0]}) — falling back to Gemini`);
+    }
   }
-  if (parsed.value.segments.length === 0 || parsed.value.full_text.trim() === '') {
-    throw new Error('No intelligible speech found in that recording.');
+
+  return geminiTranscribe(bytes, mimeType, runId, durationS);
+}
+
+/**
+ * The Gemini path — used when no GROQ_API_KEY is set, or Groq is down.
+ *
+ * Hardened against the two "unusable JSON" failure modes video uploads kept hitting:
+ * the model returns segments ONLY (full_text is derived in code — half the output
+ * tokens, so long runs stop truncating at the cap), and a bad parse gets ONE
+ * corrective retry (the same §9.7 loop grading has always had) instead of failing
+ * the whole run on the first stumble.
+ */
+async function geminiTranscribe(
+  bytes: Buffer,
+  mimeType: string,
+  runId: string,
+  durationS: number,
+): Promise<TranscribeResult> {
+  let usage: TokenUsage = ZERO_USAGE;
+  let cost = 0;
+  let correction = '';
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const res = await generate({
+      system: TRANSCRIBE_SYSTEM,
+      user: correction === '' ? TRANSCRIBE_USER : `${TRANSCRIBE_USER}\n\n${correction}`,
+      responseSchema: TRANSCRIPT_RESPONSE_SCHEMA,
+      maxOutputTokens: MAX_OUTPUT_TOKENS.transcribe,
+      temperature: 0, // verbatim transcription: no creativity wanted at all
+      seed: 7,
+      thinkingBudget: THINKING_BUDGET.off, // nothing to deliberate about; thought tokens bill at the output rate
+      audio: { base64: bytes.toString('base64'), mimeType },
+      promptVersion: PROMPT_VERSION_TRANSCRIBE,
+      runId,
+      label: attempt === 0 ? 'transcribe' : 'transcribe:retry',
+    });
+    usage = addUsage(usage, res.usage);
+    cost += res.costCents;
+
+    const parsed = parseModelJson(res.text, TranscriptModelJSON);
+    if (!parsed.ok) {
+      if (attempt === 1) throw new Error(`Transcription returned unusable JSON: ${parsed.issues}`);
+      // A retry doubles the cost of transcription — loud, never silent (D-010).
+      console.warn(`[transcribe] run=${runId} schema retry — ${parsed.issues}`);
+      correction = validationRetryMessage(parsed.issues);
+      continue;
+    }
+
+    // full_text is DERIVED — one source of truth, always consistent with the
+    // segments the student sees quoted (and with what §9.7 grounds against).
+    const draft = transcriptFromSegments(parsed.value.segments);
+    if (draft.segments.length === 0) {
+      throw new Error('No intelligible speech found in that recording.');
+    }
+    const { transcript, warnings } = sanitizeSegments(draft, durationS);
+
+    return { transcript, durationS, usage, costCents: cost, timestampWarnings: warnings };
   }
 
-  const { transcript, warnings } = sanitizeSegments(parsed.value, durationS);
-
-  return {
-    transcript,
-    durationS,
-    usage: res.usage,
-    costCents: res.costCents,
-    timestampWarnings: warnings,
-  };
+  // Unreachable — attempt 1 either returns or throws — but TypeScript can't see that.
+  throw new Error('Transcription returned unusable JSON.');
 }

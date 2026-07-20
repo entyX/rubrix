@@ -19,8 +19,8 @@ import { transcribeAudio } from '@/lib/ai/transcribe';
 import { computeDeliveryMetrics } from '@/lib/metrics/delivery';
 import { gradeSubmission, type Submission } from '@/lib/ai/grade';
 import { generateQA } from '@/lib/ai/qa';
-import { RubricJSON } from '@/lib/ai/schemas';
-import { addUsage, costCents, ZERO_USAGE, GEMINI_MODEL } from '@/lib/ai/models';
+import { RubricJSON, VisualReportJSON } from '@/lib/ai/schemas';
+import { GEMINI_MODEL } from '@/lib/ai/models';
 
 /** plan.md §8: grading route maxDuration 300s. */
 export const maxDuration = 300;
@@ -105,8 +105,28 @@ export async function POST(req: Request) {
   const bytes = Buffer.from(await audio.arrayBuffer());
   const runId = randomUUID().slice(0, 8);
 
-  // Opt-in video frames (DECISIONS D-015). Stills only — the video file is never uploaded.
-  // Used for this grade and discarded; nothing is persisted.
+  // The visual delivery report from /api/visual (DECISIONS D-018) — the open-source
+  // vision model already watched the whole run; the judge grades from its report.
+  let visual: Submission['visual'];
+  const visualRaw = form.get('visualReport');
+  if (typeof visualRaw === 'string' && visualRaw !== '') {
+    try {
+      const parsedVisual = VisualReportJSON.safeParse(JSON.parse(visualRaw));
+      if (parsedVisual.success) {
+        visual = {
+          report: parsedVisual.data,
+          frameCount: Number(form.get('visualFrameCount') ?? 0) || parsedVisual.data.observations.length,
+        };
+      } else {
+        console.warn('[api/grade] visualReport failed validation — grading without it');
+      }
+    } catch {
+      console.warn('[api/grade] visualReport was not valid JSON — grading without it');
+    }
+  }
+
+  // Opt-in video frames (DECISIONS D-015), the fallback path when no report exists.
+  // Stills only — the video file is never uploaded. Used for this grade and discarded.
   const frames: Array<{ base64: string; mimeType: string; atSeconds: number }> = [];
   for (const [key, val] of form.entries()) {
     if (key.startsWith('frame_') && val instanceof File) {
@@ -127,16 +147,19 @@ export async function POST(req: Request) {
       const send = (obj: unknown) => controller.enqueue(encoder.encode(`${JSON.stringify(obj)}\n`));
 
       try {
-        let usage = ZERO_USAGE;
+        // Summed from each call's own accounting — Whisper bills per audio hour, not
+        // in Gemini tokens (D-018), so recomputing from token usage would under-report.
+        let cents = 0;
 
         // plan.md §15 loading-stage copy, verbatim.
         send({ stage: 'transcribing', label: 'Transcribing your run…' });
         const tr = await transcribeAudio(bytes, audio.type || 'audio/mpeg', runId);
-        usage = addUsage(usage, tr.usage);
+        cents += tr.costCents;
 
         const metrics = computeDeliveryMetrics(tr.transcript, tr.durationS, timeLimitS);
         const submission: Submission = {
           presentation: { transcript: tr.transcript, metrics },
+          ...(visual ? { visual } : {}),
           ...(frames.length ? { frames } : {}),
         };
         send({ stage: 'transcribed', metrics, warnings: tr.timestampWarnings });
@@ -148,7 +171,7 @@ export async function POST(req: Request) {
           event: { org, eventName, timeLimitS, teamSize, scoreAnchors: '' },
           runId,
         });
-        usage = addUsage(usage, graded.usage);
+        cents += graded.costCents;
 
         send({ stage: 'qa', label: 'Writing your Q&A grill…' });
         const qa = await generateQA({
@@ -157,7 +180,7 @@ export async function POST(req: Request) {
             'Judges question the competitor after the presentation; questions probe the decisions behind the pitch and understanding of the product.',
           runId,
         });
-        usage = addUsage(usage, qa.usage);
+        cents += qa.costCents;
 
         send({
           stage: 'done',
@@ -171,7 +194,8 @@ export async function POST(req: Request) {
             validation: graded.report,
             transcript: tr.transcript,
             metrics,
-            cost_cents: Number(costCents(usage).toFixed(3)),
+            visual_report: visual?.report ?? null,
+            cost_cents: Number(cents.toFixed(3)),
           },
         });
       } catch (err) {

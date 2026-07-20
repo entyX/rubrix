@@ -14,7 +14,13 @@ import {
   type EventContext,
   type Submission,
 } from '@/lib/ai/grade';
-import type { GradingResultJSON, RubricJSON, TranscriptJSON } from '@/lib/ai/schemas';
+import type {
+  GradingResultJSON,
+  RubricJSON,
+  TranscriptJSON,
+  VisualReportJSON,
+} from '@/lib/ai/schemas';
+import { renderVisualReport } from '@/lib/ai/visual';
 import type { DeliveryMetrics } from '@/lib/metrics/delivery';
 
 const RUBRIC: RubricJSON = {
@@ -237,11 +243,12 @@ describe('§9.5 rule 10 — tier boundaries', () => {
   });
 });
 
-describe('visual evidence (video frames)', () => {
+describe('visual evidence (raw video frames, no report)', () => {
   it('keeps source:"visual" evidence without grounding it against the transcript', () => {
     const r = hostileResult();
     // A frame observation that appears nowhere in the transcript. Under the transcript
-    // check it would be stripped as a hallucination; tagged "visual", it must survive.
+    // check it would be stripped as a hallucination; tagged "visual", it must survive
+    // — there is no report text that could vouch for it either way.
     r.criteria[0].evidence = [
       { quote: 'The presenter stood upright and looked at the camera.', source: 'visual' },
     ];
@@ -251,6 +258,90 @@ describe('visual evidence (video frames)', () => {
     expect(opening.evidence[0].source).toBe('visual');
     // The genuinely fabricated transcript quote on the other criterion is still stripped.
     expect(report.hallucinated_quotes_stripped).toBe(1);
+  });
+});
+
+describe('visual evidence (visual delivery report, D-018)', () => {
+  /**
+   * With a report present, "visual" loses its free pass: the judge must quote the
+   * report verbatim, and an invented observation is stripped exactly like a
+   * fabricated transcript quote. This is the strictness upgrade D-018 bought.
+   */
+  const REPORT: VisualReportJSON = {
+    video_quality: 'clear and well lit throughout',
+    observations: [
+      { at_s: 12, note: 'the speaker stands upright with both hands gesturing toward the camera' },
+      { at_s: 95, note: 'the speaker is looking down at note cards held in the left hand' },
+    ],
+    patterns: {
+      posture: 'upright with shoulders level in every sampled frame',
+      gestures: 'open-palm gestures appear in roughly half the frames',
+      eye_line: 'directed at the camera in most frames, down at notes twice',
+      attire: 'dark blazer over a collared shirt',
+      setting_and_aids: 'plain wall behind the speaker, no slides or props visible',
+      movement: 'stationary at a desk throughout',
+    },
+    cannot_see: ['sustained eye contact between sampled moments'],
+  };
+
+  const SUB_WITH_REPORT: Submission = {
+    presentation: { transcript: TRANSCRIPT, metrics: METRICS },
+    visual: { report: REPORT, frameCount: 24 },
+  };
+
+  const runWithReport = (r: GradingResultJSON) =>
+    postValidate({ result: r, rubric: RUBRIC, submission: SUB_WITH_REPORT, event: EVENT });
+
+  it('keeps a visual quote taken verbatim from the report', () => {
+    const r = hostileResult();
+    r.criteria[0].evidence = [
+      {
+        quote: 'the speaker is looking down at note cards held in the left hand',
+        timestamp_start: 95,
+        source: 'visual',
+      },
+    ];
+    const { result } = runWithReport(r);
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence).toHaveLength(1);
+    expect(opening.evidence[0].source).toBe('visual');
+  });
+
+  it('strips an invented visual observation and drops confidence', () => {
+    const r = hostileResult();
+    // Nothing like this appears in the report — the judge "saw" something the eyes
+    // never reported. Must be treated exactly like a fabricated transcript quote.
+    r.criteria[0].evidence = [
+      {
+        quote: 'The presenter maintained flawless eye contact for the entire presentation.',
+        source: 'visual',
+      },
+    ];
+    const { result, report } = runWithReport(r);
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence).toHaveLength(0);
+    expect(opening.confidence).toBe('medium'); // was 'high'
+    expect(report.criteria_with_confidence_dropped).toContain('opening');
+    // 1 invented visual + 1 planted fake transcript quote on the other criterion.
+    expect(report.hallucinated_quotes_stripped).toBe(2);
+  });
+
+  it('grounds pattern-level quotes from the rendered report too', () => {
+    const r = hostileResult();
+    r.criteria[0].evidence = [
+      { quote: 'upright with shoulders level in every sampled frame', source: 'visual' },
+    ];
+    const { result } = runWithReport(r);
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.evidence).toHaveLength(1);
+  });
+
+  it('renderVisualReport contains every observation with its timestamp', () => {
+    const text = renderVisualReport(REPORT);
+    expect(text).toContain('[0:12]');
+    expect(text).toContain('[1:35]');
+    expect(text).toContain('Cannot be established from still frames:');
+    expect(text).toContain('sustained eye contact between sampled moments');
   });
 });
 

@@ -133,7 +133,8 @@ export type PracticeTurnJSON = z.infer<typeof PracticeTurnJSON>;
 
 // ------------------------------------------------------ transcript (amendment)
 // plan.md §9.1 shape {full_text, segments:[{start,end,text}]}. The producer is
-// Gemini rather than Whisper — see DECISIONS.md D-002.
+// Whisper via Groq when a GROQ_API_KEY is present, else Gemini — see DECISIONS.md
+// D-002 and D-018.
 
 export const TranscriptJSON = z.object({
   full_text: z.string(),
@@ -148,6 +149,57 @@ export const TranscriptJSON = z.object({
     .min(1),
 });
 export type TranscriptJSON = z.infer<typeof TranscriptJSON>;
+
+/**
+ * What the MODEL returns when Gemini transcribes: segments only. full_text is derived
+ * in code (segments joined with single spaces — the same rule the old prompt stated).
+ * Emitting every word twice doubled the output tokens, and long runs truncated
+ * mid-JSON at the output cap — the main source of "the judge returned unusable JSON"
+ * failures on video uploads. Empty segments = silence, handled as a real case rather
+ * than a schema error.
+ */
+export const TranscriptModelJSON = z.object({
+  segments: z.array(
+    z.object({
+      start: z.number().nonnegative(),
+      end: z.number().nonnegative(),
+      text: z.string(),
+    }),
+  ),
+});
+export type TranscriptModelJSON = z.infer<typeof TranscriptModelJSON>;
+
+// ------------------------------------------------ visual delivery report (D-018)
+// Produced by the open-source vision model (Qwen3-VL) from frames sampled across the
+// WHOLE run, then handed to the judge as text. Rendered via renderVisualReport() so
+// the judge's "visual" evidence quotes can be GROUNDED against it (§9.7) instead of
+// getting the free pass raw-frame observations used to get.
+
+export const VisualReportJSON = z.object({
+  /** How usable the footage was — "clear", "dim, speaker half out of frame", etc. */
+  video_quality: z.string(),
+  /** Timestamped, strictly observable moments. At least one per report. */
+  observations: z
+    .array(
+      z.object({
+        at_s: z.number().nonnegative(),
+        note: z.string(),
+      }),
+    )
+    .min(1),
+  /** What the frames show ACROSS the run, one field per visual-delivery dimension. */
+  patterns: z.object({
+    posture: z.string(),
+    gestures: z.string(),
+    eye_line: z.string(),
+    attire: z.string(),
+    setting_and_aids: z.string(),
+    movement: z.string(),
+  }),
+  /** Honesty list: what still frames cannot establish (e.g. sustained eye contact). */
+  cannot_see: z.array(z.string()),
+});
+export type VisualReportJSON = z.infer<typeof VisualReportJSON>;
 
 // -------------------------------------------- Gemini responseSchema (JSON Schema)
 // Verified enforcing on gemini-2.5-flash via models.generateContent +
@@ -195,13 +247,15 @@ export const RUBRIC_RESPONSE_SCHEMA = {
   required: ['title', 'total_points', 'criteria'],
 } as const;
 
+// NOTE: no full_text here — it is derived in code from the segments. See
+// TranscriptModelJSON for why (duplicated text truncated long runs mid-JSON).
 export const TRANSCRIPT_RESPONSE_SCHEMA = {
   type: 'object',
   properties: {
-    full_text: { type: 'string', description: 'The complete verbatim transcript.' },
     segments: {
       type: 'array',
-      description: 'Ordered, non-overlapping segments covering the whole recording.',
+      description:
+        'Ordered, non-overlapping segments covering the whole recording. Empty ONLY if the audio contains no intelligible speech.',
       items: {
         type: 'object',
         properties: {
@@ -213,7 +267,60 @@ export const TRANSCRIPT_RESPONSE_SCHEMA = {
       },
     },
   },
-  required: ['full_text', 'segments'],
+  required: ['segments'],
+} as const;
+
+/** JSON Schema for the visual report — sent to OpenRouter as response_format. */
+export const VISUAL_RESPONSE_SCHEMA = {
+  type: 'object',
+  properties: {
+    video_quality: {
+      type: 'string',
+      description: 'How usable the footage is: lighting, framing, blur, distance.',
+    },
+    observations: {
+      type: 'array',
+      description:
+        'Timestamped observations of what is VISIBLE in specific frames. Only what can be seen — never a guess, never a score.',
+      items: {
+        type: 'object',
+        properties: {
+          at_s: { type: 'number', description: 'Timestamp of the frame, in seconds.' },
+          note: { type: 'string', description: 'What is visibly happening in this frame.' },
+        },
+        required: ['at_s', 'note'],
+        additionalProperties: false,
+      },
+    },
+    patterns: {
+      type: 'object',
+      description: 'What the frames show across the whole run, dimension by dimension.',
+      properties: {
+        posture: { type: 'string' },
+        gestures: { type: 'string' },
+        eye_line: {
+          type: 'string',
+          description: 'Where the speaker tends to be looking, as far as stills can show.',
+        },
+        attire: { type: 'string' },
+        setting_and_aids: {
+          type: 'string',
+          description: 'The visible environment and any slides, props, or visual aids in use.',
+        },
+        movement: { type: 'string', description: 'How position/energy changes across the run.' },
+      },
+      required: ['posture', 'gestures', 'eye_line', 'attire', 'setting_and_aids', 'movement'],
+      additionalProperties: false,
+    },
+    cannot_see: {
+      type: 'array',
+      description:
+        'Things these still frames cannot establish (e.g. sustained eye contact, gesture fluidity). Be honest.',
+      items: { type: 'string' },
+    },
+  },
+  required: ['video_quality', 'observations', 'patterns', 'cannot_see'],
+  additionalProperties: false,
 } as const;
 
 export const GRADING_RESPONSE_SCHEMA = {

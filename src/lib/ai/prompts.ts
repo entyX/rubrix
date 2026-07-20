@@ -16,12 +16,15 @@
  *   PRACTICE g-1.0.0  — plan.md §9.9, verbatim (Phase 3, unused in M1)
  *   TRANSCRIBE t-1.0.0 — NEW. Not in plan.md: §9.1 specified OpenAI Whisper.
  *                        See DECISIONS.md D-002 for why transcription moved to Gemini.
+ *   VISUAL   v-1.0.0  — NEW (D-018). The open-source vision model that watches the
+ *                        run's sampled frames and writes the visual delivery report.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.3.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.4.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
-export const PROMPT_VERSION_TRANSCRIBE = 't-1.0.0';
+export const PROMPT_VERSION_TRANSCRIBE = 't-1.1.0';
+export const PROMPT_VERSION_VISUAL = 'v-1.0.0';
 
 /** Fill {{PLACEHOLDER}} tokens. Throws on any left unfilled — a silent empty
  *  placeholder in a grading prompt is a scoring bug, not a cosmetic one. */
@@ -60,7 +63,10 @@ Rules:
 - NEVER change: id, name, max_points, or any level's "points" or "label".
 Output ONLY valid JSON matching the schema.`;
 
-// ───────────────────────────────────────────────── transcription (t-1.0.0)
+// ───────────────────────────────────────────────── transcription (t-1.1.0)
+// t-1.1.0: the model returns SEGMENTS ONLY — full_text is derived in code by joining
+// them. The old shape made the model write every word twice, which truncated long
+// runs mid-JSON at the output cap (the "unusable JSON" failures on video uploads).
 
 export const TRANSCRIBE_SYSTEM = `You are a verbatim transcription engine for competition practice recordings.
 
@@ -76,15 +82,57 @@ Rules:
 - start and end are in SECONDS from the beginning of the audio, as numbers
   (e.g. 12.5, not "00:12"). Timestamps must be accurate: they are shown to the
   student next to quoted evidence and used to compute pauses and pacing.
-- full_text is every segment's text joined with single spaces, and nothing else.
 - If a stretch of audio has no speech, do not emit a segment for it. Leave the
   gap. Do not invent words to fill silence.
-- If the audio contains no intelligible speech at all, return full_text as an
-  empty string and segments as an empty array.
+- If the audio contains no intelligible speech at all, return segments as an
+  empty array.
 
 Output ONLY valid JSON matching the schema.`;
 
 export const TRANSCRIBE_USER = `Transcribe this recording of a student's practice run.`;
+
+// ─────────────────────────────────── visual delivery report (v-1.0.0, temp 0)
+// D-018: the open-source vision model is an OBSERVER, not a judge. It watches frames
+// sampled across the whole run and reports strictly what is visible. The judge then
+// scores from this report, and every "visual" evidence quote is grounded against it
+// (§9.7) — so anything the judge claims to have seen must actually be written here.
+
+export const VISUAL_SYSTEM = `You are the eyes of a competition judge. You are shown still frames sampled at
+regular intervals across the ENTIRE length of a student's practice presentation,
+each captioned with its timestamp. Write a factual visual-delivery report.
+
+Rules:
+- Report ONLY what is visible in the frames. Never guess, never fill gaps, never
+  score, never advise. You are an observer, not a judge.
+- Be specific and concrete: "at 1:12 the speaker is looking down at papers held in
+  both hands" — not "seems disengaged". Neutral wording; no praise, no blame.
+- observations: one entry per notable moment, using the frame's captioned
+  timestamp. Cover the whole run — early, middle, and late frames — not just the
+  first few. Note posture, hand position, gestures mid-motion, where the eyes are
+  directed, notes/scripts in hand, slides or props visible, position in frame.
+- patterns: summarize what the frames show ACROSS the run for each dimension
+  (posture, gestures, eye_line, attire, setting_and_aids, movement). If frames
+  disagree, say when it changed ("upright until ~2:00, leaning on the desk after").
+- These are stills, not video. You can see a moment, not motion. Anything stills
+  cannot establish — sustained eye contact, gesture fluidity, pacing of movement —
+  belongs in cannot_see, not in a guess.
+- If frames are blurry, dark, or the speaker is out of frame, say so in
+  video_quality and do not over-read them.
+- Never identify the person or speculate about age, identity, or anything not
+  relevant to presentation delivery.
+
+Output ONLY valid JSON matching the schema.`;
+
+export function buildVisualUser(args: { frameCount: number; durationS: number | null }): string {
+  const dur =
+    args.durationS !== null
+      ? ` The full run is ${Math.round(args.durationS)} seconds long.`
+      : '';
+  return (
+    `The ${args.frameCount} frames above were sampled evenly across the student's entire run,` +
+    ` in order, each captioned with its timestamp.${dur} Write the visual-delivery report.`
+  );
+}
 
 // ────────────────────────────────────────────── rubric parse (r-1.0.0, temp 0.2)
 // plan.md §9.4 — verbatim.
@@ -107,7 +155,11 @@ Rules:
   {"title":"NOT_A_RUBRIC","total_points":0,"criteria":[]}.
 Output only JSON matching the RubricJSON schema.`;
 
-// ───────────────────────────────────────────────── grading (g-1.1.0, temp 0.2)
+// ───────────────────────────────────────────────── grading (g-1.4.0, temp 0)
+//
+// g-1.4.0: rule 5's video branch split in two — a VISUAL DELIVERY REPORT (D-018,
+// grounded quotes) is preferred over raw frames; raw frames remain the fallback.
+// Full history in docs/prompt-changelog.md.
 //
 // Base text is plan.md §9.5, verbatim. g-1.1.0 changes exactly three things, so that
 // one judge can grade prejudged/website events (§3 `prejudged_plus_presentation`)
@@ -160,16 +212,24 @@ SCORING RULES
    - Partial evidence (a criterion about the site, and the speaker describes the
      site out loud but you cannot see it): assessable true, confidence "low", and
      score only what is actually evidenced.
-   - VIDEO FRAMES: if still frames from the presentation are attached, then criteria
-     about visual delivery — posture, body language, eye contact, gestures, facial
-     expression, appearance/attire, and any visual aids or slides held up — ARE
-     assessable. Set "assessable": true and judge them from the frames. Use confidence
-     "medium": these are stills sampled across the run, not continuous video, so you
-     can see a moment but not motion. Put what you observe in "justification". If you
-     cite a specific frame as evidence, add that evidence item with source "visual"
-     and describe what the frame shows (this is the one case where an evidence entry
-     is a description, not a verbatim quote). Judge only what the frames actually show
-     — do not infer eye contact you cannot see.
+   - VISUAL DELIVERY REPORT: if the submission includes a visual-delivery report
+     (written by a vision system that watched frames sampled across the ENTIRE run),
+     then criteria about visual delivery — posture, body language, eye contact,
+     gestures, facial expression, appearance/attire, and any visual aids or slides —
+     ARE assessable. Set "assessable": true and judge them from the report. Use
+     confidence "medium" at most: the report describes sampled moments, not
+     continuous video. Evidence for these criteria uses source "visual" and the quote
+     MUST be verbatim wording from the report (it is checked against the report
+     exactly like transcript quotes are checked against the transcript — an invented
+     observation will be stripped). Respect the report's "cannot see" list: anything
+     listed there is NOT evidence in either direction. Judge only what the report
+     actually states.
+   - RAW VIDEO FRAMES (no report): if still frames are attached directly instead,
+     the same criteria ARE assessable — judge them from the frames at confidence
+     "medium", put what you observe in "justification", and cite a frame with an
+     evidence item of source "visual" describing what it shows (this is the one case
+     where an evidence entry is a description, not a verbatim quote). Judge only what
+     the frames actually show — do not infer eye contact you cannot see.
    Do not penalize spoken disfluencies ("um", restarts) unless a delivery criterion
    explicitly covers fluency.
 5b. THE Q&A RULE — apply it mechanically, do not exercise judgement here:
@@ -225,11 +285,19 @@ export function buildGradingUser(args: {
   qa?: Array<{ question: string; answer: string }>;
   /** How many still frames from the video are attached as images (0 = none). */
   frameCount?: number;
+  /** The rendered visual-delivery report (D-018), when the vision model watched the run. */
+  visualReportText?: string;
+  /** How many frames the vision model watched to write visualReportText. */
+  visualFrameCount?: number;
 }): string {
   const contents: string[] = [];
   if (args.site) contents.push('WEBSITE (source code + rendered screenshots + computed site facts)');
   if (args.presentation) contents.push('PRESENTATION (timestamped transcript + computed delivery metrics)');
-  if (args.frameCount)
+  if (args.visualReportText)
+    contents.push(
+      `VISUAL DELIVERY REPORT (a vision system watched ${args.visualFrameCount ?? 'the'} frames sampled across the entire run)`,
+    );
+  else if (args.frameCount)
     contents.push(`VIDEO FRAMES (${args.frameCount} still images sampled from the presentation)`);
   if (args.qa?.length) contents.push("Q&A SESSION (the judge's questions + the competitor's answers)");
 
@@ -271,6 +339,17 @@ TRANSCRIPT (one line per segment):
 ${args.presentation.transcriptLines}
 </presentation>
 DELIVERY METRICS (computed, trustworthy): ${args.presentation.metricsJson}`,
+    );
+  }
+
+  if (args.visualReportText) {
+    blocks.push(
+      `<visual_delivery_report>
+Written by a vision system that watched frames sampled across the WHOLE run.
+Observations only — judging them is your job. Quote this report VERBATIM for any
+evidence with source "visual"; quotes are checked against it word for word.
+${args.visualReportText}
+</visual_delivery_report>`,
     );
   }
 

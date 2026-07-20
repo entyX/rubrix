@@ -14,7 +14,9 @@ Built for FBLA first. 44 events, structured from the official rating sheets.
 
 ```
 video/audio  ──▶  audio extracted IN YOUR BROWSER  ──▶  timestamped transcript
-                                                              │
+                  (transcribed by Whisper large-v3)           │
+video (opt-in) ─▶ frames sampled across the WHOLE run ────────┤
+                  in your browser, read by Qwen3-VL           │
 website URL  ──▶  crawl + screenshots + code facts  ──────────┤
                                                               ▼
                                               rubric-line-by-line score
@@ -33,9 +35,15 @@ website URL  ──▶  crawl + screenshots + code facts  ───────�
 
 ```bash
 npm install
-cp .env.example .env.local        # add your GEMINI_API_KEY
+cp .env.example .env.local        # GEMINI_API_KEY required; GROQ_API_KEY +
+                                  # OPENROUTER_API_KEY strongly recommended (D-018)
 npm run dev                       # http://localhost:3000
 ```
+
+One provider per job (see `DECISIONS.md` D-018): **Gemini judges**, open-source models are the
+senses — **Whisper large-v3** (via Groq) transcribes, **Qwen3-VL** (via OpenRouter) watches
+frames sampled across the whole run and writes a visual delivery report the judge must quote
+verbatim. Missing either optional key just degrades that sense to the old Gemini-only path.
 
 CLI, if you prefer:
 

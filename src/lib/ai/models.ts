@@ -16,6 +16,31 @@
 
 export const GEMINI_MODEL = process.env.GEMINI_MODEL ?? 'gemini-2.5-flash';
 
+/**
+ * Open-source pairing (DECISIONS D-018) — the judge stays Gemini, but the eyes and
+ * ears are best-of-kind open models so the Gemini key only pays for judging:
+ *
+ *   Eyes: Qwen3-VL via OpenRouter — watches frames sampled across the WHOLE run.
+ *     Source: https://openrouter.ai/qwen/qwen3-vl-235b-a22b-instruct (verified 2026-07-19)
+ *     $0.20 / 1M input · $0.88 / 1M output. ~60 frames ≈ 1-2¢.
+ *   Ears: Whisper large-v3 via Groq — transcription with real ASR timestamps.
+ *     Source: https://groq.com/pricing (verified 2026-07-19)
+ *     $0.111 / audio hour (whisper-large-v3). A 15-min run ≈ 0.03¢.
+ *
+ * Both are OPTIONAL: no OPENROUTER_API_KEY / GROQ_API_KEY → the old Gemini-only
+ * paths run unchanged.
+ */
+export const OPENROUTER_VISION_MODEL =
+  process.env.OPENROUTER_VISION_MODEL ?? 'qwen/qwen3-vl-235b-a22b-instruct';
+/** Judge-of-last-resort when Gemini itself is out of quota/credit. Same family. */
+export const OPENROUTER_FALLBACK_MODEL =
+  process.env.OPENROUTER_FALLBACK_MODEL ?? 'qwen/qwen3-vl-235b-a22b-instruct';
+export const GROQ_WHISPER_MODEL = process.env.GROQ_WHISPER_MODEL ?? 'whisper-large-v3';
+
+/** Fallback estimate when OpenRouter's own usage.cost is missing from a response. */
+export const OPENROUTER_PRICING_USD_PER_1M = { input: 0.2, output: 0.88 } as const;
+export const GROQ_WHISPER_USD_PER_HOUR = 0.111;
+
 export const PRICING_USD_PER_1M = {
   inputText: 0.3,
   inputAudio: 1.0,

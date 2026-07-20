@@ -17,8 +17,8 @@ import path from 'node:path';
 import { transcribeAudio } from '@/lib/ai/transcribe';
 import { computeDeliveryMetrics } from '@/lib/metrics/delivery';
 import { gradeSubmission, type Submission } from '@/lib/ai/grade';
-import { RubricJSON, TranscriptJSON } from '@/lib/ai/schemas';
-import { addUsage, costCents, ZERO_USAGE, GEMINI_MODEL } from '@/lib/ai/models';
+import { RubricJSON, TranscriptJSON, VisualReportJSON } from '@/lib/ai/schemas';
+import { GEMINI_MODEL } from '@/lib/ai/models';
 import { z } from 'zod';
 
 export const maxDuration = 300;
@@ -48,10 +48,29 @@ export async function POST(req: Request) {
 
   let payload: z.infer<typeof Body>;
   const runId = randomUUID().slice(0, 8);
-  let usage = ZERO_USAGE;
+  // Summed from each call's own accounting — see /api/grade for why (D-018).
+  let cents = 0;
 
-  // Carry the opt-in video frames through the re-grade too — otherwise visual criteria that
+  // Carry the visual evidence through the re-grade too — otherwise visual criteria that
   // were scored on the first pass would flip back to "not judged" once the Q&A is added.
+  // Preferred: the visual report from the first pass (tiny, already validated once).
+  let visual: Submission['visual'];
+  const visualRaw = form.get('visualReport');
+  if (typeof visualRaw === 'string' && visualRaw !== '') {
+    try {
+      const parsedVisual = VisualReportJSON.safeParse(JSON.parse(visualRaw));
+      if (parsedVisual.success) {
+        visual = {
+          report: parsedVisual.data,
+          frameCount: Number(form.get('visualFrameCount') ?? 0) || parsedVisual.data.observations.length,
+        };
+      }
+    } catch {
+      console.warn('[api/qa-grade] visualReport was not valid JSON — re-grading without it');
+    }
+  }
+
+  // Fallback: raw opt-in frames (D-015), when the first pass graded from stills.
   const frames: Array<{ base64: string; mimeType: string; atSeconds: number }> = [];
   for (const [key, val] of form.entries()) {
     if (key.startsWith('frame_') && val instanceof File) {
@@ -75,7 +94,7 @@ export async function POST(req: Request) {
         if (clip instanceof File && clip.size > 0) {
           const bytes = Buffer.from(await clip.arrayBuffer());
           const tr = await transcribeAudio(bytes, clip.type || 'audio/mpeg', runId);
-          usage = addUsage(usage, tr.usage);
+          cents += tr.costCents;
           parsedDraft.answers[i].answer = tr.transcript.full_text;
         }
       }
@@ -142,6 +161,7 @@ export async function POST(req: Request) {
         const submission: Submission = {
           presentation: { transcript: payload.transcript, metrics },
           qa: payload.answers,
+          ...(visual ? { visual } : {}),
           ...(frames.length ? { frames } : {}),
         };
 
@@ -157,7 +177,7 @@ export async function POST(req: Request) {
           },
           runId,
         });
-        usage = addUsage(usage, graded.usage);
+        cents += graded.costCents;
 
         send({
           stage: 'done',
@@ -170,7 +190,8 @@ export async function POST(req: Request) {
             validation: graded.report,
             transcript: payload.transcript,
             metrics,
-            cost_cents: Number(costCents(usage).toFixed(3)),
+            visual_report: visual?.report ?? null,
+            cost_cents: Number(cents.toFixed(3)),
           },
         });
       } catch (err) {

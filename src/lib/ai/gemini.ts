@@ -15,10 +15,12 @@ import { GoogleGenAI } from '@google/genai';
 import {
   GEMINI_MODEL,
   COST_WARN_CENTS,
+  OPENROUTER_FALLBACK_MODEL,
   costCents,
   type TokenUsage,
   ZERO_USAGE,
 } from './models';
+import { orGenerate, hasOpenRouter } from './openrouter';
 
 /**
  * Thinking budgets, in tokens.
@@ -131,6 +133,12 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export async function generate(args: GenerateArgs): Promise<GenerateResult> {
   let lastErr: unknown;
+  // Thinking tokens spend from the same allowance as the JSON body, so a long grade
+  // can hit the cap and truncate mid-string — which used to surface downstream as
+  // "unusable JSON" on the student's run. On MAX_TOKENS we double the cap (bounded
+  // by the model's 65,536 output ceiling) and retry instead.
+  let outputCap = args.maxOutputTokens;
+  const OUTPUT_CEILING = 65_536;
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     if (attempt > 0) await sleep(500 * 2 ** (attempt - 1)); // 500ms, 1s
@@ -161,7 +169,7 @@ export async function generate(args: GenerateArgs): Promise<GenerateResult> {
           systemInstruction: args.system,
           temperature: args.temperature,
           ...(args.seed !== undefined ? { seed: args.seed } : {}),
-          maxOutputTokens: args.maxOutputTokens,
+          maxOutputTokens: outputCap,
           responseMimeType: 'application/json',
           responseSchema: args.responseSchema as never,
           ...(args.thinkingBudget !== undefined
@@ -203,8 +211,26 @@ export async function generate(args: GenerateArgs): Promise<GenerateResult> {
         );
       }
 
+      const finish = res.candidates?.[0]?.finishReason;
       const text = res.text;
-      if (!text) throw new Error(`Gemini returned no text (finish: ${res.candidates?.[0]?.finishReason})`);
+
+      // Truncated JSON parses as garbage downstream — catch it HERE, name it, and
+      // retry with a bigger allowance rather than failing the run on "unusable JSON".
+      if (finish === 'MAX_TOKENS') {
+        if (outputCap < OUTPUT_CEILING && attempt < MAX_RETRIES) {
+          outputCap = Math.min(outputCap * 2, OUTPUT_CEILING);
+          lastErr = new Error(`output truncated at ${finish}; raising cap to ${outputCap}`);
+          console.warn(
+            `[ai] run=${args.runId} ${args.label} hit MAX_TOKENS — retrying with maxOutputTokens=${outputCap}`,
+          );
+          continue;
+        }
+        throw new Error(
+          `Gemini output was truncated at the ${outputCap}-token output cap (finish: MAX_TOKENS)`,
+        );
+      }
+
+      if (!text) throw new Error(`Gemini returned no text (finish: ${finish})`);
 
       return { text, usage, costCents: cents, latencyMs };
     } catch (err) {
@@ -219,9 +245,44 @@ export async function generate(args: GenerateArgs): Promise<GenerateResult> {
     }
   }
 
+  const lastMsg = lastErr instanceof Error ? lastErr.message : String(lastErr);
+
+  // Judge of last resort (D-018): if Gemini is out of quota/credit — the failure mode
+  // "we don't have enough money on the Gemini key" — reroute this exact call to the
+  // open-source model on OpenRouter instead of failing the student's run. Text and
+  // image calls only (audio/PDF parts can't cross), loudly logged, and §9.7's
+  // post-validation still runs on whatever comes back. Disable with RUBRIX_OSS_FALLBACK=off.
+  const quotaDead = /\b429\b|RESOURCE_EXHAUSTED|quota|billing|payment|insufficient/i.test(lastMsg);
+  if (
+    quotaDead &&
+    !args.audio &&
+    !args.document &&
+    hasOpenRouter() &&
+    process.env.RUBRIX_OSS_FALLBACK !== 'off'
+  ) {
+    console.warn(
+      `[ai] run=${args.runId} ${args.label} Gemini quota/billing failure — ` +
+        `FALLING BACK to ${OPENROUTER_FALLBACK_MODEL} via OpenRouter`,
+    );
+    const or = await orGenerate({
+      model: OPENROUTER_FALLBACK_MODEL,
+      system: args.system,
+      user: args.user,
+      responseSchema: args.responseSchema,
+      schemaName: args.label.replace(/[^a-z0-9_]/gi, '_'),
+      maxOutputTokens: Math.min(args.maxOutputTokens, 32_000),
+      temperature: args.temperature,
+      seed: args.seed,
+      images: args.images,
+      promptVersion: args.promptVersion,
+      runId: args.runId,
+      label: `${args.label}:oss-fallback`,
+    });
+    return { text: or.text, usage: or.usage, costCents: or.costCents, latencyMs: or.latencyMs };
+  }
+
   throw new Error(
-    `Gemini call "${args.label}" failed after ${MAX_RETRIES + 1} attempts: ` +
-      `${lastErr instanceof Error ? lastErr.message : String(lastErr)}`,
+    `Gemini call "${args.label}" failed after ${MAX_RETRIES + 1} attempts: ${lastMsg}`,
   );
 }
 

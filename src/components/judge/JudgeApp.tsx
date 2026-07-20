@@ -17,10 +17,12 @@ import { Report, type RunResult } from './Report';
 import { QADrill, type Answer } from './QADrill';
 import { RubricReview } from './RubricReview';
 import type { CatalogEvent } from '@/lib/rubrics/types';
+import type { VisualReportJSON } from '@/lib/ai/schemas';
 
 type Phase = 'idle' | 'preparing' | 'grading' | 'done' | 'qa' | 'qa-grading' | 'failed';
 
 const STAGES = [
+  { key: 'watching', label: 'Watching your run' },
   { key: 'transcribing', label: 'Transcribing your run' },
   { key: 'judging', label: 'Judging against the rubric' },
   { key: 'qa', label: 'Writing your Q&A grill' },
@@ -48,6 +50,11 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   // Frames from THIS run, kept in memory (as blobs) so the Q&A re-grade can resend them.
   // Never persisted, never written anywhere — discarded when the run is reset.
   const framesRef = useRef<Array<{ blob: Blob; atSeconds: number }>>([]);
+  // The visual delivery report (D-018) from /api/visual, held so the Q&A re-grade can
+  // reuse it without re-running the vision model. In memory only, like the frames.
+  const reportRef = useRef<VisualReportJSON | null>(null);
+  // Whether this run includes video — decides if the "Watching your run" stage shows.
+  const [withVideo, setWithVideo] = useState(false);
 
   // Only a HUMAN-CONFIRMED rubric may grade anyone (plan.md F3).
   const parsed = event.rubric !== null;
@@ -62,11 +69,45 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
   useEffect(() => stopTracks, [stopTracks]);
 
+  /**
+   * Frames -> the open-source vision model's report (D-018), in its own request so
+   * the frames aren't fighting the audio for the 4.5MB body cap. Returns null on ANY
+   * failure — the caller then falls back to attaching the frames to the grade
+   * directly, which is exactly the pre-D-018 behaviour.
+   */
+  const analyzeVisual = useCallback(
+    async (frames: Array<{ blob: Blob; atSeconds: number }>): Promise<VisualReportJSON | null> => {
+      try {
+        const body = new FormData();
+        frames.forEach((f, i) => body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`));
+        // The last frame sits half an interval from the end — good enough for context.
+        const last = frames[frames.length - 1];
+        if (last) body.append('durationS', String(Math.round(last.atSeconds + 4)));
+        const res = await fetch('/api/visual', { method: 'POST', body });
+        if (!res.ok) return null;
+        const j = (await res.json()) as { report?: VisualReportJSON };
+        return j.report ?? null;
+      } catch {
+        return null;
+      }
+    },
+    [],
+  );
+
   const grade = useCallback(
     async (mp3: Blob, frames: Array<{ blob: Blob; atSeconds: number }>) => {
       setPhase('grading');
-      setStage('transcribing');
       framesRef.current = frames; // held so the Q&A re-grade can resend them
+      setWithVideo(frames.length > 0);
+
+      // The judge's eyes: get the whole-run visual report first (D-018).
+      let report: VisualReportJSON | null = null;
+      if (frames.length > 0) {
+        setStage('watching');
+        report = await analyzeVisual(frames);
+        reportRef.current = report;
+      }
+      setStage('transcribing');
 
       const body = new FormData();
       body.append('audio', new File([mp3], 'run.mp3', { type: 'audio/mpeg' }));
@@ -74,9 +115,21 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       body.append('eventName', event.name);
       body.append('org', event.org);
       if (event.time_limit_s) body.append('timeLimitS', String(event.time_limit_s));
-      // Key by index so two frames rounding to the same second don't collide; carry the real
-      // timestamp in the filename so the server can caption it.
-      frames.forEach((f, i) => body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`));
+      if (report) {
+        body.append('visualReport', JSON.stringify(report));
+        body.append('visualFrameCount', String(frames.length));
+      } else if (frames.length > 0) {
+        // Fallback: no vision provider (or it failed) — attach stills straight to the
+        // judge as before, re-trimmed so audio + frames fit the platform body cap.
+        const { trimFramesToBudget } = await import('@/lib/video/extractFrames');
+        const attach = trimFramesToBudget(
+          frames.map((f) => ({ blob: f.blob, atSeconds: f.atSeconds })),
+          mp3.size,
+        );
+        // Key by index so two frames rounding to the same second don't collide; carry the
+        // real timestamp in the filename so the server can caption it.
+        attach.forEach((f, i) => body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`));
+      }
 
       const res = await fetch('/api/grade', { method: 'POST', body });
       if (!res.ok || !res.body) {
@@ -123,7 +176,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         }
       }
     },
-    [event],
+    [event, analyzeVisual],
   );
 
   /**
@@ -131,13 +184,13 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
    * never leaves the device either way — audio and frames are extracted here in the browser.
    */
   const handleFile = useCallback(
-    async (file: File, withVideo: boolean) => {
+    async (file: File, wantsVideo: boolean) => {
       setError('');
       setPhase('preparing');
       const hasPicture = file.type.startsWith('video/') || file.type === '';
       setPrepLabel(
-        withVideo && hasPicture
-          ? 'Reading your video on this device — pulling the audio and a few still frames'
+        wantsVideo && hasPicture
+          ? 'Reading your video on this device — pulling the audio and still frames from across the run'
           : file.type.startsWith('video/')
             ? 'Pulling the audio out of your video, right here on your device'
             : 'Preparing your audio',
@@ -147,11 +200,12 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         const mp3 = await extractAudio(file, (p) => setPrepRatio(p.ratio));
 
         let frames: Array<{ blob: Blob; atSeconds: number }> = [];
-        if (withVideo && hasPicture) {
+        if (wantsVideo && hasPicture) {
           const { extractFrames, trimFramesToBudget } = await import('@/lib/video/extractFrames');
           const raw = await extractFrames(file);
-          // Keep the whole upload under the platform body cap; audio is the big part.
-          frames = trimFramesToBudget(raw, mp3.size, MAX_UPLOAD_BYTES);
+          // Frames travel in their OWN request to /api/visual (D-018), so they get the
+          // full body budget instead of sharing it with the audio.
+          frames = trimFramesToBudget(raw, 0, MAX_UPLOAD_BYTES);
         }
 
         await grade(mp3, frames);
@@ -239,10 +293,16 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       answers.forEach((a, i) => {
         if (a.clip) body.append(`audio_${i}`, new File([a.clip], `a${i}.webm`, { type: a.clip.type }));
       });
-      // Resend the video frames so visual criteria stay scored through the re-grade.
-      framesRef.current.forEach((f, i) =>
-        body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`),
-      );
+      // Resend the visual evidence so visual criteria stay scored through the re-grade.
+      // The report is preferred (tiny, already computed); raw frames are the fallback.
+      if (reportRef.current) {
+        body.append('visualReport', JSON.stringify(reportRef.current));
+        body.append('visualFrameCount', String(framesRef.current.length));
+      } else {
+        framesRef.current.forEach((f, i) =>
+          body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`),
+        );
+      }
 
       const res = await fetch('/api/qa-grade', { method: 'POST', body });
       if (!res.ok || !res.body) {
@@ -292,6 +352,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
     setPhase('idle');
     setPrepRatio(null);
     setError('');
+    setWithVideo(false);
+    framesRef.current = [];
+    reportRef.current = null;
   };
 
   // ── the F3 gate: a machine-parsed rubric must be checked by a human first.
@@ -347,7 +410,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
   // ── working
   if (phase === 'preparing' || phase === 'grading') {
-    const activeIdx = STAGES.findIndex((s) => s.key === stage);
+    // "Watching your run" only exists when this run actually has video.
+    const stages = withVideo ? STAGES : STAGES.filter((s) => s.key !== 'watching');
+    const activeIdx = stages.findIndex((s) => s.key === stage);
     return (
       <div className="card p-6 sm:p-8">
         <p className="label">Your run is with the judge</p>
@@ -369,7 +434,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
           </>
         ) : (
           <ul className="mt-6 flex flex-col gap-3">
-            {STAGES.map((s, i) => {
+            {stages.map((s, i) => {
               const state = i < activeIdx ? 'done' : i === activeIdx ? 'active' : 'todo';
               return (
                 <li key={s.key} className="flex items-center gap-3">
@@ -457,9 +522,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
                 </span>
                 <span className="mt-2 block text-[12px] leading-relaxed" style={{ color: 'var(--slate)' }}>
                   Even then, your <strong style={{ color: 'var(--ink)' }}>video file is never
-                  uploaded or saved</strong>. A handful of still frames are taken on this device,
-                  used once to grade, and discarded. If you leave this off, only your audio is used
-                  — exactly as before.
+                  uploaded or saved</strong>. Still frames are taken on this device — one every few
+                  seconds, so the whole run is seen — used once to grade, and discarded. If you
+                  leave this off, only your audio is used — exactly as before.
                 </span>
               </span>
             </label>
@@ -525,7 +590,8 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             <p className="mt-3 text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
               {seeVideo && camOn ? (
                 <>
-                  A few still frames are captured on this device to score your delivery.{' '}
+                  Still frames from across your whole run are captured on this device to score your
+                  delivery.{' '}
                   <strong style={{ color: 'var(--ink)' }}>Your video file is never uploaded or
                   saved</strong>{' '}
                   — only the audio and those stills, only for this grade.
@@ -564,7 +630,8 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             <p className="mt-3 text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
               {seeVideo ? (
                 <>
-                  The audio and a few still frames are pulled out here in your browser —{' '}
+                  The audio and still frames from across the run are pulled out here in your
+                  browser —{' '}
                   <strong style={{ color: 'var(--ink)' }}>the video file itself is never
                   uploaded</strong>.
                 </>

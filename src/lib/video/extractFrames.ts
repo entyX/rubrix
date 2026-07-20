@@ -2,9 +2,10 @@
  * Client-side keyframe extraction — the "eyes" for the judge (DECISIONS D-015).
  *
  * PRIVACY (opt-in amendment to a rule the spec calls non-negotiable, §20):
- *   The video FILE is never uploaded. We sample a handful of still frames IN THE BROWSER,
- *   send only those stills (with the audio) to be graded, and discard them. Nothing is
- *   stored. This only runs when the student explicitly consents.
+ *   The video FILE is never uploaded. We sample still frames IN THE BROWSER — one every
+ *   ~8 seconds, so the whole run is covered (D-018) — send only those stills (with the
+ *   audio) to be graded, and discard them. Nothing is stored. This only runs when the
+ *   student explicitly consents.
  *
  * We use a <video> element + <canvas> rather than ffmpeg.wasm: the browser already decodes
  * mp4/mov/webm it can play, seeking + drawing is lighter than a second wasm pass, and it
@@ -17,7 +18,7 @@ export interface Frame {
 }
 
 export interface FrameOptions {
-  /** How many stills to sample across the run. */
+  /** How many stills to sample across the run. 0 = decide from the duration (samplePlan). */
   count: number;
   /** Longest edge, px. Enough to read expression/eye line; small enough to stay under the upload cap. */
   maxEdge: number;
@@ -25,7 +26,22 @@ export interface FrameOptions {
   quality: number;
 }
 
-const DEFAULTS: FrameOptions = { count: 9, maxEdge: 720, quality: 0.7 };
+/**
+ * D-018: frames go to the open-source vision model in their OWN request, so the
+ * count is no longer squeezed into the same 4.5MB body as the audio. One frame
+ * every ~8s covers the whole run; 640px at q0.62 keeps ~60 frames near 3MB.
+ */
+export const FRAME_INTERVAL_S = 8;
+export const MIN_FRAMES = 9;
+export const MAX_FRAMES = 60;
+
+/** How many stills honestly cover a run of this length. Pure — unit-tested. */
+export function samplePlan(durationS: number): number {
+  if (!Number.isFinite(durationS) || durationS <= 0) return MIN_FRAMES;
+  return Math.min(MAX_FRAMES, Math.max(MIN_FRAMES, Math.round(durationS / FRAME_INTERVAL_S)));
+}
+
+const DEFAULTS: FrameOptions = { count: 0, maxEdge: 640, quality: 0.62 };
 
 function once(el: HTMLMediaElement, event: string, timeoutMs = 15_000): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -93,8 +109,10 @@ export async function extractFrames(
     const duration = await resolveDuration(video);
     if (!Number.isFinite(duration) || duration <= 0) return [];
 
+    const count = o.count > 0 ? o.count : samplePlan(duration);
+
     // Sample at the midpoint of N even slices — avoids a black first frame and a frozen last one.
-    const times = Array.from({ length: o.count }, (_, i) => (duration * (i + 0.5)) / o.count);
+    const times = Array.from({ length: count }, (_, i) => (duration * (i + 0.5)) / count);
 
     const canvas = document.createElement('canvas');
     const scale = Math.min(1, o.maxEdge / Math.max(video.videoWidth, video.videoHeight));
