@@ -52,6 +52,8 @@ export interface CatalogEvent {
   criteria_count: number | null;
   total_points: number | null;
   time_limit_s: number | null;
+  /** Whether the event has pre-submission (prejudged) materials — from the PDF's own wording. */
+  prejudged: boolean;
 }
 
 const dir = 'rubrics';
@@ -106,6 +108,12 @@ for (const pdf of pdfs) {
   const t = /(\d+)\s*minutes?\s+(?:to\s+)?present/i.exec(text) ?? /presentation.{0,40}?(\d+)\s*minutes/i.exec(text);
   const time_limit_s = t ? Number(t[1]) * 60 : null;
 
+  // Pre-submission materials (D-021): FBLA's guidelines say "prejudged" in so many
+  // words for events that require them ("This is a prejudged event", "Prejudged
+  // materials must be submitted…"). Same doctrine as the category line — the PDF's
+  // own wording decides, we never guess.
+  const prejudged = /pre-?judged/i.test(text);
+
   const info = rubricFiles.get(slug);
 
   events.push({
@@ -121,6 +129,7 @@ for (const pdf of pdfs) {
     criteria_count: info?.criteria ?? null,
     total_points: info?.points ?? null,
     time_limit_s,
+    prejudged,
   });
 }
 
@@ -132,6 +141,7 @@ const unreviewed = events.filter((e) => e.rubric_status === 'unreviewed').length
 
 console.log(`presentation ${byCat('presentation')} · roleplay ${byCat('roleplay')} · chapter ${byCat('chapter')} · unclassified ${byCat('unclassified')}`);
 console.log(`rubrics: ${confirmed} confirmed · ${unreviewed} awaiting review · ${events.length - confirmed - unreviewed} not parsed`);
+console.log(`prejudged (per the PDFs' own wording): ${events.filter((e) => e.prejudged).length} of ${events.length}`);
 
 const unclassified = events.filter((e) => e.category === 'unclassified');
 if (unclassified.length) {

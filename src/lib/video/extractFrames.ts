@@ -45,16 +45,26 @@ const DEFAULTS: FrameOptions = { count: 0, maxEdge: 640, quality: 0.62 };
 
 function once(el: HTMLMediaElement, event: string, timeoutMs = 15_000): Promise<void> {
   return new Promise((resolve, reject) => {
-    const on = () => {
+    const done = (fn: () => void) => {
       el.removeEventListener(event, on);
+      el.removeEventListener('error', onError);
       clearTimeout(t);
-      resolve();
+      fn();
     };
-    const t = setTimeout(() => {
-      el.removeEventListener(event, on);
-      reject(new Error(`video "${event}" timed out`));
-    }, timeoutMs);
+    const on = () => done(resolve);
+    // A codec the browser can't decode (e.g. HEVC .mov on Windows) fires 'error'
+    // immediately — fail FAST with the real reason instead of hanging to the timeout.
+    const onError = () =>
+      done(() =>
+        reject(
+          new Error(
+            `video decode failed (${el.error?.code ?? '?'}: ${el.error?.message || 'format not supported by this browser'})`,
+          ),
+        ),
+      );
+    const t = setTimeout(() => done(() => reject(new Error(`video "${event}" timed out`))), timeoutMs);
     el.addEventListener(event, on);
+    el.addEventListener('error', onError);
   });
 }
 
@@ -65,9 +75,16 @@ function once(el: HTMLMediaElement, event: string, timeoutMs = 15_000): Promise<
 async function resolveDuration(video: HTMLVideoElement): Promise<number> {
   if (Number.isFinite(video.duration) && video.duration > 0) return video.duration;
   return new Promise<number>((resolve) => {
+    // Never hang forever: if the browser can't compute a duration, give up and let
+    // the caller return [] — the run proceeds audio-only rather than dying here.
+    const t = setTimeout(() => {
+      video.removeEventListener('durationchange', onChange);
+      resolve(Number.NaN);
+    }, 8_000);
     const onChange = () => {
       if (Number.isFinite(video.duration) && video.duration > 0) {
         video.removeEventListener('durationchange', onChange);
+        clearTimeout(t);
         video.currentTime = 0;
         resolve(video.duration);
       }

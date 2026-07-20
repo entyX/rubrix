@@ -213,11 +213,19 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
         let frames: Array<{ blob: Blob; atSeconds: number }> = [];
         if (wantsVideo && hasPicture) {
-          const { extractFrames, trimFramesToBudget } = await import('@/lib/video/extractFrames');
-          const raw = await extractFrames(file);
-          // Frames travel in their OWN request to /api/visual (D-018), so they get the
-          // full body budget instead of sharing it with the audio.
-          frames = trimFramesToBudget(raw, 0, MAX_UPLOAD_BYTES);
+          // D-021: frame extraction must NEVER kill a run. With video-on-by-default,
+          // every upload passes through here — including formats the <video> element
+          // can't decode (HEVC .mov is the classic) even though ffmpeg.wasm already
+          // pulled the audio fine. Visuals degrade to "not judged"; the grade proceeds.
+          try {
+            const { extractFrames, trimFramesToBudget } = await import('@/lib/video/extractFrames');
+            const raw = await extractFrames(file);
+            // Frames travel in their OWN request to /api/visual (D-018), so they get the
+            // full body budget instead of sharing it with the audio.
+            frames = trimFramesToBudget(raw, 0, MAX_UPLOAD_BYTES);
+          } catch (err) {
+            console.warn('[frames] visual extraction failed — grading from audio only:', err);
+          }
         }
 
         await grade(mp3, frames);
@@ -570,13 +578,14 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             </label>
           </section>
 
-          {/* pre-submission materials (D-019) — the prejudged document, if the event has one */}
+          {/* pre-submission materials (D-019/D-021) — only for events whose own guidelines
+              say "prejudged"; the flag comes from the PDF's wording via build-catalog. */}
+          {event.prejudged === true && (
           <section className="card p-5">
             <h3 className="display-md text-[15px]">Pre-submission materials</h3>
             <p className="mt-1 text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
-              If this event is prejudged — a report, business plan, or portfolio goes in before you
-              present — attach it here and those rubric lines get scored too. Skip it if your event
-              has none.
+              This event is prejudged — a report, plan, or portfolio goes in before you present.
+              Attach it here and those rubric lines get scored too.
             </p>
             {materials ? (
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
@@ -627,6 +636,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
               Read once to grade, never stored.
             </p>
           </section>
+          )}
 
           {/* record */}
           <section className="card p-5 sm:p-6">

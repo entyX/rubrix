@@ -557,3 +557,34 @@ Nothing is stored server-side.
 pending status as g-1.4.0/g-1.5.0. The new post-validation stage is unit-tested (grounded
 cut kept with computed seconds, invented cut stripped, verdict overwritten, coaching deleted
 when no limit exists).
+
+---
+
+## D-021 — Materials card only for prejudged events · a frames failure never kills a run
+
+**Date:** 2026-07-20 · **By:** Ronit (both explicit) + agent · **Amends:** D-019's
+show-for-every-event choice
+
+**1. The pre-submission card now appears only on events that actually have one.** D-019
+showed it everywhere because the catalog didn't record which events are prejudged and
+guessing FBLA rules is forbidden. The fix follows D-012's doctrine exactly: **the guidelines
+PDFs say it themselves** — FBLA's own wording contains "prejudged" for the events that
+require materials — so `build-catalog.mts` now extracts a `prejudged` boolean from each
+PDF's text, and the UI gates the card on `prejudged === true`. The schema accepts old
+catalogs (`prejudged: null` = unknown = hidden). ⚠️ **The PDFs are gitignored and absent
+from this clone, so `catalog.json` could NOT be regenerated here** — until a human runs
+`npm run catalog` from the copy that has the 44 PDFs and commits the result, the card is
+hidden for every event. One command, then commit `rubrics/catalog.json`.
+
+**2. Frame extraction is no longer fatal.** Field report: *"video reading isn't working
+anymore — (video "loadedmetadata" timed out)"*. Root cause chain: D-019 flipped video
+analysis to default-ON, so every upload now passes through the browser's `<video>` element
+— including formats it cannot decode (HEVC `.mov` on Windows Chrome is the classic), even
+though ffmpeg.wasm had already extracted the audio perfectly. The `<video>` element never
+fires `loadedmetadata`, the 15s timer trips, and the shared try/catch killed the WHOLE run.
+That violated the ladder rule (a new feature's bottom rung is always "what worked before
+still works"). Fixes: frame extraction wrapped in its own catch — on any failure the run
+proceeds audio-only (visual criteria honestly "not judged") with a console warning; the
+`<video>` element's `error` event now rejects immediately with the real decode reason
+instead of hanging to the timeout; and `resolveDuration`'s webm-duration workaround got a
+timeout so it can no longer hang forever.

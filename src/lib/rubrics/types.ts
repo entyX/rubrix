@@ -40,6 +40,12 @@ export const CatalogEvent = z.object({
   criteria_count: z.number().nullable(),
   total_points: z.number().nullable(),
   time_limit_s: z.number().nullable(),
+  /**
+   * Whether this event has pre-submission (prejudged) materials — read from the
+   * guidelines PDF's own wording by build-catalog, never guessed (D-021).
+   * null = catalog predates the field; treated as "no" in the UI until regenerated.
+   */
+  prejudged: z.boolean().nullable().default(null),
 });
 export type CatalogEvent = z.infer<typeof CatalogEvent>;
 
