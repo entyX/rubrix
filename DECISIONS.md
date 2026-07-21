@@ -576,6 +576,10 @@ from this clone, so `catalog.json` could NOT be regenerated here** — until a h
 `npm run catalog` from the copy that has the 44 PDFs and commits the result, the card is
 hidden for every event. One command, then commit `rubrics/catalog.json`.
 
+**2a. (Superseded by D-022 the same day.)** D-021's PDF-wording extraction for the
+prejudged flag was replaced hours later when Ronit supplied FBLA's official list — see
+D-022. The PDF wording survives only as a cross-check warning.
+
 **2. Frame extraction is no longer fatal.** Field report: *"video reading isn't working
 anymore — (video "loadedmetadata" timed out)"*. Root cause chain: D-019 flipped video
 analysis to default-ON, so every upload now passes through the browser's `<video>` element
@@ -588,3 +592,44 @@ proceeds audio-only (visual criteria honestly "not judged") with a console warni
 `<video>` element's `error` event now rejects immediately with the real decode reason
 instead of hanging to the timeout; and `resolveDuration`'s webm-duration workaround got a
 timeout so it can no longer hang forever.
+
+---
+
+## D-022 — The official prejudged list · "no receipts, no high marks" · more feedback
+
+**Date:** 2026-07-20 · **By:** Ronit (all three explicit) + agent · **Amends:** D-021's
+extraction approach
+
+**1. The prejudged flag now comes from FBLA's official event list, supplied by the human**
+(the D-004 pattern: humans supply org facts; the agent never guesses). Nine catalog events
+carry `prejudged: true`: community-service-project, local-chapter-annual-business-report,
+business-ethics, business-plan, coding-and-programming, digital-video-production,
+future-business-educator, future-business-leader, job-interview. The list is baked into
+`build-catalog.mts` as the authority (PDF wording demoted to a cross-check that only
+warns); `catalog.json` was patched directly since the PDFs aren't in this clone. Three
+events on the official list have no PDF/slug in the catalog and are noted in the script
+for whenever their PDFs arrive: american-enterprise-project, partnership-with-business-
+project, client-service. **Open question flagged to the human:** website-coding-and-
+development is NOT on the supplied list, though D-008 treats its website as a prejudged
+component — its materials card is now hidden; the CLI `--site` path is unaffected. FBLA
+revises events annually; re-verify the list against the current-year guidelines.
+
+**Guard added after a real incident:** `npm run catalog` run from a clone WITHOUT the
+gitignored PDFs overwrote `catalog.json` with an empty catalog (recovered via git). The
+script now refuses to write when it finds zero PDFs.
+
+**2. Stricter grading (prompt g-1.7.0), with the strictness in code:** an assessable
+criterion with ZERO surviving evidence quotes is capped at half its points in
+`postValidate`, AFTER hallucination stripping — so a score propped up by an invented
+quote falls with the quote. Tracked as `validation.no_evidence_caps`. The prompt states
+the same rule plus: >90% on a criterion requires multiple strong quotes; off-topic
+content scores in the criterion's bottom band, not the middle.
+
+**3. More feedback:** improvements per criterion 2-4 → **3-5** (Zod + response schema
+minItems, per D-010 — even a strong criterion gets three "what holds this at nationals"
+actions), and the summary grows to 4-7 sentences naming the biggest gaps with their point
+cost.
+
+⚠️ g-1.7.0 requires an eval run (§0); still blocked on a local `GEMINI_API_KEY`. The
+no-evidence cap is unit-tested (inflated evidence-free score capped; fake-quote-backed
+score falls after stripping; evidenced scores untouched).

@@ -14,6 +14,34 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.7.0 · grading — 2026-07-20 — stricter calibration + more feedback (D-022)
+
+**Why:** the human's standing order, made explicit again: "be more strict, more feedback."
+
+**Diff from g-1.6.0:**
+1. **Rule 4 tightened:** >90% on a criterion now requires MULTIPLE strong verbatim quotes;
+   an assessable criterion without at least one verbatim quote "cannot earn more than HALF
+   its points — code enforces this cap, so score it that way yourself"; off-topic content
+   scores in the criterion's bottom band, not the middle.
+2. **Rule 7:** improvements 2-4 → 3-5 per criterion ("Even a strong criterion gets 3 —
+   what would hold this at nationals"). Enforced in the response schema (minItems 3,
+   maxItems 5) per D-010 so shortfalls don't burn retries.
+3. **Rule 9:** summary 3-5 → 4-7 sentences, now naming the biggest gaps with what each is
+   costing in points.
+
+**Post-validation riding along (§9.7):** the "no receipts, no high marks" cap — assessable
+criteria with zero SURVIVING evidence quotes capped at 50% of max_points, applied after
+hallucination stripping so fake-quote-backed scores fall with their quotes. Tracked as
+`validation.no_evidence_caps`. Unit-tested.
+
+**Eval:** ⚠️ **PENDING — still blocked on a local GEMINI_API_KEY.** Note for whoever runs
+it first: this bump is deliberately deflationary; expect medians to move DOWN a few points.
+The weak-ramble and adversarial cases should drop or hold; if an on-topic baseline falls
+OUT of its band, that's the cap being too blunt — look at whether the model simply failed
+to quote rather than the submission failing to evidence.
+
+---
+
 ## g-1.6.0 · grading — 2026-07-20 — time coaching, what_worked, next_run_plan (D-020)
 
 **Why:** the human asked for more feedback, time-aware coaching ("consider how much time

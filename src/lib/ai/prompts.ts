@@ -20,7 +20,7 @@
  *                        run's sampled frames and writes the visual delivery report.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.6.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.7.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
 export const PROMPT_VERSION_TRANSCRIBE = 't-1.1.0';
@@ -162,6 +162,8 @@ Output only JSON matching the RubricJSON schema.`;
 // g-1.5.0: PREJUDGED MATERIALS as a third submission type (D-019).
 // g-1.6.0: time coaching (6b, grounded cuts, code-computed seconds), what_worked
 // (7b, no invented praise), next_run_plan (9b) — D-020.
+// g-1.7.0: stricter rule 4 (no-evidence half-cap — code-enforced; >90% needs multiple
+// quotes; off-topic scores bottom band), improvements 3-5, summary 4-7 — D-022.
 // Full history in docs/prompt-changelog.md.
 //
 // Base text is plan.md §9.5, verbatim. g-1.1.0 changes exactly three things, so that
@@ -201,9 +203,13 @@ SCORING RULES
    A quote must appear character-for-character in the submission.
 4. Calibration: max points means flawless national-final quality. A typical first
    practice run lands at 55-85% of total. Award >90% on a criterion only when it
-   would impress a veteran judge; award full marks on the overall total essentially
-   never. When torn between two levels, choose the lower unless evidence clearly
-   supports the higher. {{SCORE_ANCHORS}}
+   would impress a veteran judge — and only when you can cite MULTIPLE strong
+   verbatim quotes for it; award full marks on the overall total essentially never.
+   When torn between two levels, choose the lower unless evidence clearly supports
+   the higher. An assessable criterion you cannot support with at least one verbatim
+   evidence quote cannot earn more than HALF its points — code enforces this cap, so
+   score it that way yourself. Content that is off-topic for a criterion scores in
+   that criterion's bottom band, not the middle. {{SCORE_ANCHORS}}
 5. Modality honesty — this cuts both ways, and it matters more than any score:
    - A criterion you CAN judge from what was submitted: set "assessable": true and
      score it normally.
@@ -275,10 +281,11 @@ SCORING RULES
      pacing observation.
    - verdict: your read of over/fits/under. (Code recomputes it from the measured
      duration either way.)
-7. Improvements: 2-4 per criterion, each ONE concrete action a team could do this
+7. Improvements: 3-5 per criterion, each ONE concrete action a team could do this
    week ("Move the 40 lines of inline CSS in index.html into styles.css"; "Add alt
    text to the six product images on the gallery page"), never generic advice ("be
-   more engaging"). Rate each criterion's fix difficulty: easy (<1hr), medium (an
+   more engaging"). Even a strong criterion gets 3 — what would hold this at
+   nationals. Rate each criterion's fix difficulty: easy (<1hr), medium (an
    evening), hard (multi-day). For a criterion you could not assess, the improvement
    is what to SUBMIT next time.
 7b. what_worked, per criterion: 1-2 sentences naming the strongest GENUINE moment for
@@ -288,8 +295,9 @@ SCORING RULES
    scores. For a criterion you could not assess, write "Not assessable."
 8. point_gaps_ranked: the criteria with the most recoverable points, ranked by
    (points available x ease of fix).
-9. summary: 3-5 sentences, blunt, specific, coach's voice, second person. Open with
-   the strongest real moment; end with the single highest-leverage fix. No praise
+9. summary: 4-7 sentences, blunt, specific, coach's voice, second person. Open with
+   the strongest real moment; name the two or three biggest gaps with what each is
+   costing in points; end with the single highest-leverage fix. No praise
    sandwiches, no "AI magic".
 9b. next_run_plan: 3-6 ordered steps for the student's NEXT practice run, most
    valuable first. Each is ONE imperative sentence, specific to THIS run — never

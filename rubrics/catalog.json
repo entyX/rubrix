@@ -15,7 +15,8 @@
       ],
       "criteria_count": 7,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "broadcast-journalism",
@@ -31,7 +32,8 @@
       ],
       "criteria_count": 9,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "business-ethics",
@@ -47,7 +49,8 @@
       ],
       "criteria_count": 19,
       "total_points": 280,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": true
     },
     {
       "slug": "business-management",
@@ -63,7 +66,8 @@
       ],
       "criteria_count": 7,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "business-plan",
@@ -79,7 +83,8 @@
       ],
       "criteria_count": 24,
       "total_points": 300,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": true
     },
     {
       "slug": "career-portfolio",
@@ -95,7 +100,8 @@
       ],
       "criteria_count": 10,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "coding-and-programming",
@@ -109,7 +115,8 @@
       "rubric_warnings": [],
       "criteria_count": 14,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": true
     },
     {
       "slug": "community-service-project",
@@ -125,7 +132,8 @@
       ],
       "criteria_count": 19,
       "total_points": 210,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": true
     },
     {
       "slug": "computer-game-simulation-programming",
@@ -141,7 +149,8 @@
       ],
       "criteria_count": 16,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "customer-service",
@@ -157,7 +166,8 @@
       ],
       "criteria_count": 8,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "data-analysis",
@@ -173,7 +183,8 @@
       ],
       "criteria_count": 10,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "digital-animation",
@@ -189,7 +200,8 @@
       ],
       "criteria_count": 19,
       "total_points": 230,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "digital-video-production",
@@ -206,7 +218,8 @@
       ],
       "criteria_count": 18,
       "total_points": 220,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": true
     },
     {
       "slug": "entrepreneurship",
@@ -222,7 +235,8 @@
       ],
       "criteria_count": 7,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "event-planning",
@@ -238,7 +252,8 @@
       ],
       "criteria_count": 12,
       "total_points": 180,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "financial-planning",
@@ -254,7 +269,8 @@
       ],
       "criteria_count": 12,
       "total_points": 150,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "financial-statement-analysis",
@@ -268,7 +284,8 @@
       "rubric_warnings": [],
       "criteria_count": 12,
       "total_points": 140,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "future-business-educator",
@@ -284,7 +301,8 @@
       ],
       "criteria_count": 17,
       "total_points": 170,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": true
     },
     {
       "slug": "future-business-leader",
@@ -298,7 +316,8 @@
       "rubric_warnings": [],
       "criteria_count": 17,
       "total_points": 160,
-      "time_limit_s": 600
+      "time_limit_s": 600,
+      "prejudged": true
     },
     {
       "slug": "graphic-design",
@@ -314,7 +333,8 @@
       ],
       "criteria_count": 9,
       "total_points": 120,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "hospitality-and-event-management",
@@ -330,7 +350,8 @@
       ],
       "criteria_count": 7,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "impromptu-speaking",
@@ -346,7 +367,8 @@
       ],
       "criteria_count": 8,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "international-business",
@@ -362,7 +384,8 @@
       ],
       "criteria_count": 7,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "introduction-to-business-presentation",
@@ -378,7 +401,8 @@
       ],
       "criteria_count": 9,
       "total_points": 115,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "introduction-to-programming",
@@ -394,7 +418,8 @@
       ],
       "criteria_count": 13,
       "total_points": 130,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "introduction-to-public-speaking",
@@ -408,7 +433,8 @@
       "rubric_warnings": [],
       "criteria_count": 10,
       "total_points": 110,
-      "time_limit_s": 300
+      "time_limit_s": 300,
+      "prejudged": false
     },
     {
       "slug": "introduction-to-social-media-strategy",
@@ -424,7 +450,8 @@
       ],
       "criteria_count": 9,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "job-interview",
@@ -438,7 +465,8 @@
       "rubric_warnings": [],
       "criteria_count": 18,
       "total_points": 170,
-      "time_limit_s": 600
+      "time_limit_s": 600,
+      "prejudged": true
     },
     {
       "slug": "local-chapter-annual-business-report",
@@ -454,7 +482,8 @@
       ],
       "criteria_count": 17,
       "total_points": 210,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": true
     },
     {
       "slug": "management-information-systems",
@@ -470,7 +499,8 @@
       ],
       "criteria_count": 7,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "marketing",
@@ -486,7 +516,8 @@
       ],
       "criteria_count": 7,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "mobile-application-development",
@@ -500,7 +531,8 @@
       "rubric_warnings": [],
       "criteria_count": 16,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "network-design",
@@ -516,7 +548,8 @@
       ],
       "criteria_count": 7,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "parliamentary-procedure",
@@ -532,7 +565,8 @@
       ],
       "criteria_count": 13,
       "total_points": 120,
-      "time_limit_s": 600
+      "time_limit_s": 600,
+      "prejudged": false
     },
     {
       "slug": "public-service-announcement",
@@ -548,7 +582,8 @@
       ],
       "criteria_count": 11,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "public-speaking",
@@ -564,7 +599,8 @@
       ],
       "criteria_count": 10,
       "total_points": 110,
-      "time_limit_s": 300
+      "time_limit_s": 300,
+      "prejudged": false
     },
     {
       "slug": "sales-presentation",
@@ -580,7 +616,8 @@
       ],
       "criteria_count": 11,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "social-media-strategies",
@@ -596,7 +633,8 @@
       ],
       "criteria_count": 11,
       "total_points": 110,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "sports-and-entertainment-management",
@@ -612,7 +650,8 @@
       ],
       "criteria_count": 7,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "supply-chain-management",
@@ -628,7 +667,8 @@
       ],
       "criteria_count": 9,
       "total_points": 120,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "technology-support-and-services",
@@ -644,7 +684,8 @@
       ],
       "criteria_count": 9,
       "total_points": 100,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "visual-design",
@@ -658,7 +699,8 @@
       "rubric_warnings": [],
       "criteria_count": 10,
       "total_points": 140,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "website-coding-and-development",
@@ -674,7 +716,8 @@
       ],
       "criteria_count": 16,
       "total_points": 220,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     },
     {
       "slug": "website-design",
@@ -690,7 +733,8 @@
       ],
       "criteria_count": 13,
       "total_points": 120,
-      "time_limit_s": 420
+      "time_limit_s": 420,
+      "prejudged": false
     }
   ]
 }

@@ -105,6 +105,8 @@ export interface ValidationReport {
   timestamps_realigned: number;
   /** D-020: proposed time-coaching cuts whose "verbatim" quote wasn't in the recording. */
   time_cuts_stripped: number;
+  /** D-022: assessable criteria capped at half points for having zero surviving evidence. */
+  no_evidence_caps: string[];
 }
 
 export interface GradeResult {
@@ -162,6 +164,7 @@ function emptyReport(): ValidationReport {
     not_assessable_points: 0,
     timestamps_realigned: 0,
     time_cuts_stripped: 0,
+    no_evidence_caps: [],
   };
 }
 
@@ -399,6 +402,19 @@ export function postValidate(args: {
       }
     }
     c.evidence = kept;
+  }
+
+  // ---- D-022: no receipts, no high marks. An assessable criterion the judge cannot
+  // support with a single SURVIVING piece of evidence is capped at half its points —
+  // in code, after the hallucination strip, so a score built on an invented quote
+  // falls with the quote. The prompt states the same rule; this is the enforcement.
+  for (const c of result.criteria) {
+    if (!c.assessable || c.evidence.length > 0) continue;
+    const cap = Number((c.max_points * 0.5).toFixed(2));
+    if (c.score > cap) {
+      c.score = cap;
+      report.no_evidence_caps.push(c.criterion_id);
+    }
   }
 
   // ---- D-019: evidence timestamps are computed in code, never trusted (§9.2's rule,

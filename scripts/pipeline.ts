@@ -308,6 +308,7 @@ async function main() {
   console.log(`  tier overwritten             : ${v.tier_overwritten ? 'yes' : 'no'}`);
   console.log(`  timestamps realigned         : ${v.timestamps_realigned}`);
   console.log(`  time cuts stripped           : ${v.time_cuts_stripped}`);
+  console.log(`  no-evidence caps             : ${v.no_evidence_caps.join(', ') || 'none'}`);
   console.log(`  scores clamped               : ${v.scores_clamped.join(', ') || 'none'}`);
   console.log(`  not assessable               : ${v.not_assessable.join(', ') || 'none'}`);
   console.log(`  retries used                 : schema=${v.schema_retry_used} coverage=${v.coverage_retry_used}`);

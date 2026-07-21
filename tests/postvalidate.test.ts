@@ -481,6 +481,33 @@ describe('pre-submission materials (D-019)', () => {
   });
 });
 
+describe('no receipts, no high marks (D-022)', () => {
+  it('caps an assessable criterion with no evidence at half its points', () => {
+    const r = hostileResult();
+    r.criteria[0].score = 9; // claims 9/10...
+    r.criteria[0].evidence = []; // ...with nothing to show for it
+    const { result, report } = run(r);
+    const opening = result.criteria.find((c) => c.criterion_id === 'opening')!;
+    expect(opening.score).toBe(5);
+    expect(report.no_evidence_caps).toContain('opening');
+  });
+
+  it('applies AFTER hallucination stripping — a score built on a fake quote falls with it', () => {
+    const r = hostileResult();
+    r.criteria[1].score = 18; // 18/20, "supported" only by the planted fake quote
+    const { result, report } = run(r);
+    const evidence = result.criteria.find((c) => c.criterion_id === 'evidence')!;
+    expect(evidence.evidence).toHaveLength(0); // the fake quote is stripped...
+    expect(evidence.score).toBe(10); // ...and the inflated score is capped at half of 20
+    expect(report.no_evidence_caps).toContain('evidence');
+  });
+
+  it('never touches evidenced or below-cap scores', () => {
+    const { report } = run(hostileResult()); // opening: real quote kept; evidence: 5 ≤ 10 cap
+    expect(report.no_evidence_caps).toEqual([]);
+  });
+});
+
 describe('time coaching (D-020) — judgment from the model, numbers from code', () => {
   const coaching = () => ({
     verdict: 'fits' as const, // the model's opinion — code overwrites it

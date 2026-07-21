@@ -31,6 +31,28 @@ function titleCase(slug: string) {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+/**
+ * Which events have pre-submission (prejudged) materials — AUTHORITATIVE, supplied by
+ * a human from FBLA's official event list (D-022, 2026-07-20). Not guessed, not
+ * extracted. The PDF-text cross-check below only WARNS on disagreement; this list wins.
+ * FBLA revises events annually — re-verify against the current-year list when updating.
+ *
+ * On the official list but with no PDF/slug in this catalog (add here if their PDFs
+ * ever arrive): american-enterprise-project, partnership-with-business-project,
+ * client-service.
+ */
+const PREJUDGED_EVENTS = new Set([
+  'community-service-project',
+  'local-chapter-annual-business-report',
+  'business-ethics',
+  'business-plan',
+  'coding-and-programming',
+  'digital-video-production',
+  'future-business-educator',
+  'future-business-leader',
+  'job-interview',
+]);
+
 export interface CatalogEvent {
   slug: string;
   name: string;
@@ -58,6 +80,16 @@ export interface CatalogEvent {
 
 const dir = 'rubrics';
 const pdfs = (await readdir(dir)).filter((f) => f.endsWith('.pdf'));
+
+// The PDFs are gitignored — a clone without them would "regenerate" an EMPTY catalog
+// over the committed one (this happened once; the file came back via git). Refuse.
+if (pdfs.length === 0) {
+  console.error(
+    'No guidelines PDFs found in rubrics/ — refusing to overwrite catalog.json with an empty ' +
+      'catalog. Run this from the working copy that has the PDFs (they are gitignored).',
+  );
+  process.exit(1);
+}
 
 // Which events have a rubric file, and has a human signed it off?
 interface RubricInfo {
@@ -108,11 +140,16 @@ for (const pdf of pdfs) {
   const t = /(\d+)\s*minutes?\s+(?:to\s+)?present/i.exec(text) ?? /presentation.{0,40}?(\d+)\s*minutes/i.exec(text);
   const time_limit_s = t ? Number(t[1]) * 60 : null;
 
-  // Pre-submission materials (D-021): FBLA's guidelines say "prejudged" in so many
-  // words for events that require them ("This is a prejudged event", "Prejudged
-  // materials must be submitted…"). Same doctrine as the category line — the PDF's
-  // own wording decides, we never guess.
-  const prejudged = /pre-?judged/i.test(text);
+  // Pre-submission materials: the human-supplied official list decides (D-022). The
+  // PDF's own wording is used only as a cross-check — a disagreement is flagged for a
+  // human, never silently resolved either way.
+  const prejudged = PREJUDGED_EVENTS.has(slug);
+  if (/pre-?judged/i.test(text) !== prejudged) {
+    console.warn(
+      `⚠️  ${slug}: the PDF's wording ${prejudged ? 'does NOT mention' : 'mentions'} "prejudged" ` +
+        `but the official list says ${prejudged ? 'it IS' : "it ISN'T"} — check the current-year guidelines.`,
+    );
+  }
 
   const info = rubricFiles.get(slug);
 
