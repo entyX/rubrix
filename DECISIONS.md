@@ -642,18 +642,27 @@ score falls after stripping; evidenced scores untouched).
 
 A batch fixing five reported problems on the video path:
 
-**1. Frames via ffmpeg.wasm, not the browser `<video>` element.** Field error, still firing
-after D-021: `video "loadedmetadata" timed out` → "grading from audio only". Mechanism: the
-`<video>` element stalls (no error, no metadata) on large non-faststart mp4 and HEVC .mov —
-so the whole visual path degraded to audio-only, which is why "it still doesn't see the
-complete video." Fix: extract frames through **ffmpeg.wasm**, the same instance already
-loaded for audio, which decodes what the browser can't (`fps=1/8` across the whole input,
-longest edge ≤640, evenly capped to 60). The `<video>`+canvas path stays as a fallback. This
-reverses D-015's "use `<video>` not ffmpeg" note — evidence (real files failing) beat the
-prior rationale (simplicity); privacy is unchanged (still client-side, still only stills +
-audio leave the device). ⚠️ **Runtime-unverified here:** ffmpeg.wasm is browser-only, so this
-is confirmed by typecheck/build only — needs one real browser upload to confirm (esp. whether
-our ffmpeg-core includes the HEVC video decoder; audio already works because `-vn` never
+**1. Frames via ffmpeg.wasm SEEKING, not the browser `<video>` element.** Field error, still
+firing after D-021: `video "loadedmetadata" timed out` → "grading from audio only".
+Mechanism: the `<video>` element stalls (no error, no metadata) on large non-faststart mp4
+and HEVC .mov. Fix: extract through **ffmpeg.wasm**, the same instance already loaded for
+audio, which decodes what the browser can't. Privacy is unchanged (still client-side, still
+only stills + audio leave the device).
+
+**⚠️ Correction, same day:** the first cut of this used the `fps=1/8` filter — which forces
+ffmpeg to DECODE EVERY frame of the whole video (~18,000 for a 10-min run) to output ~60. In
+wasm that is brutally slow and looked frozen with no console output ("it's now doing nothing…
+stuck on the video upload thing"). Replaced with per-timestamp **input seeking** (`-ss`
+BEFORE `-i`, one `-frames:v 1` exec per sample): it jumps to a keyframe near each target time
+and decodes ~one frame, so ~60 quick seeks instead of a full decode. The run length is
+estimated from the mp3 size (`AUDIO_BYTES_PER_SEC`, no second decode / no `<video>` read), a
+wall-clock budget (55s internal + a 75s race in the caller) guarantees it can never hang —
+on timeout it returns the frames gathered so far — and it now logs `[frames] sampling N…` /
+`[frames] got N`. The `<video>`+canvas path was removed (it was the hang source and ffmpeg
+decodes strictly more). This reverses D-015's "use `<video>` not ffmpeg" note — evidence beat
+the prior rationale. ⚠️ **Runtime-unverified here:** ffmpeg.wasm is browser-only, so this is
+confirmed by typecheck/build/tests only — needs one real browser upload to confirm speed and
+whether our ffmpeg-core has the HEVC video decoder (audio already works because `-vn` never
 needed it).
 
 **2. Confirm-before-grade (D-023).** New `confirm` phase: picking or recording a file no

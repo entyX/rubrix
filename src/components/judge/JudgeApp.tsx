@@ -242,18 +242,31 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             : 'Preparing your audio',
       );
       try {
-        const { extractAudio, MAX_UPLOAD_BYTES } = await import('@/lib/audio/extractAudio'); // §11.7 lazy
+        const { extractAudio, MAX_UPLOAD_BYTES, AUDIO_BYTES_PER_SEC } = await import(
+          '@/lib/audio/extractAudio'
+        ); // §11.7 lazy
         const mp3 = await extractAudio(file, (p) => setPrepRatio(p.ratio));
 
         let frames: Array<{ blob: Blob; atSeconds: number }> = [];
         if (wantsVideo && hasPicture) {
-          // D-021: frame extraction must NEVER kill a run. With video-on-by-default,
-          // every upload passes through here — including formats the <video> element
-          // can't decode (HEVC .mov is the classic) even though ffmpeg.wasm already
-          // pulled the audio fine. Visuals degrade to "not judged"; the grade proceeds.
+          // D-023: frame extraction must NEVER hang or kill a run. It seeks a few dozen
+          // frames via ffmpeg (fast, and it decodes what the <video> element can't), is
+          // self-budgeted, and is additionally raced against a hard timeout here — on any
+          // failure or timeout the grade just proceeds audio-only.
+          setPrepLabel('Reading the video — sampling frames across your run');
+          setPrepRatio(0);
+          // Estimate the run length from the mp3 (no second decode, no <video> stall). The
+          // mp3 is the video's own audio track, so this ~= the true duration; sampling at
+          // slice midpoints keeps the last frame just inside the end, and any seek that lands
+          // past the real end returns nothing and is skipped — so no shrink margin is needed
+          // and the tail (your closing lines) stays covered.
+          const estDurationS = mp3.size / AUDIO_BYTES_PER_SEC;
           try {
             const { extractFrames, trimFramesToBudget } = await import('@/lib/video/extractFrames');
-            const raw = await extractFrames(file);
+            const raw = await Promise.race([
+              extractFrames(file, { durationS: estDurationS, onProgress: (r) => setPrepRatio(r) }),
+              new Promise<[]>((resolve) => setTimeout(() => resolve([]), 75_000)),
+            ]);
             // Frames travel in their OWN request to /api/visual (D-018), so they get the
             // full body budget instead of sharing it with the audio.
             frames = trimFramesToBudget(raw, 0, MAX_UPLOAD_BYTES);

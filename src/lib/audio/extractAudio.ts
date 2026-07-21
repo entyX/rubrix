@@ -68,6 +68,14 @@ export const MAX_UPLOAD_BYTES = 4.2 * 1024 * 1024;
 const AUDIO_BITRATE = '32k';
 
 /**
+ * Bytes per second of the extracted mp3 (32 kbps mono = 32000/8 = 4000 B/s). Lets the
+ * frame extractor estimate the run's duration from the mp3 size without a second decode
+ * pass or a <video> metadata read (which stalls on the files this whole change exists to
+ * fix — D-023). Keep in sync with AUDIO_BITRATE.
+ */
+export const AUDIO_BYTES_PER_SEC = 4000;
+
+/**
  * Any audio/video file -> mono mp3, entirely in the browser.
  * Flags per plan.md §9.1: -vn -ac 1 -ar 16000 (bitrate reduced, see above).
  */
