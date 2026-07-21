@@ -43,6 +43,8 @@ export interface TranscribeResult {
   costCents: number;
   /** Timestamp sanity, surfaced so M1 can judge whether Gemini's timings are usable. */
   timestampWarnings: string[];
+  /** Which ear actually ran (D-023): 'groq' (Whisper) or 'gemini' (fallback). */
+  provider: 'groq' | 'gemini';
 }
 
 /**
@@ -159,6 +161,7 @@ export async function transcribeAudio(
         usage: ZERO_USAGE, // token accounting is Gemini-specific; Whisper bills per audio hour
         costCents: g.costCents,
         timestampWarnings: warnings,
+        provider: 'groq',
       };
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
@@ -223,7 +226,7 @@ async function geminiTranscribe(
     }
     const { transcript, warnings } = sanitizeSegments(draft, durationS);
 
-    return { transcript, durationS, usage, costCents: cost, timestampWarnings: warnings };
+    return { transcript, durationS, usage, costCents: cost, timestampWarnings: warnings, provider: 'gemini' };
   }
 
   // Unreachable — attempt 1 either returns or throws — but TypeScript can't see that.

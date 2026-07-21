@@ -633,3 +633,58 @@ cost.
 ⚠️ g-1.7.0 requires an eval run (§0); still blocked on a local `GEMINI_API_KEY`. The
 no-evidence cap is unit-tested (inflated evidence-free score capped; fake-quote-backed
 score falls after stripping; evidenced scores untouched).
+
+---
+
+## D-023 — Robust frames, confirm-before-grade, presentation-window timing, stricter grading, provider proof
+
+**Date:** 2026-07-20 · **By:** Ronit (all five explicit) + agent
+
+A batch fixing five reported problems on the video path:
+
+**1. Frames via ffmpeg.wasm, not the browser `<video>` element.** Field error, still firing
+after D-021: `video "loadedmetadata" timed out` → "grading from audio only". Mechanism: the
+`<video>` element stalls (no error, no metadata) on large non-faststart mp4 and HEVC .mov —
+so the whole visual path degraded to audio-only, which is why "it still doesn't see the
+complete video." Fix: extract frames through **ffmpeg.wasm**, the same instance already
+loaded for audio, which decodes what the browser can't (`fps=1/8` across the whole input,
+longest edge ≤640, evenly capped to 60). The `<video>`+canvas path stays as a fallback. This
+reverses D-015's "use `<video>` not ffmpeg" note — evidence (real files failing) beat the
+prior rationale (simplicity); privacy is unchanged (still client-side, still only stills +
+audio leave the device). ⚠️ **Runtime-unverified here:** ffmpeg.wasm is browser-only, so this
+is confirmed by typecheck/build only — needs one real browser upload to confirm (esp. whether
+our ffmpeg-core includes the HEVC video decoder; audio already works because `-vn` never
+needed it).
+
+**2. Confirm-before-grade (D-023).** New `confirm` phase: picking or recording a file no
+longer starts the pipeline — it stages the file on a screen showing name/size/length and the
+visual-grading toggle, and nothing is decoded or uploaded until "Grade this run". Catches the
+wrong-file case and a mis-recording.
+
+**3. Presentation-window timing (prompt g-1.8.0).** These recordings run ~7-min presentation +
+~3-min (or longer) Q&A in one file, so timing wrongly read "over the 7-min limit." Now the
+model marks `presentation_window` = {start_s, end_s, qa_present} from the transcript — start_s
+is when the presenter ACTUALLY begins (a host's "you may begin" does NOT start it), end_s is
+where judge Q&A begins. Code clamps/snaps those to real segment edges and computes the
+PRESENTATION duration; `timing` and `time_coaching` judge that, not the whole recording. Also:
+an in-video Q&A now counts as a Q&A session (rule 5b), so question-answering criteria can be
+scored from the recording's own Q&A. Delivery metrics still cover the whole recording (the
+model is told to read presentation pace from the presentation portion) — a two-pass windowed
+recompute was deferred as scope.
+
+**4. Stricter + score-matches-words (g-1.8.0).** Rule 4b (be stingier; reserve the top quarter
+for provable competition-winning work) and rule 4c (the score MUST match the justification and
+what_worked — a number contradicting its own prose is the most common judge error). Standing
+"more strict" order, again.
+
+**5. Provider proof (D-023).** The senses each report which provider actually ran
+(`transcribe: groq|gemini`, `visual: openrouter`, `judge: gemini|openrouter`-on-fallback).
+`/api/grade` logs key-presence and a per-run `[providers] used:` summary server-side, streams a
+`providers` message the browser console prints, and the report footer shows "heard by … ·
+watched by … · judged by …" — so it's provable all three keys do work, not that one silently
+carried everything.
+
+⚠️ g-1.8.0 requires an eval run (§0); still blocked on a local `GEMINI_API_KEY`. Presentation-
+window timing is unit-tested (window drives timing + verdict; snaps to segments; falls back to
+whole recording; "you may begin" excluded). Frame extraction and the confirm UX are
+verified by typecheck/build/tests but need a real browser upload to confirm end to end.

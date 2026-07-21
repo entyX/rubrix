@@ -62,10 +62,15 @@ export async function POST(req: Request) {
 
   try {
     const analysis = await buildVisualReport({ frames, durationS, runId });
+    console.log(
+      `[providers] run=${runId} visual=openrouter/${analysis.model} frames=${analysis.frameCount} cost=${analysis.costCents.toFixed(3)}c`,
+    );
     return Response.json({
       report: analysis.report,
       frame_count: analysis.frameCount,
       cost_cents: Number(analysis.costCents.toFixed(3)),
+      provider: 'openrouter',
+      model: analysis.model,
     });
   } catch (err) {
     console.error(`[api/visual] run=${runId} failed:`, err);

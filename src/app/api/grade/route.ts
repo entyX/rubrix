@@ -20,7 +20,12 @@ import { computeDeliveryMetrics } from '@/lib/metrics/delivery';
 import { gradeSubmission, type Submission } from '@/lib/ai/grade';
 import { generateQA } from '@/lib/ai/qa';
 import { RubricJSON, VisualReportJSON } from '@/lib/ai/schemas';
-import { GEMINI_MODEL } from '@/lib/ai/models';
+import {
+  GEMINI_MODEL,
+  GROQ_WHISPER_MODEL,
+  OPENROUTER_VISION_MODEL,
+  OPENROUTER_FALLBACK_MODEL,
+} from '@/lib/ai/models';
 
 /** plan.md §8: grading route maxDuration 300s. */
 export const maxDuration = 300;
@@ -163,6 +168,13 @@ export async function POST(req: Request) {
         // in Gemini tokens (D-018), so recomputing from token usage would under-report.
         let cents = 0;
 
+        // D-023: which keys are even present, logged server-side so a missing key is
+        // obvious in the function logs rather than a silent single-provider run.
+        console.log(
+          `[providers] run=${runId} keys present: gemini=${!!process.env.GEMINI_API_KEY} ` +
+            `groq=${!!process.env.GROQ_API_KEY} openrouter=${!!process.env.OPENROUTER_API_KEY}`,
+        );
+
         // plan.md §15 loading-stage copy, verbatim.
         send({ stage: 'transcribing', label: 'Transcribing your run…' });
         const tr = await transcribeAudio(bytes, audio.type || 'audio/mpeg', runId);
@@ -195,6 +207,24 @@ export async function POST(req: Request) {
         });
         cents += qa.costCents;
 
+        // D-023: which provider actually served each stage this run — so it's provable
+        // that all three keys are doing work, not that one silently carried everything.
+        const providers = {
+          transcribe:
+            tr.provider === 'groq' ? `groq/${GROQ_WHISPER_MODEL}` : `gemini/${GEMINI_MODEL}`,
+          visual: visual
+            ? `openrouter/${OPENROUTER_VISION_MODEL}`
+            : frames.length
+              ? `gemini/${GEMINI_MODEL} (raw frames)`
+              : 'none',
+          judge:
+            graded.judgeProvider === 'gemini'
+              ? `gemini/${GEMINI_MODEL}`
+              : `openrouter/${OPENROUTER_FALLBACK_MODEL}`,
+        };
+        console.log(`[providers] run=${runId} used:`, providers);
+        send({ stage: 'providers', providers });
+
         send({
           stage: 'done',
           result: {
@@ -208,6 +238,7 @@ export async function POST(req: Request) {
             transcript: tr.transcript,
             metrics,
             visual_report: visual?.report ?? null,
+            providers,
             cost_cents: Number(cents.toFixed(3)),
           },
         });

@@ -19,7 +19,7 @@ import { RubricReview } from './RubricReview';
 import type { CatalogEvent } from '@/lib/rubrics/types';
 import type { VisualReportJSON } from '@/lib/ai/schemas';
 
-type Phase = 'idle' | 'preparing' | 'grading' | 'done' | 'qa' | 'qa-grading' | 'failed';
+type Phase = 'idle' | 'confirm' | 'preparing' | 'grading' | 'done' | 'qa' | 'qa-grading' | 'failed';
 
 const STAGES = [
   { key: 'watching', label: 'Watching your run' },
@@ -63,6 +63,11 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   const reportRef = useRef<VisualReportJSON | null>(null);
   // Whether this run includes video — decides if the "Watching your run" stage shows.
   const [withVideo, setWithVideo] = useState(false);
+  // D-023: the file waiting on the confirm screen. Nothing is decoded or uploaded
+  // until the student presses "Grade this run" — so they can catch a wrong file first.
+  const [pending, setPending] = useState<
+    { file: File; hasPicture: boolean; label: string; durationLabel?: string } | null
+  >(null);
 
   // Only a HUMAN-CONFIRMED rubric may grade anyone (plan.md F3).
   const parsed = event.rubric !== null;
@@ -93,7 +98,8 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         if (last) body.append('durationS', String(Math.round(last.atSeconds + 4)));
         const res = await fetch('/api/visual', { method: 'POST', body });
         if (!res.ok) return null;
-        const j = (await res.json()) as { report?: VisualReportJSON };
+        const j = (await res.json()) as { report?: VisualReportJSON; provider?: string; model?: string };
+        if (j.report) console.info(`[providers] visual → ${j.provider ?? 'openrouter'}/${j.model ?? ''}`);
         return j.report ?? null;
       } catch {
         return null;
@@ -173,11 +179,20 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
         for (const line of lines) {
           if (!line.trim()) continue;
-          const msg = JSON.parse(line) as { stage: string; message?: string; result?: RunResult };
+          const msg = JSON.parse(line) as {
+            stage: string;
+            message?: string;
+            result?: RunResult;
+            providers?: Record<string, string>;
+          };
           if (msg.stage === 'failed') {
             setError(msg.message ?? 'The judge stumbled on this one.');
             setPhase('failed');
             return;
+          }
+          if (msg.stage === 'providers' && msg.providers) {
+            // D-023: prove all three keys did work this run, in the browser console.
+            console.info('[providers] this run used →', msg.providers);
           }
           if (msg.stage === 'done' && msg.result) {
             setRun(msg.result);
@@ -192,10 +207,29 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   );
 
   /**
+   * D-023: hold a picked/recorded file on the confirm screen instead of grading it
+   * straight away. Nothing is decoded or uploaded until the student presses "Grade".
+   */
+  const stageForConfirm = useCallback(
+    (file: File, hasPictureOverride?: boolean, durationLabel?: string) => {
+      setError('');
+      const hasPicture = hasPictureOverride ?? (file.type.startsWith('video/') || file.type === '');
+      setPending({
+        file,
+        hasPicture,
+        label: file.name && file.name !== 'take.webm' ? file.name : 'Your recording',
+        durationLabel,
+      });
+      setPhase('confirm');
+    },
+    [],
+  );
+
+  /**
    * Any file -> mp3 (always), + still frames (only if the student opted in). The video FILE
    * never leaves the device either way — audio and frames are extracted here in the browser.
    */
-  const handleFile = useCallback(
+  const processFile = useCallback(
     async (file: File, wantsVideo: boolean) => {
       setError('');
       setPhase('preparing');
@@ -263,11 +297,16 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
       rec.ondataavailable = (e) => {
         if (e.data.size > 0) chunksRef.current.push(e.data);
       };
+      const startedAt = Date.now();
       rec.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: rec.mimeType });
         stopTracks();
         setRecording(false);
-        void handleFile(new File([blob], 'take.webm', { type: rec.mimeType }), recordVideo);
+        // Confirm before grading (D-023) — carry the recorded length so the student
+        // can see they actually captured a full take.
+        const secs = Math.round((Date.now() - startedAt) / 1000);
+        const durationLabel = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+        stageForConfirm(new File([blob], 'take.webm', { type: rec.mimeType }), recordVideo, durationLabel);
       };
       recorderRef.current = rec;
       rec.start();
@@ -278,7 +317,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
     } catch {
       setError('We couldn’t reach your microphone. Check your browser permissions and try again.');
     }
-  }, [camOn, seeVideo, handleFile, stopTracks]);
+  }, [camOn, seeVideo, stageForConfirm, stopTracks]);
 
   const stopRecording = useCallback(() => {
     recorderRef.current?.stop();
@@ -359,8 +398,8 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             return;
           }
           if (msg.stage === 'done' && msg.result) {
-            // Keep the questions around so the report can still show them.
-            setRun({ ...msg.result, qa: run.qa });
+            // Keep the questions and the provider line around from the first grade.
+            setRun({ ...msg.result, qa: run.qa, providers: run.providers });
             setPhase('done');
             return;
           }
@@ -401,9 +440,62 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
     setPrepRatio(null);
     setError('');
     setWithVideo(false);
+    setPending(null);
     framesRef.current = [];
     reportRef.current = null;
   };
+
+  // ── confirm screen (D-023): verify the file before anything is decoded or uploaded.
+  if (phase === 'confirm' && pending) {
+    const sizeMb = pending.file.size / (1024 * 1024);
+    return (
+      <div className="flex flex-col gap-4">
+        <EventHeader event={event} status="Confirm your run" />
+        <section className="card p-5 sm:p-6">
+          <p className="label mb-2">Ready to grade</p>
+          <p className="display-md text-[20px] leading-tight">{pending.label}</p>
+          <div className="mono mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[12px]" style={{ color: 'var(--slate)' }}>
+            {pending.durationLabel && <span>{pending.durationLabel}</span>}
+            <span>{sizeMb < 0.1 ? '<0.1' : sizeMb.toFixed(1)} MB</span>
+            <span>{pending.file.type || 'unknown type'}</span>
+          </div>
+
+          {pending.hasPicture && (
+            <label className="mt-4 flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={seeVideo}
+                onChange={(e) => setSeeVideo(e.target.checked)}
+                className="mt-1 h-4 w-4 shrink-0"
+                style={{ accentColor: 'var(--pen)' }}
+              />
+              <span className="text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
+                Let the judge watch the video (scores body language, eye contact, and poise).
+                The video file stays on this device — only still frames and the audio are sent.
+              </span>
+            </label>
+          )}
+
+          <p className="mt-4 max-w-[60ch] text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
+            Check this is the right run. Grading uses one of your credits and takes a couple of
+            minutes. Nothing has been uploaded yet.
+          </p>
+
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button
+              onClick={() => void processFile(pending.file, seeVideo && pending.hasPicture)}
+              className="btn btn-primary px-6 text-[15px]"
+            >
+              Grade this run
+            </button>
+            <button onClick={reset} className="btn btn-secondary px-6 text-[15px]">
+              Pick a different file
+            </button>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   // ── the F3 gate: a machine-parsed rubric must be checked by a human first.
   if (parsed && !confirmed) {
@@ -727,7 +819,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
                 className="sr-only"
                 onChange={(e) => {
                   const f = e.target.files?.[0];
-                  if (f) void handleFile(f, seeVideo);
+                  // Don't grade on pick — stage it on the confirm screen first (D-023).
+                  if (f) stageForConfirm(f);
+                  e.target.value = ''; // let re-picking the same file re-fire
                 }}
               />
               <span className="display-md text-[16px]">Choose a file</span>

@@ -115,6 +115,9 @@ export interface GenerateResult {
   usage: TokenUsage;
   costCents: number;
   latencyMs: number;
+  /** Which provider actually served this call — 'gemini', or 'openrouter' on the
+   *  quota-death fallback (D-018/D-023). Surfaced so a fallback is visible, not silent. */
+  provider: 'gemini' | 'openrouter';
 }
 
 interface PromptTokenDetail {
@@ -232,7 +235,7 @@ export async function generate(args: GenerateArgs): Promise<GenerateResult> {
 
       if (!text) throw new Error(`Gemini returned no text (finish: ${finish})`);
 
-      return { text, usage, costCents: cents, latencyMs };
+      return { text, usage, costCents: cents, latencyMs, provider: 'gemini' };
     } catch (err) {
       lastErr = err;
       if (!isRetryable(err) || attempt === MAX_RETRIES) break;
@@ -278,7 +281,7 @@ export async function generate(args: GenerateArgs): Promise<GenerateResult> {
       runId: args.runId,
       label: `${args.label}:oss-fallback`,
     });
-    return { text: or.text, usage: or.usage, costCents: or.costCents, latencyMs: or.latencyMs };
+    return { text: or.text, usage: or.usage, costCents: or.costCents, latencyMs: or.latencyMs, provider: 'openrouter' };
   }
 
   throw new Error(

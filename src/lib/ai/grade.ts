@@ -115,6 +115,8 @@ export interface GradeResult {
   usage: TokenUsage;
   costCents: number;
   promptVersion: string;
+  /** Which model actually judged (D-023): 'gemini', or 'openrouter' on quota fallback. */
+  judgeProvider: 'gemini' | 'openrouter';
 }
 
 /** plan.md §9.5 rule 10. Recomputed in code — the model's tier is not trusted. */
@@ -268,6 +270,7 @@ export async function gradeSubmission(args: {
   let cost = 0;
   let result: GradingResultJSON | null = null;
   let correction = '';
+  let judgeProvider: 'gemini' | 'openrouter' = 'gemini';
 
   // ---- §9.7 steps 1 & 2: schema + coverage, with ONE retry between them.
   for (let attempt = 0; attempt < 2; attempt++) {
@@ -290,6 +293,7 @@ export async function gradeSubmission(args: {
     });
     usage = addUsage(usage, res.usage);
     cost += res.costCents;
+    judgeProvider = res.provider;
 
     const parsed = parseModelJson(res.text, GradingResultJSON);
     if (!parsed.ok) {
@@ -324,6 +328,7 @@ export async function gradeSubmission(args: {
     usage,
     costCents: cost,
     promptVersion: PROMPT_VERSION_GRADING,
+    judgeProvider,
   };
 }
 
@@ -467,6 +472,43 @@ export function postValidate(args: {
   report.tier_overwritten = result.tier !== computedTier;
   result.tier = computedTier;
 
+  // ---- D-023: the presentation window. These recordings often run the timed
+  // presentation followed by judge Q&A in one file, and the presentation doesn't start
+  // when a host says "you may begin" — it starts when the presenter does. The model
+  // marks the boundaries from the transcript; code clamps them to real segment edges
+  // and derives the presentation's true length. Timing + time coaching judge THAT, not
+  // the whole recording.
+  let presentationDurationS = submission.presentation?.metrics.duration_s ?? 0;
+  if (submission.presentation && result.presentation_window) {
+    const segs = submission.presentation.transcript.segments;
+    const recorded = submission.presentation.metrics.duration_s;
+    const snap = (t: number, edge: 'start' | 'end') => {
+      let best = t;
+      let bestDist = Infinity;
+      for (const s of segs) {
+        const v = edge === 'start' ? s.start : s.end;
+        const d = Math.abs(v - t);
+        if (d < bestDist) {
+          bestDist = d;
+          best = v;
+        }
+      }
+      return segs.length ? best : t;
+    };
+    const w = result.presentation_window;
+    const start = snap(Math.max(0, Math.min(w.start_s, recorded)), 'start');
+    let end = snap(Math.max(0, Math.min(w.end_s, recorded)), 'end');
+    if (end <= start) end = recorded; // a nonsense window -> treat the whole run as the presentation
+    result.presentation_window = {
+      start_s: Number(start.toFixed(1)),
+      end_s: Number(end.toFixed(1)),
+      qa_present: w.qa_present,
+    };
+    presentationDurationS = end - start;
+  } else {
+    delete result.presentation_window;
+  }
+
   // ---- D-020: time coaching — the model's judgment, code's numbers.
   if (result.time_coaching) {
     if (!submission.presentation || event.timeLimitS === null) {
@@ -475,7 +517,7 @@ export function postValidate(args: {
       delete result.time_coaching;
     } else {
       const tc = result.time_coaching;
-      const actual = submission.presentation.metrics.duration_s;
+      const actual = presentationDurationS; // the presentation, not the whole recording (D-023)
       const limit = event.timeLimitS;
       // Verdict is arithmetic, not opinion. "under" means comfortably under — more
       // than 15% of the limit unused (a coaching heuristic, not an org rule; official
@@ -504,11 +546,17 @@ export function postValidate(args: {
     }
   }
 
-  // Timing is computed in code, never by the LLM (§9.2). Only when a run exists.
+  // Timing is computed in code, never by the LLM (§9.2). Only when a run exists — and
+  // it measures the PRESENTATION window (D-023), so a video that includes Q&A is no
+  // longer wrongly flagged "over time".
   if (event.timeLimitS !== null && submission.presentation) {
-    const actual = submission.presentation.metrics.duration_s;
+    const actual = presentationDurationS;
     const over = actual > event.timeLimitS;
     const delta = Math.abs(actual - event.timeLimitS);
+    const windowed = result.presentation_window !== undefined;
+    const ran = windowed
+      ? `Your presentation ran ${mmss(actual)}${result.presentation_window!.qa_present ? ' (Q&A followed)' : ''} — `
+      : '';
     result.timing = {
       limit_s: event.timeLimitS,
       actual_s: Math.round(actual),
@@ -516,8 +564,8 @@ export function postValidate(args: {
       // NOTE: no numeric point penalty is applied. Official per-event penalties are
       // not in plan.md and we do not invent FBLA rules (CLAUDE.md). See DECISIONS D-005.
       note: over
-        ? `${Math.round(delta)}s over the ${event.timeLimitS}s limit. Real judges apply a time penalty here; this practice score does not.`
-        : `${Math.round(delta)}s under the ${event.timeLimitS}s limit.`,
+        ? `${ran}${Math.round(delta)}s over the ${mmss(event.timeLimitS)} limit. Real judges apply a time penalty here; this practice score does not.`
+        : `${ran}${Math.round(delta)}s under the ${mmss(event.timeLimitS)} limit.`,
     };
   } else {
     delete result.timing;

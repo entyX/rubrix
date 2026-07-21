@@ -31,6 +31,16 @@ async function load(onLog?: (line: string) => void): Promise<FFmpeg> {
   return instance;
 }
 
+/**
+ * The shared ffmpeg instance (D-023) — frame extraction reuses this rather than
+ * standing up a second wasm pass, and, more importantly, decodes the many formats the
+ * browser's <video> element chokes on (large non-faststart mp4, HEVC .mov) that made
+ * the old <video>+canvas frame path hang on `loadedmetadata`.
+ */
+export async function loadFfmpeg(): Promise<FFmpeg> {
+  return load();
+}
+
 export interface ExtractProgress {
   /** 0–1, or null while ffmpeg is still loading. */
   ratio: number | null;

@@ -574,6 +574,60 @@ describe('time coaching (D-020) — judgment from the model, numbers from code',
   });
 });
 
+describe('presentation window (D-023) — time the presentation, not the whole recording', () => {
+  // A 10-minute recording: host cue, then the presentation, then a judge Q&A.
+  const LONG_TRANSCRIPT: TranscriptJSON = {
+    full_text:
+      'You may begin. Thank you judges, our plan is strong and detailed. In closing, thank you for your time. What is your margin? Our margin is forty percent.',
+    segments: [
+      { start: 0, end: 4, text: 'You may begin.' }, // host — NOT the start
+      { start: 6, end: 300, text: 'Thank you judges, our plan is strong and detailed.' },
+      { start: 300, end: 415, text: 'In closing, thank you for your time.' }, // presentation ends
+      { start: 435, end: 600, text: 'What is your margin? Our margin is forty percent.' }, // Q&A
+    ],
+  };
+  const LONG_METRICS: DeliveryMetrics = { ...METRICS, duration_s: 600, words_per_minute: 100 };
+  const LONG_SUB: Submission = { presentation: { transcript: LONG_TRANSCRIPT, metrics: LONG_METRICS } };
+
+  const withWindow = (w: { start_s: number; end_s: number; qa_present: boolean }) => {
+    const r = hostileResult();
+    r.presentation_window = w;
+    return r;
+  };
+  const runLong = (r: GradingResultJSON) =>
+    postValidate({ result: r, rubric: RUBRIC, submission: LONG_SUB, event: { ...EVENT, timeLimitS: 420 } });
+
+  it('times the presentation window, so a video that includes Q&A is not flagged "over"', () => {
+    const { result } = runLong(withWindow({ start_s: 6, end_s: 415, qa_present: true }));
+    // Whole recording is 600s (> 420 limit); the presentation itself is 409s (within).
+    expect(result.timing!.over).toBe(false);
+    expect(result.timing!.actual_s).toBe(409);
+    expect(result.presentation_window!.qa_present).toBe(true);
+    expect(result.timing!.note).toContain('Q&A followed');
+  });
+
+  it('snaps the model window to real segment edges', () => {
+    const { result } = runLong(withWindow({ start_s: 7, end_s: 410, qa_present: true }));
+    // 7 → the presenter's segment start (6), not the host cue at 0; 410 → segment end 415.
+    expect(result.presentation_window!.start_s).toBe(6);
+    expect(result.presentation_window!.end_s).toBe(415);
+  });
+
+  it('falls back to the whole recording when the model gives no window', () => {
+    const { result } = runLong(hostileResult());
+    expect(result.presentation_window).toBeUndefined();
+    expect(result.timing!.actual_s).toBe(600);
+    expect(result.timing!.over).toBe(true);
+  });
+
+  it('drives the time-coaching verdict off the presentation window too', () => {
+    const r = withWindow({ start_s: 6, end_s: 415, qa_present: true });
+    r.time_coaching = { verdict: 'over', note: 'x', cuts: [], additions: [] };
+    const { result } = runLong(r);
+    expect(result.time_coaching!.verdict).toBe('fits'); // 409s of a 420s limit, not 600s
+  });
+});
+
 describe('purity', () => {
   it('does not mutate the model output it was handed', () => {
     const original = hostileResult();

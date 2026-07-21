@@ -1,5 +1,5 @@
 /**
- * Client-side keyframe extraction — the "eyes" for the judge (DECISIONS D-015).
+ * Client-side keyframe extraction — the "eyes" for the judge (DECISIONS D-015, D-023).
  *
  * PRIVACY (opt-in amendment to a rule the spec calls non-negotiable, §20):
  *   The video FILE is never uploaded. We sample still frames IN THE BROWSER — one every
@@ -7,10 +7,14 @@
  *   audio) to be graded, and discard them. Nothing is stored. This only runs when the
  *   student explicitly consents.
  *
- * We use a <video> element + <canvas> rather than ffmpeg.wasm: the browser already decodes
- * mp4/mov/webm it can play, seeking + drawing is lighter than a second wasm pass, and it
- * avoids re-muxing a minor's video through anything.
+ * PRIMARY PATH is ffmpeg.wasm (D-023): the same instance already loaded to pull the
+ * audio, which decodes the large non-faststart mp4 and HEVC .mov files that made the
+ * browser's <video> element hang on `loadedmetadata` (the "doesn't see the whole video"
+ * bug). The old <video>+canvas path survives as a fallback — it re-muxes nothing either
+ * way, so the privacy story is unchanged; it's purely a more capable decoder.
  */
+import { loadFfmpeg } from '@/lib/audio/extractAudio';
+import { fetchFile } from '@ffmpeg/util';
 
 export interface Frame {
   blob: Blob;
@@ -101,11 +105,92 @@ async function seekTo(video: HTMLVideoElement, t: number): Promise<void> {
 }
 
 /**
- * Sample evenly-spaced still frames from a video file/blob, in the browser.
- * Returns [] when the file has no video track (e.g. an audio-only upload) — the caller
- * then just grades audio-only.
+ * Sample still frames across the WHOLE run. ffmpeg first (decodes what the browser
+ * can't), then the <video> path as a fallback. Returns [] for an audio-only file.
  */
 export async function extractFrames(
+  file: File | Blob,
+  opts: Partial<FrameOptions> = {},
+): Promise<Frame[]> {
+  try {
+    const viaFfmpeg = await extractFramesFfmpeg(file, opts);
+    if (viaFfmpeg.length > 0) return viaFfmpeg;
+    // Zero frames from ffmpeg usually means "no video stream" (audio-only). Fall
+    // through to <video> as a cheap sanity check; it also returns [] for audio-only.
+  } catch (err) {
+    console.warn('[frames] ffmpeg extraction failed, trying the <video> path:', err);
+  }
+  return extractFramesViaVideo(file, opts);
+}
+
+/**
+ * ffmpeg.wasm frame extraction (D-023). One frame per FRAME_INTERVAL_S across the whole
+ * input, longest edge capped at maxEdge, evenly downsampled to MAX_FRAMES. Uses the
+ * shared instance from extractAudio, so the wasm core is already warm.
+ */
+export async function extractFramesFfmpeg(
+  file: File | Blob,
+  opts: Partial<FrameOptions> = {},
+): Promise<Frame[]> {
+  const o = { ...DEFAULTS, ...opts };
+  const ff = await loadFfmpeg();
+  const name = file instanceof File ? file.name : 'input';
+  const ext = name.includes('.') ? name.split('.').pop()! : 'webm';
+  const inName = `frames-in.${ext}`;
+
+  try {
+    await ff.writeFile(inName, await fetchFile(file));
+    // fps=1/N → one frame every N seconds across the entire input; scale fits the
+    // longer edge into maxEdge without upscaling small sources; -an drops audio.
+    await ff.exec([
+      '-i', inName,
+      '-vf', `fps=1/${FRAME_INTERVAL_S},scale=${o.maxEdge}:${o.maxEdge}:force_original_aspect_ratio=decrease`,
+      '-q:v', '6',
+      '-an',
+      'frame-%04d.jpg',
+    ]);
+
+    const entries = await ff.listDir('/');
+    const names = entries
+      .filter((e) => !e.isDir && /^frame-\d+\.jpg$/.test(e.name))
+      .map((e) => e.name)
+      .sort();
+    if (names.length === 0) return []; // no video stream
+
+    // Downsample evenly to the cap, preserving each kept frame's real timestamp.
+    let indices = names.map((_, i) => i);
+    if (indices.length > MAX_FRAMES) {
+      indices = Array.from({ length: MAX_FRAMES }, (_, k) =>
+        Math.round((k * (names.length - 1)) / (MAX_FRAMES - 1)),
+      );
+    }
+
+    const frames: Frame[] = [];
+    const seen = new Set<number>();
+    for (const i of indices) {
+      if (seen.has(i)) continue;
+      seen.add(i);
+      const data = await ff.readFile(names[i]);
+      const bytes = data instanceof Uint8Array ? data : new TextEncoder().encode(String(data));
+      frames.push({
+        blob: new Blob([bytes as unknown as BlobPart], { type: 'image/jpeg' }),
+        atSeconds: i * FRAME_INTERVAL_S, // fps=1/N emits frame i at ~i·N seconds
+      });
+    }
+    // Clean the frames out of the wasm FS — don't leave a minor's stills sitting there.
+    for (const n of names) await ff.deleteFile(n).catch(() => {});
+    return frames;
+  } finally {
+    await ff.deleteFile(inName).catch(() => {});
+  }
+}
+
+/**
+ * The original <video>+canvas path — fallback only (D-023). Kept because on the rare
+ * file ffmpeg can't decode but the browser can, this still gets frames.
+ * Returns [] when the file has no video track.
+ */
+export async function extractFramesViaVideo(
   file: File | Blob,
   opts: Partial<FrameOptions> = {},
 ): Promise<Frame[]> {

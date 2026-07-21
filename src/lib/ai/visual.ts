@@ -31,6 +31,8 @@ export interface VisualAnalysis {
   costCents: number;
   /** Whether the Zod retry fired — same cost-leak visibility rule as grading (D-010). */
   retryUsed: boolean;
+  /** Which eye ran (D-023) — the OpenRouter vision model that produced this report. */
+  model: string;
 }
 
 export interface VisualFrame {
@@ -120,7 +122,14 @@ export async function buildVisualReport(args: {
       continue;
     }
 
-    return { report: parsed.value, frameCount: frames.length, usage, costCents: cost, retryUsed };
+    return {
+      report: parsed.value,
+      frameCount: frames.length,
+      usage,
+      costCents: cost,
+      retryUsed,
+      model: OPENROUTER_VISION_MODEL,
+    };
   }
 
   // Unreachable — attempt 1 either returns or throws — but TypeScript can't see that.

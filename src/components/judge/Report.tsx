@@ -26,6 +26,8 @@ export interface RunResult {
   validation: { hallucinated_quotes_stripped: number; not_assessable_points: number };
   transcript: TranscriptJSON;
   metrics: DeliveryMetrics;
+  /** D-023: which provider served each stage — shown in the footer as usage proof. */
+  providers?: { transcribe: string; visual: string; judge: string };
   cost_cents: number;
 }
 
@@ -385,6 +387,12 @@ export function Report({
           {run.validation.hallucinated_quotes_stripped > 0 &&
             ` · ${run.validation.hallucinated_quotes_stripped} unsupported quote(s) stripped`}
         </p>
+        {run.providers && (
+          <p className="mono mb-2">
+            heard by {run.providers.transcribe} · watched by {run.providers.visual} · judged by{' '}
+            {run.providers.judge}
+          </p>
+        )}
         <p>
           AI practice feedback — not official judging. Real scores will differ. Rubrix is an
           independent student-built practice tool and is not affiliated with, sponsored by, or

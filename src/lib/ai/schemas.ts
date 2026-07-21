@@ -139,6 +139,20 @@ export const GradingResultJSON = z.object({
   ),
   /** D-020: 3-6 ordered steps for the NEXT practice run, most valuable first. */
   next_run_plan: z.array(z.string()).min(3).max(6),
+  /**
+   * D-023: these recordings often run timed-presentation + judge Q&A in one file, and
+   * the presentation doesn't start when a host says "you may begin". The model marks
+   * where the presenter actually starts and where Q&A begins (from the transcript);
+   * postValidate clamps them to real segments and times the PRESENTATION, not the whole
+   * recording. Optional; only meaningful for presentation submissions.
+   */
+  presentation_window: z
+    .object({
+      start_s: z.number().nonnegative(),
+      end_s: z.number().nonnegative(),
+      qa_present: z.boolean(),
+    })
+    .optional(),
   /** D-020: present only when a recording AND a time limit exist (postValidate enforces). */
   time_coaching: TimeCoachingJSON.optional(),
   timing: z
@@ -470,6 +484,28 @@ export const GRADING_RESPONSE_SCHEMA = {
       minItems: 3,
       maxItems: 6,
       items: { type: 'string' },
+    },
+    presentation_window: {
+      type: 'object',
+      description:
+        'ONLY for a presentation recording. When the presenter ACTUALLY starts and when judge Q&A begins.',
+      properties: {
+        start_s: {
+          type: 'number',
+          description:
+            'Seconds into the recording where the presenter begins presenting — NOT a host saying "you may begin", NOT dead air. Their first real presenting words.',
+        },
+        end_s: {
+          type: 'number',
+          description:
+            'Seconds where the prepared presentation ends and judge Q&A begins; or the end of the recording if there is no Q&A.',
+        },
+        qa_present: {
+          type: 'boolean',
+          description: 'True if the recording contains a judge Q&A after the presentation.',
+        },
+      },
+      required: ['start_s', 'end_s', 'qa_present'],
     },
     time_coaching: {
       type: 'object',

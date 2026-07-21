@@ -20,7 +20,7 @@
  *                        run's sampled frames and writes the visual delivery report.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.7.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.8.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
 export const PROMPT_VERSION_TRANSCRIBE = 't-1.1.0';
@@ -155,7 +155,7 @@ Rules:
   {"title":"NOT_A_RUBRIC","total_points":0,"criteria":[]}.
 Output only JSON matching the RubricJSON schema.`;
 
-// ───────────────────────────────────────────────── grading (g-1.6.0, temp 0)
+// ───────────────────────────────────────────────── grading (g-1.8.0, temp 0)
 //
 // g-1.4.0: rule 5's video branch split in two — a VISUAL DELIVERY REPORT (D-018,
 // grounded quotes) is preferred over raw frames; raw frames remain the fallback.
@@ -164,6 +164,9 @@ Output only JSON matching the RubricJSON schema.`;
 // (7b, no invented praise), next_run_plan (9b) — D-020.
 // g-1.7.0: stricter rule 4 (no-evidence half-cap — code-enforced; >90% needs multiple
 // quotes; off-topic scores bottom band), improvements 3-5, summary 4-7 — D-022.
+// g-1.8.0: presentation_window (rule 6, real start + Q&A boundary; code times the
+// presentation), score-matches-justification (rule 4c), in-video Q&A as evidence
+// (rule 5b) — D-023.
 // Full history in docs/prompt-changelog.md.
 //
 // Base text is plan.md §9.5, verbatim. g-1.1.0 changes exactly three things, so that
@@ -187,7 +190,10 @@ one or more of:
   - A WEBSITE: its real source code (HTML/CSS/JS), rendered screenshots at phone,
     tablet and desktop sizes, and computed site facts you can trust.
   - A PRESENTATION: a timestamped transcript of the spoken run, plus computed
-    delivery metrics you can trust.
+    delivery metrics you can trust. The recording often contains the timed
+    presentation AND the judge Q&A that follows it, in one file — the delivery
+    metrics cover the WHOLE recording, so read pace and fillers for the presentation
+    from its portion of the transcript, not the diluted whole.
   - PREJUDGED MATERIALS: the document some events require before competition — a
     report, business plan, or portfolio — as extracted text.
 Whatever is present is listed under SUBMISSION CONTENTS. Anything not listed is
@@ -210,6 +216,14 @@ SCORING RULES
    evidence quote cannot earn more than HALF its points — code enforces this cap, so
    score it that way yourself. Content that is off-topic for a criterion scores in
    that criterion's bottom band, not the middle. {{SCORE_ANCHORS}}
+4b. Be stingier than feels comfortable. These are practice runs; a generous score is
+   a lie that costs the student on stage. Reserve the top quarter of a criterion's
+   range for genuinely competition-winning work you can prove with quotes.
+4c. THE SCORE MUST MATCH THE WORDS. Before finalizing each criterion, reread your own
+   "justification" and "what_worked" against the number. If your prose describes a
+   weakness, the score must be low; if it praises real strength, the score must
+   reflect it. A score that contradicts your own writeup is the single most common
+   judge error and the fastest way to lose a student's trust — do not make it.
 5. Modality honesty — this cuts both ways, and it matters more than any score:
    - A criterion you CAN judge from what was submitted: set "assessable": true and
      score it normally.
@@ -254,18 +268,28 @@ SCORING RULES
    Some criteria can ONLY be evidenced by the competitor answering a judge's
    questions (e.g. "demonstrates the ability to effectively answer questions",
    "responds to questions", "interacts with the judges").
-   - If the submission contains NO Q&A SESSION, such a criterion is ALWAYS
-     "assessable": false. Never score it. Never write 0 as if they failed. The
-     student was not asked anything, so they cannot have answered badly.
-     not_assessable_reason: say that no Q&A was submitted and that answering the
-     generated questions will let you score it.
-   - If a Q&A SESSION *is* present, such a criterion is "assessable": true — judge it
-     from the student's actual answers, and quote them.
-   This is not a close call and must not vary between runs. Absent Q&A = not
-   assessable, every single time.
-6. Timing (only if a recording was submitted): the event limit is {{TIME_LIMIT}} and
-   this run was {{ACTUAL_DURATION}}. Factor pacing into relevant criteria and report
-   it in "timing". (The numeric time penalty itself is applied in code, not by you.)
+   A "Q&A" counts if EITHER a separate Q&A SESSION is attached OR the RECORDING itself
+   contains a judge questioning the competitor after the presentation (you mark this
+   in presentation_window.qa_present — see rule 6).
+   - If there is NEITHER, such a criterion is ALWAYS "assessable": false. Never score
+     it. Never write 0 as if they failed. The student was not asked anything, so they
+     cannot have answered badly. not_assessable_reason: say no Q&A was submitted and
+     that answering the generated questions will let you score it.
+   - If EITHER is present, the criterion is "assessable": true — judge it from the
+     competitor's actual answers (from the attached session, or from the Q&A portion
+     of the recording's transcript) and quote them verbatim.
+   This is not a close call and must not vary between runs.
+6. Timing + presentation window (only if a recording was submitted): the event limit
+   {{TIME_LIMIT}} is for the PRESENTATION, but the recording ({{ACTUAL_DURATION}})
+   often includes the judge Q&A afterward. Fill "presentation_window":
+   - start_s: when the presenter ACTUALLY begins presenting. A host or judge saying
+     "you may begin", throat-clearing, or dead air does NOT start it — the competitor's
+     first real presenting words do. Read the timestamp from the transcript.
+   - end_s: when the prepared presentation ends and judge questioning begins; or the
+     end of the recording if there is no Q&A.
+   - qa_present: true if a judge questions the competitor after the presentation.
+   Factor pacing of the PRESENTATION (not the Q&A) into relevant criteria. (The timing
+   block and any penalty are computed in code from your window, not by you.)
 6b. TIME COACHING — fill "time_coaching" ONLY when a recording AND a time limit both
    exist; omit it otherwise.
    - note: 1-2 coach-voice sentences on how this run used its time.

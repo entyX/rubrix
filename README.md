@@ -30,6 +30,11 @@ website URL  ──▶  crawl + screenshots + code facts  ───────�
   phone/tablet/desktop sizes, and reads your actual source code.
 - **Answer the judge's questions** by typing, dictating, or recording — then those criteria get
   scored for real.
+- **Confirm before you grade** — pick or record a run, check it's the right file, then commit.
+  Nothing is decoded or uploaded until you press Grade.
+- **Timed on the presentation, not the whole tape** — upload one file with your presentation
+  *and* the judge Q&A and it still times the presentation against its limit, starting the clock
+  when you actually begin (not when someone says "you may begin").
 - **Get a time plan** — over the limit and the judge names the exact passages to cut (verbatim,
   verified against your transcript) with the seconds each buys back at your measured pace;
   under it and you get targeted additions.

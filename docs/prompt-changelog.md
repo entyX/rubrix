@@ -14,6 +14,39 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.8.0 · grading — 2026-07-20 — presentation window, score-matches-words, in-video Q&A (D-023)
+
+**Why:** three field problems — timing wrongly read "over" because the recording holds
+presentation + Q&A in one file; scores sometimes contradicted their own justification; and the
+"more strict" standing order.
+
+**Diff from g-1.7.0:**
+1. **Rule 6 rewritten → presentation window.** The model fills `presentation_window`
+   {start_s, end_s, qa_present} from the transcript: start_s = when the presenter ACTUALLY
+   begins ("you may begin" from a host does NOT start it), end_s = where judge Q&A begins (or
+   end of recording). Pacing is judged on the presentation, not the Q&A. INPUTS now states the
+   recording often contains presentation + Q&A and the delivery metrics cover the whole thing.
+2. **Rule 5b extended:** an in-video judge Q&A (presentation_window.qa_present) counts as a
+   Q&A session, so question-answering criteria can be scored from the recording itself, not
+   only a separately-attached drill.
+3. **Rule 4b/4c:** be stingier (reserve the top quarter for provable competition-winning
+   work); the score MUST match the justification and what_worked.
+
+**Post-validation riding along (§9.7):** `presentation_window` is clamped and snapped to real
+segment edges; `timing` and `time_coaching` verdict are computed from the PRESENTATION
+duration, not the whole recording. Falls back to whole-recording timing when the model gives no
+window. Unit-tested.
+
+**Not a prompt change but shipped alongside (D-023):** frames now extract via ffmpeg.wasm (the
+`<video>` `loadedmetadata` timeout is gone); a confirm-before-grade screen; and provider-usage
+reporting (transcribe/visual/judge each say who ran).
+
+**Eval:** ⚠️ **PENDING — still blocked on a local GEMINI_API_KEY.** Watch, when it runs: the
+window detection's effect on timing-sensitive cases, and whether 4b/4c push medians down
+(intended). No eval case yet exercises a presentation+Q&A recording — worth adding one.
+
+---
+
 ## g-1.7.0 · grading — 2026-07-20 — stricter calibration + more feedback (D-022)
 
 **Why:** the human's standing order, made explicit again: "be more strict, more feedback."
