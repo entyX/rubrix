@@ -28,6 +28,40 @@ const STAGES = [
   { key: 'qa', label: 'Writing your Q&A grill' },
 ] as const;
 
+/**
+ * Stale-deploy resilience (D-024). A 404 on a `/_next/static/chunks/*.js` file almost
+ * always means the app was redeployed while this tab was open: the chunk hashes changed
+ * and the old page is asking for names that no longer exist. It is NOT a problem with the
+ * user's file. We detect it, retry once (covers a transient network blip), and let the
+ * caller trigger a single hard reload to pick up the fresh manifest.
+ */
+function isChunkLoadError(err: unknown): boolean {
+  const m = err instanceof Error ? `${err.name} ${err.message}` : String(err);
+  return /chunk|dynamically imported module|importing a module script failed|failed to fetch/i.test(m);
+}
+async function loadModule<T>(importer: () => Promise<T>): Promise<T> {
+  try {
+    return await importer();
+  } catch (err) {
+    if (!isChunkLoadError(err)) throw err;
+    await new Promise((r) => setTimeout(r, 500));
+    return importer(); // one retry; a second failure bubbles to the caller's reload handling
+  }
+}
+const CHUNK_RELOAD_KEY = 'rubrix-chunk-reload';
+/** Reload once (guarded so it can't loop) when a chunk truly can't be fetched. */
+function reloadOnceForStaleChunks(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    if (sessionStorage.getItem(CHUNK_RELOAD_KEY)) return false; // already tried a reload
+    sessionStorage.setItem(CHUNK_RELOAD_KEY, '1');
+    window.location.reload();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function JudgeApp({ event }: { event: CatalogEvent }) {
   const [phase, setPhase] = useState<Phase>('idle');
   const [prepLabel, setPrepLabel] = useState('');
@@ -81,6 +115,23 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   }, []);
 
   useEffect(() => stopTracks, [stopTracks]);
+
+  // D-024: global net — if ANY dynamically-loaded chunk 404s (a redeploy mid-session),
+  // recover with a single guarded reload instead of a dead page.
+  useEffect(() => {
+    const onError = (e: ErrorEvent) => {
+      if (isChunkLoadError(e.error ?? e.message)) reloadOnceForStaleChunks();
+    };
+    const onRejection = (e: PromiseRejectionEvent) => {
+      if (isChunkLoadError(e.reason)) reloadOnceForStaleChunks();
+    };
+    window.addEventListener('error', onError);
+    window.addEventListener('unhandledrejection', onRejection);
+    return () => {
+      window.removeEventListener('error', onError);
+      window.removeEventListener('unhandledrejection', onRejection);
+    };
+  }, []);
 
   /**
    * Frames -> the open-source vision model's report (D-018), in its own request so
@@ -242,9 +293,14 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             : 'Preparing your audio',
       );
       try {
-        const { extractAudio, MAX_UPLOAD_BYTES, AUDIO_BYTES_PER_SEC } = await import(
-          '@/lib/audio/extractAudio'
-        ); // §11.7 lazy
+        const { extractAudio, MAX_UPLOAD_BYTES, AUDIO_BYTES_PER_SEC } = await loadModule(
+          () => import('@/lib/audio/extractAudio'), // §11.7 lazy
+        );
+        // Chunks loaded fine — clear the stale-deploy guard so a FUTURE redeploy can
+        // still auto-recover.
+        try {
+          sessionStorage.removeItem(CHUNK_RELOAD_KEY);
+        } catch {}
         const mp3 = await extractAudio(file, (p) => setPrepRatio(p.ratio));
 
         let frames: Array<{ blob: Blob; atSeconds: number }> = [];
@@ -262,7 +318,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
           // and the tail (your closing lines) stays covered.
           const estDurationS = mp3.size / AUDIO_BYTES_PER_SEC;
           try {
-            const { extractFrames, trimFramesToBudget } = await import('@/lib/video/extractFrames');
+            const { extractFrames, trimFramesToBudget } = await loadModule(
+              () => import('@/lib/video/extractFrames'),
+            );
             const raw = await Promise.race([
               extractFrames(file, { durationS: estDurationS, onProgress: (r) => setPrepRatio(r) }),
               new Promise<[]>((resolve) => setTimeout(() => resolve([]), 75_000)),
@@ -277,6 +335,17 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
         await grade(mp3, frames);
       } catch (err) {
+        // A stale-deploy chunk 404 is not a bad file — recover, don't blame the upload.
+        if (isChunkLoadError(err)) {
+          console.warn('[chunk] a JS chunk failed to load — the app was likely just redeployed');
+          if (reloadOnceForStaleChunks()) return; // hard reload picks up the fresh manifest
+          setError(
+            'A new version of the app just went live. Please hard-refresh this page ' +
+              '(Ctrl+Shift+R, or Cmd+Shift+R on a Mac) and upload again.',
+          );
+          setPhase('failed');
+          return;
+        }
         const msg = err instanceof Error ? err.message.split('\n')[0] : '';
         setError(
           msg.startsWith('That run is')

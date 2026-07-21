@@ -665,6 +665,60 @@ confirmed by typecheck/build/tests only — needs one real browser upload to con
 whether our ffmpeg-core has the HEVC video decoder (audio already works because `-vn` never
 needed it).
 
+---
+
+## D-024 — Stale-deploy chunk recovery, and a two-decoder frame pipeline that actually produces frames
+
+**Date:** 2026-07-21 · **By:** Ronit (bug reports) + agent
+
+Two field bugs on the same upload flow:
+
+**1. "Failed to load chunk /_next/static/chunks/…js (404)" → the misleading "re-export as
+mp4" error.** Mechanism: `processFile` lazy-`import()`s the audio/frames modules; after a
+redeploy (my history force-push triggered one) the chunk hashes change, so a tab opened
+before the deploy asks for names that no longer exist → 404. It's not a bad file. Fix
+(D-024): `loadModule()` retries the dynamic import once (transient blips), a `ChunkLoadError`
+is detected and triggers ONE guarded `location.reload()` (sessionStorage key, cleared on a
+successful load, so it can't loop but can recover from a future redeploy), the failed state
+shows an honest "a new version went live — hard-refresh" message instead of blaming the file,
+and a global `error`/`unhandledrejection` listener catches chunk 404s from any other lazy
+import. Verified the local build emits its chunks (18 files) — this was purely a deployed-
+state mismatch, not a code bug.
+
+**2. `[frames] got 0 frame(s)` — ffmpeg seeked 60 times and produced nothing.** Two causes,
+both now handled: (a) a real command bug — single-image output to a fixed filename needs
+`-update 1`, without which the image muxer can silently write nothing on EVERY seek, on any
+codec; added. (b) the video may be a codec ffmpeg-core can't decode (iPhone HEVC). Fixes:
+ffmpeg's own log is now captured and printed to the console when it yields zero frames (so
+"why" is visible instead of silent), it bails early after 6 empty seeks, and — the real
+robustness win — the browser `<video>`+canvas path is **restored as a fallback**, because the
+browser hardware-decodes HEVC on platforms ffmpeg.wasm can't. So: ffmpeg seek → (empty) →
+`<video>` decode → (empty) → audio-only, each decoder time-boxed so nothing hangs, each
+logging what it got. This reverses the D-023 "removed the `<video>` path" note — removing it
+lost the one decoder that reads HEVC. ⚠️ Still browser-only, so verified by
+typecheck/build/tests; the next real upload's `[frames]` console lines will show which
+decoder wins and, if both fail, ffmpeg's stated reason.
+
+---
+
+## D-025 — "Adherence to competition guidelines" criteria are scored only on what's evidenced
+
+**Date:** 2026-07-21 · **By:** Ronit ("adherence to competition guidelines sometimes doesn't
+give right points") + agent · **Prompt:** g-1.9.0
+
+FBLA rating sheets often carry an "Adherence to Competitive Events Guidelines" (or
+conduct/attire/compliance) row that BUNDLES things the AI mostly can't see — in-room dress,
+proctor instructions, form submission — alongside a few it can (time limit, required
+sections). The judge was giving it a middling guess. New rule 5c makes it honest: timing is
+code's job (rule 6), format/sections are judged from the site or materials, attire only from
+a visual report or frames, and in-room conduct is never guessed. If nothing in the row is
+evidenced → `assessable: false` with a reason naming what a real judge checks in the room; if
+some is → confidence "low", score only the evidenced part. This is the same modality-honesty
+spine as the eye-contact and Q&A rules — no score for evidence that wasn't submitted.
+
+⚠️ g-1.9.0 needs an eval run (§0); still blocked on a local `GEMINI_API_KEY`. It only tightens
+an existing not-assessable path (deflationary/honest), so low regression risk, but unmeasured.
+
 **2. Confirm-before-grade (D-023).** New `confirm` phase: picking or recording a file no
 longer starts the pipeline — it stages the file on a screen showing name/size/length and the
 visual-grading toggle, and nothing is decoded or uploaded until "Grade this run". Catches the

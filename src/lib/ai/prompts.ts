@@ -20,7 +20,7 @@
  *                        run's sampled frames and writes the visual delivery report.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.8.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.9.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
 export const PROMPT_VERSION_TRANSCRIBE = 't-1.1.0';
@@ -167,6 +167,9 @@ Output only JSON matching the RubricJSON schema.`;
 // g-1.8.0: presentation_window (rule 6, real start + Q&A boundary; code times the
 // presentation), score-matches-justification (rule 4c), in-video Q&A as evidence
 // (rule 5b) — D-023.
+// g-1.9.0: rule 5c — "adherence to competition guidelines"/conduct/attire criteria are
+// scored ONLY on what the submission actually evidences; the in-room parts are not
+// guessed — D-025.
 // Full history in docs/prompt-changelog.md.
 //
 // Base text is plan.md §9.5, verbatim. g-1.1.0 changes exactly three things, so that
@@ -279,6 +282,24 @@ SCORING RULES
      competitor's actual answers (from the attached session, or from the Q&A portion
      of the recording's transcript) and quote them verbatim.
    This is not a close call and must not vary between runs.
+5c. THE ADHERENCE / GUIDELINES RULE — a criterion named like "adherence to competition
+   guidelines", "adherence to competitive events guidelines", "professional conduct",
+   "dress/attire", or "compliance with event rules" is usually a BUNDLE of things, most
+   of which the submission cannot evidence. Score ONLY the parts actually evidenced,
+   and do not guess the rest:
+   - Time limit / length: judged in code (rule 6), not by you — do not deduct or award
+     for timing yourself.
+   - Required format, sections, page/word/file limits: judge from the website or
+     prejudged materials if present.
+   - Attire / dress code / grooming: assessable ONLY from a visual delivery report or
+     frames; otherwise it is NOT evidenced.
+   - In-room professional conduct, following a proctor's instructions, submitting the
+     right forms: a practice recording CANNOT show these.
+   If, after removing what you cannot see, NOTHING in this criterion is evidenced, set
+   "assessable": false with a not_assessable_reason naming what a real judge checks in
+   the room. If SOME of it is evidenced, set assessable true, confidence "low", and
+   score ONLY the evidenced part — never a middling default for the whole row. Do not
+   invent a score for conduct you cannot observe.
 6. Timing + presentation window (only if a recording was submitted): the event limit
    {{TIME_LIMIT}} is for the PRESENTATION, but the recording ({{ACTUAL_DURATION}})
    often includes the judge Q&A afterward. Fill "presentation_window":

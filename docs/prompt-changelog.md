@@ -14,6 +14,26 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.9.0 · grading — 2026-07-21 — adherence/guidelines criteria scored honestly (D-025)
+
+**Why:** "the grading for adherence to competition guidelines sometimes doesn't give right
+points." Those rows bundle in-room conduct/attire the AI can't see with a few things it can.
+
+**Diff from g-1.8.0:** new rule 5c. An "adherence to competitive events guidelines" /
+conduct / attire / compliance criterion is scored ONLY on evidenced parts — timing is code's
+(rule 6), format/sections from the site or materials, attire only from a visual report or
+frames, in-room conduct never guessed. Nothing evidenced → assessable:false with a reason;
+some evidenced → confidence low, score only that. No middling default for the row.
+
+**Eval:** ⚠️ PENDING (no local GEMINI_API_KEY). Only tightens an existing not-assessable
+path, so deflationary and low-risk, but unmeasured.
+
+**Shipped alongside (code, no prompt):** stale-deploy chunk-load recovery and a two-decoder
+frame pipeline (ffmpeg seek with the `-update 1` fix + captured logs, then a restored
+`<video>` hardware-decode fallback for HEVC) — D-024.
+
+---
+
 ## g-1.8.0 · grading — 2026-07-20 — presentation window, score-matches-words, in-video Q&A (D-023)
 
 **Why:** three field problems — timing wrongly read "over" because the recording holds
