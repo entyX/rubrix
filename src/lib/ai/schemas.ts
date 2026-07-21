@@ -126,7 +126,7 @@ export const GradingResultJSON = z.object({
           source: z.enum(['transcript', 'document', 'visual']).optional(),
         }),
       ),
-      improvements: z.array(z.string()).min(3).max(5),
+      improvements: z.array(z.string()).min(4).max(6),
       difficulty: z.enum(['easy', 'medium', 'hard']),
     }),
   ),
@@ -444,9 +444,9 @@ export const GRADING_RESPONSE_SCHEMA = {
             // Enforced server-side, not just described. Without minItems the model
             // returns too few often enough to trigger the §9.7 retry, which doubles
             // the cost and latency of the grade.
-            description: 'At least 3 and at most 5 concrete actions. Never fewer than 3.',
-            minItems: 3,
-            maxItems: 5,
+            description: 'At least 4 and at most 6 concrete actions. Never fewer than 4.',
+            minItems: 4,
+            maxItems: 6,
             items: { type: 'string' },
           },
           difficulty: { type: 'string', enum: ['easy', 'medium', 'hard'] },

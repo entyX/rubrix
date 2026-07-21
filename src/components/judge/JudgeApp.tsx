@@ -148,7 +148,15 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         const last = frames[frames.length - 1];
         if (last) body.append('durationS', String(Math.round(last.atSeconds + 4)));
         const res = await fetch('/api/visual', { method: 'POST', body });
-        if (!res.ok) return null;
+        if (!res.ok) {
+          // Say WHY visual grading fell through, so it's not a silent drop to Gemini.
+          const j = (await res.json().catch(() => null)) as { error?: { detail?: string } } | null;
+          console.warn(
+            `[providers] visual analysis failed (${res.status}) — grading will use raw frames on Gemini instead.` +
+              (j?.error?.detail ? ` Reason: ${j.error.detail}` : ''),
+          );
+          return null;
+        }
         const j = (await res.json()) as { report?: VisualReportJSON; provider?: string; model?: string };
         if (j.report) console.info(`[providers] visual → ${j.provider ?? 'openrouter'}/${j.model ?? ''}`);
         return j.report ?? null;
@@ -242,8 +250,12 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             return;
           }
           if (msg.stage === 'providers' && msg.providers) {
-            // D-023: prove all three keys did work this run, in the browser console.
-            console.info('[providers] this run used →', msg.providers);
+            // D-023/D-024: prove which key served each stage, as a readable line (an
+            // object logs as a collapsed "Object" and hides the answer).
+            const p = msg.providers;
+            console.info(
+              `[providers] this run — transcribe: ${p.transcribe} · visual: ${p.visual} · judge: ${p.judge}`,
+            );
           }
           if (msg.stage === 'done' && msg.result) {
             setRun(msg.result);

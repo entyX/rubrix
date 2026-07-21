@@ -21,8 +21,10 @@ import { parseModelJson } from './json';
 import { mmss } from '@/lib/transcript/format';
 import type { ImagePart } from './gemini';
 
-/** Output cap for the report. Observations for 60 frames + patterns is well under this. */
+/** Output cap for the report. Observations for the frames + patterns is well under this. */
 const MAX_VISUAL_OUTPUT_TOKENS = 6_000;
+/** Max frames in one vision request. More than this 502'd OpenRouter (D-024). */
+const VISION_FRAME_CAP = 24;
 
 export interface VisualAnalysis {
   report: VisualReportJSON;
@@ -80,13 +82,22 @@ export async function buildVisualReport(args: {
   const { frames, durationS, runId } = args;
   if (frames.length === 0) throw new Error('No frames to analyze.');
 
-  const images: ImagePart[] = frames.map((f) => ({
+  // Defensive cap (D-024): one request carries every frame as an image part, and too many
+  // made OpenRouter 502. Evenly downsample to VISION_FRAME_CAP, preserving the spread.
+  const capped =
+    frames.length > VISION_FRAME_CAP
+      ? Array.from({ length: VISION_FRAME_CAP }, (_, k) =>
+          frames[Math.round((k * (frames.length - 1)) / (VISION_FRAME_CAP - 1))],
+        )
+      : frames;
+
+  const images: ImagePart[] = capped.map((f) => ({
     base64: f.base64,
     mimeType: f.mimeType,
     caption: `Frame at ${mmss(f.atSeconds)}:`,
   }));
 
-  const user = buildVisualUser({ frameCount: frames.length, durationS });
+  const user = buildVisualUser({ frameCount: capped.length, durationS });
 
   let usage: TokenUsage = ZERO_USAGE;
   let cost = 0;
@@ -124,7 +135,7 @@ export async function buildVisualReport(args: {
 
     return {
       report: parsed.value,
-      frameCount: frames.length,
+      frameCount: capped.length,
       usage,
       costCents: cost,
       retryUsed,

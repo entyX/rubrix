@@ -20,7 +20,7 @@
  *                        run's sampled frames and writes the visual delivery report.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.9.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.10.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
 export const PROMPT_VERSION_TRANSCRIBE = 't-1.1.0';
@@ -170,6 +170,8 @@ Output only JSON matching the RubricJSON schema.`;
 // g-1.9.0: rule 5c — "adherence to competition guidelines"/conduct/attire criteria are
 // scored ONLY on what the submission actually evidences; the in-room parts are not
 // guessed — D-025.
+// g-1.10.0: adherence never counts TIME (rule 5c); stricter calibration (rule 4);
+// more feedback — 4-6 improvements, 3-5 sentence justifications — D-026.
 // Full history in docs/prompt-changelog.md.
 //
 // Base text is plan.md §9.5, verbatim. g-1.1.0 changes exactly three things, so that
@@ -219,9 +221,14 @@ SCORING RULES
    evidence quote cannot earn more than HALF its points — code enforces this cap, so
    score it that way yourself. Content that is off-topic for a criterion scores in
    that criterion's bottom band, not the middle. {{SCORE_ANCHORS}}
-4b. Be stingier than feels comfortable. These are practice runs; a generous score is
-   a lie that costs the student on stage. Reserve the top quarter of a criterion's
-   range for genuinely competition-winning work you can prove with quotes.
+4b. Be stingier than feels comfortable — grade like the toughest judge in the room, not
+   the kindest. These are practice runs; a generous score is a lie that costs the
+   student on stage. Concretely: start each criterion from the assumption it is average
+   (middle of the range) and move UP only for specific, quoted excellence or DOWN for
+   specific weakness — never sit at a comfortable high default. Reserve the top quarter
+   of a criterion's range for genuinely national-final work you can prove with multiple
+   quotes. A criterion that is merely "fine" or "adequate" belongs in the MIDDLE, not
+   the top. If two runs would look identical to you, they are not top-tier runs.
 4c. THE SCORE MUST MATCH THE WORDS. Before finalizing each criterion, reread your own
    "justification" and "what_worked" against the number. If your prose describes a
    weakness, the score must be low; if it praises real strength, the score must
@@ -285,21 +292,20 @@ SCORING RULES
 5c. THE ADHERENCE / GUIDELINES RULE — a criterion named like "adherence to competition
    guidelines", "adherence to competitive events guidelines", "professional conduct",
    "dress/attire", or "compliance with event rules" is usually a BUNDLE of things, most
-   of which the submission cannot evidence. Score ONLY the parts actually evidenced,
-   and do not guess the rest:
-   - Time limit / length: judged in code (rule 6), not by you — do not deduct or award
-     for timing yourself.
+   of which the submission cannot evidence. Score ONLY the parts actually evidenced:
+   - TIME / LENGTH IS NOT PART OF THIS CRITERION. Never raise or lower an adherence
+     score because of how long the run was — timing is handled and reported entirely
+     separately. Ignore time here completely.
    - Required format, sections, page/word/file limits: judge from the website or
      prejudged materials if present.
    - Attire / dress code / grooming: assessable ONLY from a visual delivery report or
      frames; otherwise it is NOT evidenced.
    - In-room professional conduct, following a proctor's instructions, submitting the
      right forms: a practice recording CANNOT show these.
-   If, after removing what you cannot see, NOTHING in this criterion is evidenced, set
-   "assessable": false with a not_assessable_reason naming what a real judge checks in
-   the room. If SOME of it is evidenced, set assessable true, confidence "low", and
-   score ONLY the evidenced part — never a middling default for the whole row. Do not
-   invent a score for conduct you cannot observe.
+   If, after removing time and everything else you cannot see, NOTHING in this criterion
+   is evidenced, set "assessable": false with a not_assessable_reason naming what a real
+   judge checks in the room. If SOME of it is evidenced, set assessable true, confidence
+   "low", and score ONLY the evidenced part — never a middling default for the row.
 6. Timing + presentation window (only if a recording was submitted): the event limit
    {{TIME_LIMIT}} is for the PRESENTATION, but the recording ({{ACTUAL_DURATION}})
    often includes the judge Q&A afterward. Fill "presentation_window":
@@ -326,18 +332,26 @@ SCORING RULES
      pacing observation.
    - verdict: your read of over/fits/under. (Code recomputes it from the measured
      duration either way.)
-7. Improvements: 3-5 per criterion, each ONE concrete action a team could do this
-   week ("Move the 40 lines of inline CSS in index.html into styles.css"; "Add alt
-   text to the six product images on the gallery page"), never generic advice ("be
-   more engaging"). Even a strong criterion gets 3 — what would hold this at
-   nationals. Rate each criterion's fix difficulty: easy (<1hr), medium (an
-   evening), hard (multi-day). For a criterion you could not assess, the improvement
-   is what to SUBMIT next time.
+7. Improvements: 4-6 per criterion, each ONE concrete, specific action tied to THIS
+   run — quote or name the exact moment it fixes ("At 2:14 you say 'we think it'll
+   sell' — replace it with the unit-sales projection from your plan"; "Add alt text to
+   the six product images on the gallery page"). Never generic advice ("be more
+   engaging", "practice more"). Order them most-valuable first. Even a strong criterion
+   gets 4 — what would hold it at nationals. Rate each criterion's fix difficulty: easy
+   (<1hr), medium (an evening), hard (multi-day). For a criterion you could not assess,
+   the improvements are what to SUBMIT next time.
 7b. what_worked, per criterion: 1-2 sentences naming the strongest GENUINE moment for
    THIS criterion — point at the specific moment, quote it when possible. If nothing
    genuinely stood out, say so plainly ("Nothing here rose above baseline."). Never
    invent praise; the calibration rules apply to praise exactly as they apply to
    scores. For a criterion you could not assess, write "Not assessable."
+7c. justification, per criterion: 3-5 substantial sentences — the student should learn
+   more from this than from the number. Say WHY this exact score and not one level
+   higher or lower, pointing at the specific evidence; name concretely what a
+   top-scoring version of THIS criterion would have contained that this run did not;
+   and connect it to the rubric's own language for the level you assigned. No vague
+   filler ("could be better", "solid effort") — every sentence must carry a specific,
+   usable observation.
 8. point_gaps_ranked: the criteria with the most recoverable points, ranked by
    (points available x ease of fix).
 9. summary: 4-7 sentences, blunt, specific, coach's voice, second person. Open with

@@ -719,6 +719,50 @@ spine as the eye-contact and Q&A rules — no score for evidence that wasn't sub
 ⚠️ g-1.9.0 needs an eval run (§0); still blocked on a local `GEMINI_API_KEY`. It only tightens
 an existing not-assessable path (deflationary/honest), so low regression risk, but unmeasured.
 
+---
+
+## D-026 — The frame `-y` bug, the visual 502, readable provider proof, and g-1.10.0
+
+**Date:** 2026-07-21 · **By:** Ronit (a console dump — the best bug report yet) + agent
+
+The user's console pinpointed everything:
+
+**1. `[frames] got 0 frame(s)` was a one-flag bug, not a codec problem.** ffmpeg's own log
+(now surfaced, D-024) said `Unrecognized option 'y'` — this emscripten ffmpeg 5.1.4 build
+aborts on `-y`. The video was plain **H.264** (the build even has `--enable-libx265`, so HEVC
+decodes too — my earlier HEVC worry was unfounded). Removed `-y` (and the unneeded
+`-update 1`); it's the canonical single-frame command now. The `<video>` fallback stays for
+genuine codec gaps. (The fallback had actually saved this run — it got 60 frames — which then
+exposed #2.)
+
+**2. `/api/visual` → 502.** 60 frames in one OpenRouter request is too many (payload/latency).
+`MAX_FRAMES` 60 → **24**, plus a defensive `VISION_FRAME_CAP` downsample in `buildVisualReport`,
+and the 502 now carries its real reason to the browser console instead of a silent drop to the
+Gemini raw-frames path. 24 frames still span the whole run (≈ one per 32s on a 13-min video) —
+ample for posture/attire/gesture; the transcript carries content.
+
+**3. "Isn't telling me if it's using all the keys."** The `[providers]` line logged a
+collapsed `Object`. Now it prints `transcribe: … · visual: … · judge: …` as text, and a failed
+visual call says so loudly ("grading will use raw frames on Gemini instead. Reason: …") — so a
+fallback is never silent. (The report footer already shows "heard by / watched by / judged
+by".)
+
+**4. Adherence, fixed properly (g-1.10.0).** The user: "time doesn't matter for adherence." Rule
+5c now says TIME IS NOT PART OF adherence at all — never raise/lower the row for length. The
+presentation-only time (excluding intro and Q&A) is reported entirely separately via the
+`presentation_window` timing block (D-023).
+
+**5. Stricter + much more feedback (g-1.10.0).** Rule 4b: start each criterion from "average"
+and move off it only for quoted specifics — no comfortable-high default. Improvements 3-5 →
+**4-6**, each tied to a named moment. New rule 7c: justifications are **3-5 substantial
+sentences** that say why this score not one higher/lower, what a top version would have
+contained, and tie to the rubric's own level language — no vague filler.
+
+⚠️ g-1.10.0 needs an eval run (§0); still blocked on a local `GEMINI_API_KEY`. This is the 4th
+strictness tightening without measurement — noted honestly: the real generosity signal is the
+eval, and repeated blind tightening risks over-correction. The frame/visual/provider fixes are
+code and verified by build/tests; their runtime behaviour shows in the next upload's console.
+
 **2. Confirm-before-grade (D-023).** New `confirm` phase: picking or recording a file no
 longer starts the pipeline — it stages the file on a screen showing name/size/length and the
 visual-grading toggle, and nothing is decoded or uploaded until "Grade this run". Catches the

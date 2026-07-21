@@ -20,10 +20,15 @@ export interface Frame {
   atSeconds: number;
 }
 
-/** One frame every ~8s covers the run; 640px longest edge keeps ~60 frames near 3MB. */
+/**
+ * One frame every ~8s covers the run; 640px longest edge keeps files small. Capped at 24
+ * (D-024): the whole set is sent to the vision model in ONE request, and ~60 images made
+ * OpenRouter 502 (payload/latency). 24 still spans the entire run (a 13-min video → one
+ * every ~32s), which is plenty for posture/attire/gesture — the transcript covers content.
+ */
 export const FRAME_INTERVAL_S = 8;
 export const MIN_FRAMES = 9;
-export const MAX_FRAMES = 60;
+export const MAX_FRAMES = 24;
 
 /** How many stills honestly cover a run of this length. Pure — unit-tested. */
 export function samplePlan(durationS: number): number {
@@ -104,16 +109,16 @@ async function extractFramesFfmpeg(file: File | Blob, o: FrameOptions): Promise<
       const t = times[i];
       const out = `f${i}.jpg`;
       try {
-        // -ss BEFORE -i = fast input seek; -update 1 lets the image muxer write a single
-        // fixed-name file (without it, single-image output can silently produce nothing).
+        // -ss BEFORE -i = fast input seek. This is the canonical single-frame command;
+        // do NOT add -y (this emscripten build aborts with "Unrecognized option 'y'")
+        // or -update (unneeded for -frames:v 1). Output names are unique, so no overwrite.
         await ff.exec([
           '-ss', t.toFixed(2),
           '-i', inName,
           '-frames:v', '1',
           '-vf', `scale=${o.maxEdge}:${o.maxEdge}:force_original_aspect_ratio=decrease`,
           '-q:v', '5',
-          '-update', '1',
-          '-y', out,
+          out,
         ]);
         const data = await ff.readFile(out).catch(() => null);
         await ff.deleteFile(out).catch(() => {});

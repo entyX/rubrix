@@ -73,12 +73,14 @@ export async function POST(req: Request) {
       model: analysis.model,
     });
   } catch (err) {
-    console.error(`[api/visual] run=${runId} failed:`, err);
+    console.error(`[api/visual] run=${runId} failed (${frames.length} frames):`, err);
     return Response.json(
       {
         error: {
           code: 'visual_failed',
           message: "We couldn't analyze your video frames this time.",
+          // Surfaced so the browser console shows WHY (e.g. an OpenRouter 5xx / payload).
+          detail: `${err instanceof Error ? err.message : String(err)} (frames=${frames.length})`,
         },
       },
       { status: 502 },

@@ -14,6 +14,31 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.10.0 · grading — 2026-07-21 — adherence never counts time; stricter; much more feedback (D-026)
+
+**Why:** "time doesn't matter for adherence to guidelines", "more strict grading and even more
+feedback, they need way more."
+
+**Diff from g-1.9.0:**
+- Rule 5c: TIME IS NOT PART OF the adherence/guidelines criterion — never raise or lower it for
+  length. Presentation time (excluding intro + Q&A) is reported separately via the timing block.
+- Rule 4b: grade from "average" up/down on quoted specifics — no comfortable-high default;
+  "merely fine" belongs in the middle.
+- Rule 7 improvements 3-5 → 4-6, each tied to a named moment; rule 7c (new): justifications are
+  3-5 substantial sentences (why this score not one level off, what a top version would contain,
+  tied to the rubric's own level language) — no vague filler.
+- Schema: `improvements` minItems 4 / maxItems 6 (enforced server-side too, per D-010).
+
+**Eval:** ⚠️ PENDING (no local GEMINI_API_KEY). This is the 4th strictness tightening without
+measurement — the eval is the only real generosity signal; further blind tightening risks
+over-correction. Watch, when it runs: medians moving down, and whether any on-topic baseline
+falls below its band (would mean the "start from average" framing is too harsh).
+
+**Shipped alongside (code, D-026):** ffmpeg `-y` removed (was aborting every seek → 0 frames),
+vision frame count capped at 24 (fixes the /api/visual 502), and readable provider logging.
+
+---
+
 ## g-1.9.0 · grading — 2026-07-21 — adherence/guidelines criteria scored honestly (D-025)
 
 **Why:** "the grading for adherence to competition guidelines sometimes doesn't give right

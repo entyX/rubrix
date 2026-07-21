@@ -18,8 +18,9 @@ describe('samplePlan', () => {
     expect(samplePlan(30)).toBe(MIN_FRAMES);
   });
 
-  it('samples one frame per interval on a mid-length run', () => {
-    expect(samplePlan(300)).toBe(Math.round(300 / FRAME_INTERVAL_S));
+  it('samples one frame per interval below the cap', () => {
+    // 120s / 8 = 15 frames, comfortably between the floor (9) and the cap (24).
+    expect(samplePlan(120)).toBe(Math.round(120 / FRAME_INTERVAL_S));
   });
 
   it('caps at the ceiling on a long run', () => {
