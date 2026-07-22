@@ -812,6 +812,40 @@ assigned topic) is noted in the reason but never earns the row alone.
 ⚠️ g-1.11.0 needs an eval run (§0); still blocked on a local `GEMINI_API_KEY`. It only widens a
 not-assessable path (honest, not a scoring change), so near-zero regression risk.
 
+---
+
+## D-029 — Adherence reversed (award it), cost fixed, sample sentences, full-range calibration
+
+**Date:** 2026-07-21 · **By:** Ronit (explicit) + agent · **Amends:** D-028 (adherence)
+
+**1. Cost was understated.** The visual analysis runs in its OWN request (`/api/visual`), so
+`/api/grade`'s total (`transcribe + grade + qa`) silently dropped it. The client now folds the
+visual `cost_cents` into the run total (~1-2¢ that was missing when the OpenRouter eyes ran).
+Every other piece was already summed from each call's own accounting.
+
+**2. Adherence REVERSED (g-1.12.0, amends D-028's "not assessable").** Ronit: "if it can tell,
+give those 10 — adherence is the ez 10 points usually." Rule 5c now DEFAULTS to full marks for
+adherence/guidelines/protocol rows (assessable true), dropping to 0 only on a SPECIFIC visible
+violation (off-topic transcript, visible template, audible external speaker, a rule broken on
+camera). No not-assessable, no middling guess — it's the realistic points nearly every
+competitor earns, and withholding it just deflated a real score. Time is still never part of it.
+
+**3. Sample sentences (new learning feature, g-1.12.0).** Each criterion below full marks now
+carries `sample_lines`: 1-3 example sentences the competitor could actually SAY to raise it,
+in their own voice from THIS run's content ("Our 2023 survey of 240 customers found 88% would
+buy again…"), ready to rehearse. Rendered in the report ("Try saying") and the PDF; empty for
+maxed/not-assessable criteria. Schema + response-schema required (so it always emits, possibly
+[]). Not grounded — they are suggestions, not claims about the submission.
+
+**4. Full-range calibration (g-1.12.0 rule 4d).** Scores must SPREAD across the rubric, not
+cluster in a high band — if most criteria are 8s/9s, the grader is soft and must re-score the
+middling/weak ones down. (Adherence is the one deliberate high exception.) This is the honest
+form of "stricter": a believable first-practice result has real variance.
+
+⚠️ g-1.12.0 needs an eval run (§0); still blocked on a local `GEMINI_API_KEY`. Net effect on
+scores is mixed (adherence up, full-range spread down) — genuinely unmeasured until the eval
+runs, which is now the single most valuable thing outstanding.
+
 **2. Confirm-before-grade (D-023).** New `confirm` phase: picking or recording a file no
 longer starts the pipeline — it stages the file on a screen showing name/size/length and the
 visual-grading toggle, and nothing is decoded or uploaded until "Grade this run". Catches the

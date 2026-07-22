@@ -351,6 +351,12 @@ export async function renderReportPdf(input: ExportInput): Promise<Uint8Array> {
     }
     L.text(c.justification, { size: 9.5, color: SLATE, indent: 14, gap: 2 });
     c.improvements.forEach((im) => L.text(`-> ${im}`, { size: 9.5, indent: 22, gap: 1 }));
+    if (c.sample_lines && c.sample_lines.length > 0) {
+      L.text('Try saying:', { font: fonts.bold, size: 9, indent: 14, gap: 1 });
+      c.sample_lines.forEach((line) =>
+        L.text(`"${line}"`, { font: fonts.italic, size: 9, color: PEN, indent: 22, gap: 1 }),
+      );
+    }
     L.spacer(3);
   });
 

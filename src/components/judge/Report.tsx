@@ -304,6 +304,7 @@ export function Report({
                 timestampS: e.source === 'transcript' ? e.timestamp_start : undefined,
               }))}
               improvements={c.improvements}
+              sampleLines={c.sample_lines}
               defaultExpanded
             />
           ))}

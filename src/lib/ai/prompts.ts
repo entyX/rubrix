@@ -20,7 +20,7 @@
  *                        run's sampled frames and writes the visual delivery report.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.11.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.12.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
 export const PROMPT_VERSION_TRANSCRIBE = 't-1.1.0';
@@ -174,6 +174,9 @@ Output only JSON matching the RubricJSON schema.`;
 // more feedback — 4-6 improvements, 3-5 sentence justifications — D-026.
 // g-1.11.0: adherence all-or-nothing rows (0/full/"all criteria must be met") are
 // not-assessable when the in-room items can't be verified — never a guessed middle — D-028.
+// g-1.12.0: adherence REVERSED (rule 5c) — award the full points by default (the easy
+// points everyone earns) unless a violation is visible; sample_lines (rule 7d, example
+// sentences to say); calibration uses the full range, no clustering (rule 4d) — D-029.
 // Full history in docs/prompt-changelog.md.
 //
 // Base text is plan.md §9.5, verbatim. g-1.1.0 changes exactly three things, so that
@@ -236,6 +239,13 @@ SCORING RULES
    weakness, the score must be low; if it praises real strength, the score must
    reflect it. A score that contradicts your own writeup is the single most common
    judge error and the fastest way to lose a student's trust — do not make it.
+4d. USE THE FULL RANGE. Across the whole rubric your scores should SPREAD — a real run
+   has strong lines, average lines, and weak ones. If most of your criteria land in a
+   narrow high band (all 8s and 9s), you are grading soft: go back and find the ones
+   that are actually middling or weak and score them there. A believable first-practice
+   result has criteria scattered from the bottom band to the top, not clustered near
+   full. (Adherence per rule 5c is the one deliberate exception — that row is the easy
+   full points.)
 5. Modality honesty — this cuts both ways, and it matters more than any score:
    - A criterion you CAN judge from what was submitted: set "assessable": true and
      score it normally.
@@ -291,34 +301,22 @@ SCORING RULES
      competitor's actual answers (from the attached session, or from the Q&A portion
      of the recording's transcript) and quote them verbatim.
    This is not a close call and must not vary between runs.
-5c. THE ADHERENCE / GUIDELINES RULE — a criterion named like "adherence to competition
-   guidelines", "adherence to competitive events guidelines", "professional conduct",
-   "dress/attire", or "compliance with event rules" is usually a BUNDLE of things, most
-   of which the submission cannot evidence. Score ONLY the parts actually evidenced:
-   - TIME / LENGTH IS NOT PART OF THIS CRITERION. Never raise or lower an adherence
-     score because of how long the run was — timing is handled and reported entirely
-     separately. Ignore time here completely.
-   - Required format, sections, page/word/file limits: judge from the website or
-     prejudged materials if present.
-   - Attire / dress code / grooming: assessable ONLY from a visual delivery report or
-     frames; otherwise it is NOT evidenced.
-   - In-room professional conduct, following a proctor's instructions, submitting the
-     right forms: a practice recording CANNOT show these.
-   - ALL-OR-NOTHING rows (the sheet offers only 0 or the full value, e.g. "0 points /
-     10 points — all criteria must be met": device counts and sizing, set-up conduct,
-     not leaving materials behind, QR/link handling, external speakers, food/animals,
-     templates, dress). Award the FULL value ONLY if you can confirm EVERY listed item
-     from the submission; award 0 ONLY if you can see a specific violation. A recording
-     shows almost NONE of these, so you normally can confirm neither — the row is then
-     "assessable": false. The one item often checkable is "presentation aligned with the
-     assigned topic": note in the reason whether that was met, but it alone never earns
-     an all-or-nothing row. Do NOT split the difference with a middling number — these
-     rows are 0, full, or not assessable, nothing in between.
-   If, after removing time and everything else you cannot see, NOTHING in this criterion
-   is evidenced, set "assessable": false with a not_assessable_reason naming what a real
-   judge checks in the room. If SOME of it is evidenced (and the row is NOT all-or-
-   nothing), set assessable true, confidence "low", and score ONLY the evidenced part —
-   never a middling default for the row.
+5c. THE ADHERENCE / GUIDELINES RULE — a row named like "adherence to competitive events
+   guidelines", "presentation protocols", "professional conduct", or "compliance with
+   event rules" (usually scored 0 or full, "all criteria must be met") is the EASY full
+   points that almost every competitor earns. Default to awarding the FULL value:
+   - assessable: true, and full marks, UNLESS you can point to a SPECIFIC violation in
+     the submission — e.g. the transcript is clearly off the assigned topic, a template
+     is visibly used, you can hear audio through an external speaker, or a frame shows a
+     rule being broken. Only then drop to 0 (these rows are all-or-nothing) and say
+     exactly what you saw.
+   - TIME / LENGTH IS NEVER part of this row — timing is handled and reported entirely
+     separately. Ignore it here.
+   - Do NOT mark this row "assessable": false and do NOT guess a middling number. Absent
+     a visible violation, it is the full points — that is the realistic outcome at the
+     real competition, and withholding it just deflates a score the student would earn.
+   (Non-adherence criteria are unaffected — the evidence-first and calibration rules
+   still apply to them in full.)
 6. Timing + presentation window (only if a recording was submitted): the event limit
    {{TIME_LIMIT}} is for the PRESENTATION, but the recording ({{ACTUAL_DURATION}})
    often includes the judge Q&A afterward. Fill "presentation_window":
@@ -365,6 +363,13 @@ SCORING RULES
    and connect it to the rubric's own language for the level you assigned. No vague
    filler ("could be better", "solid effort") — every sentence must carry a specific,
    usable observation.
+7d. sample_lines, per criterion: for any assessable criterion NOT already at full marks,
+   write 1-3 example sentences the competitor could actually SAY to raise it — in their
+   own voice, built from THIS run's real content and topic, ready to rehearse. Make them
+   concrete and speakable, not descriptions of what to do: not "cite your data" but
+   'Our 2023 survey of 240 customers found 88% would buy again — that's the demand behind
+   this launch.' Leave sample_lines EMPTY ([]) for a criterion already at full marks or
+   one that is not assessable.
 8. point_gaps_ranked: the criteria with the most recoverable points, ranked by
    (points available x ease of fix).
 9. summary: 4-7 sentences, blunt, specific, coach's voice, second person. Open with

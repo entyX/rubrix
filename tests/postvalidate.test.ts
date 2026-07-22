@@ -92,6 +92,7 @@ function hostileResult(): GradingResultJSON {
         what_worked: 'The direct greeting lands cleanly.',
         evidence: [{ quote: 'Good morning judges.', timestamp_start: 0 }], // REAL
         improvements: ['Tighten it', 'Add a stat'],
+        sample_lines: [],
         difficulty: 'easy',
       },
       {
@@ -110,6 +111,7 @@ function hostileResult(): GradingResultJSON {
           },
         ],
         improvements: ['Name the source', 'Give the sample size'],
+        sample_lines: [],
         difficulty: 'medium',
       },
     ],

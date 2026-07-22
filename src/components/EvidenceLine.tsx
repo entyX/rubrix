@@ -29,6 +29,8 @@ export interface EvidenceLineProps {
   whatWorked?: string;
   evidence?: EvidenceQuote[];
   improvements?: string[];
+  /** D-029: example sentences the competitor could say to raise this criterion. */
+  sampleLines?: string[];
   defaultExpanded?: boolean;
   /** The one real animation on the site — hero only, plays once. */
   animate?: boolean;
@@ -48,6 +50,7 @@ export function EvidenceLine({
   whatWorked,
   evidence = [],
   improvements = [],
+  sampleLines = [],
   defaultExpanded = false,
   animate = false,
 }: EvidenceLineProps) {
@@ -132,6 +135,25 @@ export function EvidenceLine({
                   ))}
                 </ul>
               )}
+            </div>
+          )}
+
+          {sampleLines.length > 0 && (
+            <div className="mt-3">
+              <p className="label mb-1.5" style={{ color: 'var(--pen)' }}>
+                Try saying
+              </p>
+              <ul className="flex flex-col gap-1.5">
+                {sampleLines.map((line, i) => (
+                  <li
+                    key={i}
+                    className="text-[14px] italic leading-relaxed"
+                    style={{ borderLeft: '2px solid var(--pen)', paddingLeft: 10 }}
+                  >
+                    &ldquo;{line}&rdquo;
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </>

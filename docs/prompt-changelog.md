@@ -14,6 +14,30 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.12.0 · grading — 2026-07-21 — adherence awarded by default; sample lines; full-range (D-029)
+
+**Why:** "if it can tell, give those 10 — adherence is the ez 10 points usually", "sample
+sentences to say", "stricter grading", "make sure cost is correct".
+
+**Diff from g-1.11.0:**
+- Rule 5c REVERSED: adherence/guidelines/protocol rows default to FULL marks (assessable true),
+  0 only on a specific visible violation — never not-assessable, never a middling guess. (Amends
+  g-1.11.0, which had made them not-assessable.)
+- Rule 4d (new): scores must SPREAD across the rubric — no clustering in a high band; re-score
+  the middling/weak criteria down. The honest form of "stricter".
+- Rule 7d (new): `sample_lines` — 1-3 example sentences the competitor could SAY to raise a
+  sub-max criterion, in their voice from this run's content; empty for maxed/not-assessable.
+- Schema: `sample_lines` array (max 4), required in the response schema so it always emits.
+
+**Not a prompt change but shipped alongside (D-029):** the run cost now includes the `/api/visual`
+(OpenRouter) cost, which was being dropped from the total.
+
+**Eval:** ⚠️ PENDING (no local GEMINI_API_KEY). Net score effect is MIXED this time (adherence
+up, full-range spread down) — truly unmeasured. The eval is now the highest-value outstanding
+item; four+ prompt versions have shipped since it last ran.
+
+---
+
 ## g-1.11.0 · grading — 2026-07-21 — adherence all-or-nothing rows are not-assessable (D-028)
 
 **Why:** Ronit pasted the real "Adherence to Competitive Events Guidelines" sheet — a 0/10

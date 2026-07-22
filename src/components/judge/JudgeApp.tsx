@@ -140,7 +140,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
    * directly, which is exactly the pre-D-018 behaviour.
    */
   const analyzeVisual = useCallback(
-    async (frames: Array<{ blob: Blob; atSeconds: number }>): Promise<VisualReportJSON | null> => {
+    async (
+      frames: Array<{ blob: Blob; atSeconds: number }>,
+    ): Promise<{ report: VisualReportJSON | null; costCents: number }> => {
       try {
         const body = new FormData();
         frames.forEach((f, i) => body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`));
@@ -155,13 +157,18 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             `[providers] visual analysis failed (${res.status}) — grading will use raw frames on Gemini instead.` +
               (j?.error?.detail ? ` Reason: ${j.error.detail}` : ''),
           );
-          return null;
+          return { report: null, costCents: 0 };
         }
-        const j = (await res.json()) as { report?: VisualReportJSON; provider?: string; model?: string };
+        const j = (await res.json()) as {
+          report?: VisualReportJSON;
+          provider?: string;
+          model?: string;
+          cost_cents?: number;
+        };
         if (j.report) console.info(`[providers] visual → ${j.provider ?? 'openrouter'}/${j.model ?? ''}`);
-        return j.report ?? null;
+        return { report: j.report ?? null, costCents: j.cost_cents ?? 0 };
       } catch {
-        return null;
+        return { report: null, costCents: 0 };
       }
     },
     [],
@@ -175,9 +182,12 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
       // The judge's eyes: get the whole-run visual report first (D-018).
       let report: VisualReportJSON | null = null;
+      let visualCost = 0; // /api/visual is a separate request — fold its cost into the total
       if (frames.length > 0) {
         setStage('watching');
-        report = await analyzeVisual(frames);
+        const v = await analyzeVisual(frames);
+        report = v.report;
+        visualCost = v.costCents;
         reportRef.current = report;
       }
       setStage('transcribing');
@@ -258,7 +268,12 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             );
           }
           if (msg.stage === 'done' && msg.result) {
-            setRun(msg.result);
+            // Add the visual (OpenRouter) cost — it ran in a separate request, so
+            // /api/grade's total left it out (D-029).
+            setRun({
+              ...msg.result,
+              cost_cents: Number((msg.result.cost_cents + visualCost).toFixed(3)),
+            });
             setPhase('done');
             return;
           }

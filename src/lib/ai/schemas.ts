@@ -127,6 +127,13 @@ export const GradingResultJSON = z.object({
         }),
       ),
       improvements: z.array(z.string()).min(4).max(6),
+      /**
+       * D-029: example sentences the competitor could actually SAY to raise this
+       * criterion — a learning aid, tailored to THIS run's content. Suggestions, not
+       * claims about the submission, so they are not grounded. Empty for criteria
+       * already at full marks or not assessable.
+       */
+      sample_lines: z.array(z.string()).max(4).default([]),
       difficulty: z.enum(['easy', 'medium', 'hard']),
     }),
   ),
@@ -449,6 +456,13 @@ export const GRADING_RESPONSE_SCHEMA = {
             maxItems: 6,
             items: { type: 'string' },
           },
+          sample_lines: {
+            type: 'array',
+            description:
+              'Up to 4 example sentences the competitor could actually SAY to raise this criterion, in their own voice using THIS run\'s content. Empty [] for a criterion already at full marks or not assessable.',
+            maxItems: 4,
+            items: { type: 'string' },
+          },
           difficulty: { type: 'string', enum: ['easy', 'medium', 'hard'] },
         },
         required: [
@@ -461,6 +475,7 @@ export const GRADING_RESPONSE_SCHEMA = {
           'what_worked',
           'evidence',
           'improvements',
+          'sample_lines',
           'difficulty',
         ],
       },
