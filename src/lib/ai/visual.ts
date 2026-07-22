@@ -23,8 +23,12 @@ import type { ImagePart } from './gemini';
 
 /** Output cap for the report. Observations for the frames + patterns is well under this. */
 const MAX_VISUAL_OUTPUT_TOKENS = 6_000;
-/** Max frames in one vision request. More than this 502'd OpenRouter (D-024). */
-const VISION_FRAME_CAP = 24;
+/**
+ * Max frames in one vision request. Kept low (D-030) so the whole call finishes inside a
+ * serverless function's time limit — a big image stack was slow enough to be "terminated"
+ * mid-flight. 16 stills still span the whole run for posture/attire/gesture.
+ */
+const VISION_FRAME_CAP = 16;
 
 export interface VisualAnalysis {
   report: VisualReportJSON;

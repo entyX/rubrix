@@ -846,6 +846,31 @@ form of "stricter": a believable first-practice result has real variance.
 scores is mixed (adherence up, full-range spread down) — genuinely unmeasured until the eval
 runs, which is now the single most valuable thing outstanding.
 
+---
+
+## D-030 — Visual "terminated" = a slow model hitting the function timeout; and a proven-stale deploy
+
+**Date:** 2026-07-21 · **By:** Ronit (console) + agent
+
+**1. The deploy is running OLD code — proven, not assumed.** The console kept showing the `-y`
+ffmpeg error and 5/10 adherence, both fixed in the repo. A fresh local build was greppe: the
+client chunks contain the corrected frame command (`force_original_aspect_ratio` present,
+`-update`/`-y` gone) and the server bundle contains `g-1.12.0`. So the code and its build are
+correct; the deployed app is serving a stale build (the same `2835tx1b_0j7o.js` chunk appears
+in three separate console dumps — a file that hasn't changed across "deploys"). **User action:**
+confirm Vercel's PRODUCTION deployment is the latest commit (not a pinned old preview URL) and
+that its build succeeded, then hard-refresh. Nothing in code can fix a deploy that isn't
+updating.
+
+**2. Visual 502 went `401` → `terminated`.** The 401 (missing auth) is resolved — OpenRouter now
+authenticates. `terminated` is the connection being killed mid-request, which on a serverless
+function means the call outran the function's time limit: the 235B vision model chewing through
+24 images is slow. Fixes: the eyes drop to **`qwen/qwen3-vl-32b-instruct`** (describes stills
+just as well, returns far faster) and the per-request frame cap drops 24 → **16**. Both are
+env-overridable. The judge-of-last-resort stays on the 235B (judging needs the capability and
+runs rarely). The Gemini raw-frames fallback remains the floor, so visual grading still happens
+either way.
+
 **2. Confirm-before-grade (D-023).** New `confirm` phase: picking or recording a file no
 longer starts the pipeline — it stages the file on a screen showing name/size/length and the
 visual-grading toggle, and nothing is decoded or uploaded until "Grade this run". Catches the

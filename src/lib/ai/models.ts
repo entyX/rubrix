@@ -30,9 +30,14 @@ export const GEMINI_MODEL = process.env.GEMINI_MODEL ?? 'gemini-2.5-flash';
  * Both are OPTIONAL: no OPENROUTER_API_KEY / GROQ_API_KEY → the old Gemini-only
  * paths run unchanged.
  */
+// The EYES: the 32B is the observer sweet spot — it describes frames just as reliably as
+// the 235B but returns in a fraction of the time (D-030). The 235B with a stack of images
+// was slow enough to blow a serverless function's time limit ("terminated"), and describing
+// posture/attire in stills does not need a frontier model. Override via env if you want.
 export const OPENROUTER_VISION_MODEL =
-  process.env.OPENROUTER_VISION_MODEL ?? 'qwen/qwen3-vl-235b-a22b-instruct';
-/** Judge-of-last-resort when Gemini itself is out of quota/credit. Same family. */
+  process.env.OPENROUTER_VISION_MODEL ?? 'qwen/qwen3-vl-32b-instruct';
+/** Judge-of-last-resort when Gemini itself is out of quota/credit. JUDGING is harder than
+ *  observing, so this stays on the big model — it runs rarely and only text+images. */
 export const OPENROUTER_FALLBACK_MODEL =
   process.env.OPENROUTER_FALLBACK_MODEL ?? 'qwen/qwen3-vl-235b-a22b-instruct';
 export const GROQ_WHISPER_MODEL = process.env.GROQ_WHISPER_MODEL ?? 'whisper-large-v3';
