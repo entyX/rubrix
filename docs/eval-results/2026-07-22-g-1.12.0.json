@@ -1,0 +1,155 @@
+{
+  "date": "2026-07-22",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "g-1.12.0",
+  "runs": 3,
+  "regressionPass": false,
+  "cases": [
+    {
+      "name": "adversarial-offtopic",
+      "event": "Sales Presentation",
+      "pcts": [
+        36.25,
+        36.25,
+        36.25
+      ],
+      "medianPct": 36.25,
+      "spread": 0,
+      "tiers": [
+        "needs_work",
+        "needs_work",
+        "needs_work"
+      ],
+      "tierStable": true,
+      "hallucinatedTotal": 0,
+      "mustMention": {
+        "hits": 0,
+        "total": 0,
+        "missed": []
+      },
+      "inBand": true,
+      "tierMatch": true,
+      "costCents": 6.83409,
+      "human": null,
+      "humanPct": null,
+      "expected": {
+        "score_min_pct": 0,
+        "score_max_pct": 40,
+        "tier": "needs_work",
+        "must_mention": [],
+        "notes": "§10 ADVERSARIAL CASE. A speech about school cafeteria food waste, graded against the SALES PRESENTATION rubric. There is no greeting, no product, no customer, no objections, no close — so the grade must be very low and, critically, must invent NOTHING (zero hallucinated quotes). This one is machine-checkable without human labels: if it scores high, or fabricates a 'close', the grader is broken."
+      }
+    },
+    {
+      "name": "public-speaking-baseline",
+      "event": "Public Speaking",
+      "pcts": [
+        72.86,
+        72.86,
+        72.86
+      ],
+      "medianPct": 72.86,
+      "spread": 0,
+      "tiers": [
+        "competitive_state",
+        "competitive_state",
+        "competitive_state"
+      ],
+      "tierStable": true,
+      "hallucinatedTotal": 0,
+      "mustMention": {
+        "hits": 2,
+        "total": 2,
+        "missed": []
+      },
+      "inBand": true,
+      "tierMatch": true,
+      "costCents": 6.683309999999999,
+      "human": null,
+      "humanPct": null,
+      "expected": {
+        "score_min_pct": 45,
+        "score_max_pct": 85,
+        "tier": "competitive_state",
+        "must_mention": [
+          "food waste",
+          "41"
+        ],
+        "notes": "An on-topic public speaking run about cafeteria food waste, with a clear problem/research/solution structure and a real statistic. Delivery/eye-contact criteria are audio-only so they'll be not-judged, and Q&A too — the % is on the assessable subset. BAND IS AN AUTHOR ESTIMATE, NOT HUMAN CONSENSUS — correlation gate stays PENDING until scored by a human."
+      }
+    },
+    {
+      "name": "sales-baseline",
+      "event": "Sales Presentation",
+      "pcts": [
+        72,
+        72,
+        67.78
+      ],
+      "medianPct": 72,
+      "spread": 4.22,
+      "tiers": [
+        "competitive_state",
+        "competitive_state",
+        "competitive_regional"
+      ],
+      "tierStable": false,
+      "hallucinatedTotal": 0,
+      "mustMention": {
+        "hits": 2,
+        "total": 2,
+        "missed": []
+      },
+      "inBand": true,
+      "tierMatch": true,
+      "costCents": 7.6477900000000005,
+      "human": null,
+      "humanPct": null,
+      "expected": {
+        "score_min_pct": 45,
+        "score_max_pct": 85,
+        "tier": "competitive_state",
+        "must_mention": [
+          "objection",
+          "close"
+        ],
+        "notes": "An on-topic running-shoe sales pitch that hits greeting, needs, product, one objection, suggestion sell, and close. A first-run band (55-85% is §9.5's anchor). BAND IS AN AUTHOR ESTIMATE, NOT HUMAN CONSENSUS — the correlation gate stays PENDING until a human scores this. tier is the loose expectation; the pass check is on the % band + spread + zero hallucination."
+      }
+    },
+    {
+      "name": "weak-ramble",
+      "event": "Public Speaking",
+      "pcts": [
+        45.71,
+        45.71,
+        23.75
+      ],
+      "medianPct": 45.71,
+      "spread": 21.96,
+      "tiers": [
+        "needs_work",
+        "needs_work",
+        "needs_work"
+      ],
+      "tierStable": true,
+      "hallucinatedTotal": 0,
+      "mustMention": {
+        "hits": 0,
+        "total": 0,
+        "missed": []
+      },
+      "inBand": false,
+      "tierMatch": true,
+      "costCents": 6.94794,
+      "human": null,
+      "humanPct": null,
+      "expected": {
+        "score_min_pct": 0,
+        "score_max_pct": 45,
+        "tier": "needs_work",
+        "must_mention": [],
+        "notes": "§10 DELIBERATELY-WEAK CASE. A short, unstructured, filler-heavy ramble with no thesis, no evidence, no real content. Must land in needs_work with zero hallucinated quotes. Machine-checkable: if the grader is generous here, that's the exact failure mode (§1: generosity-biased scores are worse than none) the harness exists to catch."
+      }
+    }
+  ]
+}

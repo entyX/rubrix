@@ -116,6 +116,13 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
   useEffect(() => stopTracks, [stopTracks]);
 
+  // D-031: which build is this? Logged once so a stale deploy is instantly visible in the
+  // console (compare the sha to the latest commit — in incognito it shows what production
+  // is actually serving, ending the "is it deployed?" guessing).
+  useEffect(() => {
+    console.info(`[build] rubrix ${process.env.NEXT_PUBLIC_BUILD_SHA ?? 'unknown'}`);
+  }, []);
+
   // D-024: global net — if ANY dynamically-loaded chunk 404s (a redeploy mid-session),
   // recover with a single guarded reload instead of a dead page.
   useEffect(() => {

@@ -2,6 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /**
+   * D-031: expose the deployed commit to the browser so "is the deploy stale?" is a
+   * fact, not a guess. Vercel sets VERCEL_GIT_COMMIT_SHA per build; JudgeApp logs it on
+   * load ("[build] rubrix <sha>"). In an incognito window (no cache) this shows exactly
+   * what production is actually serving.
+   */
+  env: {
+    NEXT_PUBLIC_BUILD_SHA: (process.env.VERCEL_GIT_COMMIT_SHA ?? 'local').slice(0, 7),
+  },
+  /**
    * Ship the rubric library with the serverless functions.
    *
    * The page and /api/grade read rubrics off disk with a path built at runtime
