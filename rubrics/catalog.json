@@ -116,7 +116,7 @@
       "criteria_count": 14,
       "total_points": 110,
       "time_limit_s": 420,
-      "prejudged": true
+      "prejudged": false
     },
     {
       "slug": "community-service-project",

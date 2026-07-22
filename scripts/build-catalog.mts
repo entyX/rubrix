@@ -46,7 +46,9 @@ const PREJUDGED_EVENTS = new Set([
   'local-chapter-annual-business-report',
   'business-ethics',
   'business-plan',
-  'coding-and-programming',
+  // NOTE: Coding & Programming is "prejudged", but its pre-submission is the CODE/PROGRAM,
+  // not a report/plan/portfolio document — and the materials card only accepts a document.
+  // Per Ronit (2026-07-21) it should NOT show the card, so it is intentionally excluded here.
   'digital-video-production',
   'future-business-educator',
   'future-business-leader',

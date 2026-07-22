@@ -763,6 +763,25 @@ strictness tightening without measurement — noted honestly: the real generosit
 eval, and repeated blind tightening risks over-correction. The frame/visual/provider fixes are
 code and verified by build/tests; their runtime behaviour shows in the next upload's console.
 
+---
+
+## D-027 — Coding & Programming is no longer flagged prejudged (corrects D-022)
+
+**Date:** 2026-07-21 · **By:** Ronit ("coding and programming has a pre submission even though
+it doesn't")
+
+D-022's human-supplied list included "Coding & Programming (includes a prejudged program and
+project)", so it carried `prejudged: true` and showed the pre-submission card. Correction: its
+prejudged component is the CODE/PROGRAM, not a report/plan/portfolio *document* — and the
+materials card only accepts a document (PDF/text), so the card is wrong for that event. Removed
+`coding-and-programming` from `PREJUDGED_EVENTS` in `build-catalog.mts` and set its
+`catalog.json` flag to false (patched directly, since the PDFs are gitignored). Prejudged set is
+now 8: business-ethics, business-plan, community-service-project, digital-video-production,
+future-business-educator, future-business-leader, job-interview,
+local-chapter-annual-business-report. If a code-grading path is ever added (like the `--site`
+CLI path), Coding & Programming can get its own submission type then — this only removes the
+inapplicable document card.
+
 **2. Confirm-before-grade (D-023).** New `confirm` phase: picking or recording a file no
 longer starts the pipeline — it stages the file on a screen showing name/size/length and the
 visual-grading toggle, and nothing is decoded or uploaded until "Grade this run". Catches the
