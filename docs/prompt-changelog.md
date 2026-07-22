@@ -14,6 +14,26 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.11.0 · grading — 2026-07-21 — adherence all-or-nothing rows are not-assessable (D-028)
+
+**Why:** Ronit pasted the real "Adherence to Competitive Events Guidelines" sheet — a 0/10
+"all criteria must be met" checklist of in-room protocols a recording can't show.
+
+**Diff from g-1.10.0:** rule 5c gains an ALL-OR-NOTHING clause. For rows scored only 0 or full,
+award full ONLY if every listed item is confirmable from the submission, 0 ONLY on a visible
+violation, otherwise `assessable: false` — never a middling number. "Presentation aligned with
+the assigned topic" (the one checkable item) is noted in the reason but never earns the row
+alone.
+
+**Eval:** ⚠️ PENDING (no local GEMINI_API_KEY). Widens a not-assessable path only — honest,
+not a scoring change, near-zero regression risk.
+
+**Shipped alongside (code, D-028):** `.trim()` on all provider key reads (a newline-padded
+Vercel env var caused OpenRouter's "Missing Authentication header" 401). The visual failure was
+that missing/malformed `OPENROUTER_API_KEY` in Vercel, not frame count.
+
+---
+
 ## g-1.10.0 · grading — 2026-07-21 — adherence never counts time; stricter; much more feedback (D-026)
 
 **Why:** "time doesn't matter for adherence to guidelines", "more strict grading and even more

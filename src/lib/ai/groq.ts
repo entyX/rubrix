@@ -20,7 +20,7 @@ const TIMEOUT_MS = 120_000;
 const MAX_RETRIES = 2;
 
 export function hasGroq(): boolean {
-  return Boolean(process.env.GROQ_API_KEY);
+  return Boolean(process.env.GROQ_API_KEY?.trim());
 }
 
 interface WhisperSegment {
@@ -56,7 +56,7 @@ export async function groqTranscribe(
   runId: string,
   durationS: number,
 ): Promise<GroqTranscribeResult> {
-  const apiKey = process.env.GROQ_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY?.trim();
   if (!apiKey) throw new Error('GROQ_API_KEY is not set (see .env.example)');
 
   const ext = mimeType.includes('wav') ? 'wav' : mimeType.includes('m4a') ? 'm4a' : 'mp3';

@@ -28,7 +28,7 @@ const TIMEOUT_MS = 180_000;
 const MAX_RETRIES = 2;
 
 export function hasOpenRouter(): boolean {
-  return Boolean(process.env.OPENROUTER_API_KEY);
+  return Boolean(process.env.OPENROUTER_API_KEY?.trim());
 }
 
 export interface ORGenerateArgs {
@@ -74,7 +74,9 @@ function isRetryable(status: number | null, err: unknown): boolean {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export async function orGenerate(args: ORGenerateArgs): Promise<ORGenerateResult> {
-  const apiKey = process.env.OPENROUTER_API_KEY;
+  // .trim(): a trailing newline on a pasted Vercel env var makes the Authorization
+  // header invalid and OpenRouter answers "Missing Authentication header" (401).
+  const apiKey = process.env.OPENROUTER_API_KEY?.trim();
   if (!apiKey) throw new Error('OPENROUTER_API_KEY is not set (see .env.example)');
 
   type ContentPart =

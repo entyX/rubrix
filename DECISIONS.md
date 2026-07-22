@@ -782,6 +782,36 @@ local-chapter-annual-business-report. If a code-grading path is ever added (like
 CLI path), Coding & Programming can get its own submission type then — this only removes the
 inapplicable document card.
 
+---
+
+## D-028 — Adherence all-or-nothing rows; the visual 401 was a Vercel env var, not frame count
+
+**Date:** 2026-07-21 · **By:** Ronit (pasted the real adherence rubric + a console dump) + agent
+
+**1. The visual "502" was `OpenRouter 401: Missing Authentication header`** — surfaced by
+D-026's error-detail logging. NOT the frame count (my 60→24 cap last turn fixed a non-problem;
+kept anyway, 24 still covers the whole run and is a safer request). Root cause is deployment
+config: `OPENROUTER_API_KEY` is missing or malformed in Vercel (Groq is set and working — the
+run transcribed on `groq/whisper-large-v3`). Added defensive `.trim()` to all three provider
+key reads (`hasX()` and the client), because a trailing newline on a pasted Vercel env var
+makes the `Authorization: Bearer <key>` header invalid and yields exactly this 401. **User
+action, not code:** set a valid `OPENROUTER_API_KEY` in Vercel (the value is in local
+`.env.local`). Also outstanding: the deploy is serving a STALE cached `extractFrames` chunk
+(still logging `Unrecognized option 'y'`, impossible with current code) — needs a hard refresh
+once the latest commit is fully live.
+
+**2. Adherence all-or-nothing rows (prompt g-1.11.0).** Ronit pasted the real "Adherence to
+Competitive Events Guidelines" sheet: a 0-or-10, "all criteria must be met" checklist of
+in-room protocols (device counts/sizing, set-up conduct, not leaving materials, QR/link
+handling, external speakers, food/animals, templates, dress + staff-only penalties). A
+recording evidences almost none of it. Rule 5c now handles all-or-nothing rows explicitly:
+award full ONLY if every item is confirmable, 0 ONLY on a visible violation, otherwise
+`assessable: false` — never a middling guess. The one checkable item (presentation matched the
+assigned topic) is noted in the reason but never earns the row alone.
+
+⚠️ g-1.11.0 needs an eval run (§0); still blocked on a local `GEMINI_API_KEY`. It only widens a
+not-assessable path (honest, not a scoring change), so near-zero regression risk.
+
 **2. Confirm-before-grade (D-023).** New `confirm` phase: picking or recording a file no
 longer starts the pipeline — it stages the file on a screen showing name/size/length and the
 visual-grading toggle, and nothing is decoded or uploaded until "Grade this run". Catches the

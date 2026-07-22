@@ -20,7 +20,7 @@
  *                        run's sampled frames and writes the visual delivery report.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.10.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.11.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
 export const PROMPT_VERSION_TRANSCRIBE = 't-1.1.0';
@@ -172,6 +172,8 @@ Output only JSON matching the RubricJSON schema.`;
 // guessed — D-025.
 // g-1.10.0: adherence never counts TIME (rule 5c); stricter calibration (rule 4);
 // more feedback — 4-6 improvements, 3-5 sentence justifications — D-026.
+// g-1.11.0: adherence all-or-nothing rows (0/full/"all criteria must be met") are
+// not-assessable when the in-room items can't be verified — never a guessed middle — D-028.
 // Full history in docs/prompt-changelog.md.
 //
 // Base text is plan.md §9.5, verbatim. g-1.1.0 changes exactly three things, so that
@@ -302,10 +304,21 @@ SCORING RULES
      frames; otherwise it is NOT evidenced.
    - In-room professional conduct, following a proctor's instructions, submitting the
      right forms: a practice recording CANNOT show these.
+   - ALL-OR-NOTHING rows (the sheet offers only 0 or the full value, e.g. "0 points /
+     10 points — all criteria must be met": device counts and sizing, set-up conduct,
+     not leaving materials behind, QR/link handling, external speakers, food/animals,
+     templates, dress). Award the FULL value ONLY if you can confirm EVERY listed item
+     from the submission; award 0 ONLY if you can see a specific violation. A recording
+     shows almost NONE of these, so you normally can confirm neither — the row is then
+     "assessable": false. The one item often checkable is "presentation aligned with the
+     assigned topic": note in the reason whether that was met, but it alone never earns
+     an all-or-nothing row. Do NOT split the difference with a middling number — these
+     rows are 0, full, or not assessable, nothing in between.
    If, after removing time and everything else you cannot see, NOTHING in this criterion
    is evidenced, set "assessable": false with a not_assessable_reason naming what a real
-   judge checks in the room. If SOME of it is evidenced, set assessable true, confidence
-   "low", and score ONLY the evidenced part — never a middling default for the row.
+   judge checks in the room. If SOME of it is evidenced (and the row is NOT all-or-
+   nothing), set assessable true, confidence "low", and score ONLY the evidenced part —
+   never a middling default for the row.
 6. Timing + presentation window (only if a recording was submitted): the event limit
    {{TIME_LIMIT}} is for the PRESENTATION, but the recording ({{ACTUAL_DURATION}})
    often includes the judge Q&A afterward. Fill "presentation_window":
