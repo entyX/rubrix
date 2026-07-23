@@ -903,3 +903,43 @@ carried everything.
 window timing is unit-tested (window drives timing + verdict; snaps to segments; falls back to
 whole recording; "you may begin" excluded). Frame extraction and the confirm UX are
 verified by typecheck/build/tests but need a real browser upload to confirm end to end.
+
+## D-031 — The deployed build is stamped on screen, so "is it stale?" is a fact
+
+**Date:** 2026-07-22 · **By:** Ronit (asked for it) + agent
+
+The stale-deploy saga (D-030) needed a ground-truth version marker the user could read without
+the console. `next.config.ts` already exposes `NEXT_PUBLIC_BUILD_SHA` (Vercel's commit sha, or
+`local`); the root layout now renders it as a faded `v·<sha>` fixed in the bottom-right corner of
+**every** page. It's server-rendered into the HTML — not a JS chunk — so it reflects exactly what
+production is serving and can't be hidden by the stable-chunk-name caching that made D-030 so hard
+to diagnose. If that corner shows an old sha after a "deploy", the deploy didn't take. The console
+`[build] rubrix <sha>` line stays too.
+
+## D-032 — Adherence is enforced full in code, not just asked for (backs D-029)
+
+**Date:** 2026-07-22 · **By:** Ronit ("give those 10 because adherence is the ez 10 points
+usually") + agent
+
+D-029 reversed adherence to *award it by default* via prompt rule 5c (full unless a named,
+visible violation → 0; never a middling number; never not-assessable when the format is
+observable). But the model kept disobeying — deployed runs, on the correct build, still showed a
+hedged **5/10**. An LLM that won't follow an instruction is a signal to stop asking and enforce in
+code (Fable: take the pen away from the model). `postValidate()` now snaps any **assessable**
+adherence/guidelines row scored strictly between 0 and full up to full, tracked in
+`report.adherence_awarded`. Detection is by rubric criterion name
+(`/adheren|competitive events guidelines|presentation protocols?/i`).
+
+Two deliberate non-actions, so this doesn't become a loophole in the other direction:
+- a **genuine 0** is left as 0 — that's a cited violation, exactly what 5c reserves 0 for;
+- a **not-assessable** row is left excluded from the denominator — the "never score what wasn't
+  submitted" invariant (a live-protocol rule against a website-only entry) outranks "give the 10".
+
+**Calibration cost, stated honestly:** this raises weak/degenerate runs that still followed the
+format — they now bank the full adherence points every time (the eval's weak-ramble and
+adversarial-offtopic cases both carry a "Adherence to Competitive Events Guidelines (10)" row and
+will rise). That is the exact tradeoff Ronit chose; the eval bands predate it and need widening,
+not the enforcement. Mechanism is unit-tested in `postvalidate.test.ts` (middling→full; no-evidence
+still→full; genuine 0 preserved; not-assessable never resurrected; non-adherence untouched).
+⚠️ The aggregate eval re-run is **PENDING** — deferred to protect the ~$3.6 left on the shared
+Gemini key (the deployed app spends it too); the effect above is predictable from the mechanism.

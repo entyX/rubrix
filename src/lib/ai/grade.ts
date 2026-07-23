@@ -107,6 +107,12 @@ export interface ValidationReport {
   time_cuts_stripped: number;
   /** D-022: assessable criteria capped at half points for having zero surviving evidence. */
   no_evidence_caps: string[];
+  /**
+   * D-032: adherence/guidelines criteria the model hedged to a middling score, snapped up
+   * to full in code (adherence is full-or-zero — Ronit's "give the easy 10"). A genuine 0
+   * or a not-assessable row is never in here.
+   */
+  adherence_awarded: string[];
 }
 
 export interface GradeResult {
@@ -167,6 +173,7 @@ function emptyReport(): ValidationReport {
     timestamps_realigned: 0,
     time_cuts_stripped: 0,
     no_evidence_caps: [],
+    adherence_awarded: [],
   };
 }
 
@@ -443,6 +450,28 @@ export function postValidate(args: {
           report.timestamps_realigned++;
         }
       }
+    }
+  }
+
+  // ---- D-032: adherence is the easy full marks (Ronit's explicit call — "give the easy
+  // 10"). The rubric's guidelines/adherence row scores COMPLIANCE, not content: a run earns
+  // it in full unless there is a NAMED, visible violation, in which case it is 0 — never a
+  // middling number. Prompt rule 5c says exactly this, but the model keeps hedging to 5/10,
+  // so we take the pen away and enforce it in code. Only an ASSESSABLE row scored strictly
+  // between 0 and full (a hedge with no cited violation) is snapped to full: a genuine 0
+  // (violation found) stays 0, and a not-assessable row (wrong modality — e.g. a live-
+  // protocol rule against a website-only entry) stays excluded, because the honest-
+  // denominator invariant outranks "give the 10". Runs BEFORE the arithmetic so the snap
+  // flows into the total.
+  const ADHERENCE_RE = /adheren|competitive\s+events?\s+guidelines?|presentation\s+protocols?/i;
+  const rubricNameById = new Map(rubric.criteria.map((rc) => [rc.id, rc.name] as const));
+  for (const c of result.criteria) {
+    if (!c.assessable) continue;
+    const name = rubricNameById.get(c.criterion_id) ?? '';
+    if (!ADHERENCE_RE.test(name)) continue;
+    if (c.score > 0 && c.score < c.max_points) {
+      c.score = c.max_points;
+      report.adherence_awarded.push(c.criterion_id);
     }
   }
 

@@ -638,3 +638,99 @@ describe('purity', () => {
     expect(original.criteria[0].score).toBe(47);
   });
 });
+
+describe('D-032 adherence enforcement — the easy full marks', () => {
+  const ADHERENCE_RUBRIC: RubricJSON = {
+    title: 'Speech with a guidelines row',
+    total_points: 30,
+    criteria: [
+      { id: 'content', name: 'Content', description: 'Substance', max_points: 20 },
+      {
+        id: 'adherence',
+        name: 'Adherence to Competitive Events Guidelines',
+        description: 'Followed the event format and time limits',
+        max_points: 10,
+      },
+    ],
+  };
+
+  function withAdherence(
+    score: number,
+    opts: { assessable?: boolean; evidence?: boolean } = {},
+  ): GradingResultJSON {
+    const assessable = opts.assessable ?? true;
+    return {
+      total_score: 0,
+      total_possible: 30,
+      tier: 'needs_work',
+      summary: 'A run.',
+      top_priorities: ['a', 'b', 'c'],
+      criteria: [
+        {
+          criterion_id: 'content',
+          score: 10,
+          max_points: 20,
+          assessable: true,
+          confidence: 'high',
+          justification: 'Cited a figure.',
+          what_worked: 'The revenue figure is concrete.',
+          evidence: [{ quote: 'Good morning judges.', timestamp_start: 0 }],
+          improvements: ['a', 'b', 'c', 'd'],
+          sample_lines: [],
+          difficulty: 'medium',
+        },
+        {
+          criterion_id: 'adherence',
+          score,
+          max_points: 10,
+          assessable,
+          confidence: 'high',
+          not_assessable_reason: assessable ? undefined : 'No recording to judge protocol.',
+          justification: 'Followed the event format.',
+          what_worked: 'Stayed within the event structure.',
+          evidence: opts.evidence ? [{ quote: 'Thank you.', timestamp_start: 12 }] : [],
+          improvements: ['a', 'b', 'c', 'd'],
+          sample_lines: [],
+          difficulty: 'easy',
+        },
+      ],
+      point_gaps_ranked: [],
+      next_run_plan: ['a', 'b', 'c'],
+    };
+  }
+
+  const runA = (r: GradingResultJSON) =>
+    postValidate({ result: r, rubric: ADHERENCE_RUBRIC, submission: SUBMISSION, event: EVENT });
+
+  it('snaps a hedged middling adherence score up to full', () => {
+    const { result, report } = runA(withAdherence(5, { evidence: true }));
+    const adh = result.criteria.find((c) => c.criterion_id === 'adherence')!;
+    expect(adh.score).toBe(10); // the 5/10 the model keeps giving becomes the full 10
+    expect(report.adherence_awarded).toContain('adherence');
+  });
+
+  it('snaps to full even with no surviving evidence — compliance is observed, not quoted', () => {
+    // No evidence -> the no-evidence half-cap would leave 5/10, then the snap takes it to full.
+    const { result } = runA(withAdherence(8, { evidence: false }));
+    expect(result.criteria.find((c) => c.criterion_id === 'adherence')!.score).toBe(10);
+  });
+
+  it('leaves a genuine 0 alone — that is a cited violation, not a hedge', () => {
+    const { result, report } = runA(withAdherence(0, { evidence: true }));
+    expect(result.criteria.find((c) => c.criterion_id === 'adherence')!.score).toBe(0);
+    expect(report.adherence_awarded).not.toContain('adherence');
+  });
+
+  it('never resurrects a not-assessable row — the honest denominator still wins', () => {
+    const { result, report } = runA(withAdherence(5, { assessable: false, evidence: false }));
+    expect(report.adherence_awarded).not.toContain('adherence');
+    expect(result.criteria.find((c) => c.criterion_id === 'adherence')!.score).toBe(0);
+    expect(result.assessable_possible).toBe(20); // adherence stays out of the denominator
+  });
+
+  it('does not touch a non-adherence criterion the model left middling', () => {
+    const { result, report } = runA(withAdherence(10, { evidence: true }));
+    expect(result.criteria.find((c) => c.criterion_id === 'content')!.score).toBe(10);
+    expect(report.adherence_awarded).not.toContain('adherence'); // already full, nothing to award
+  });
+});
