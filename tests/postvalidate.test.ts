@@ -90,6 +90,7 @@ function hostileResult(): GradingResultJSON {
         confidence: 'high',
         justification: 'Great hook.',
         what_worked: 'The direct greeting lands cleanly.',
+        to_full_marks: 'You have 10 of 10 here. Already at full marks — hold it by keeping the greeting this tight.',
         evidence: [{ quote: 'Good morning judges.', timestamp_start: 0 }], // REAL
         improvements: ['Tighten it', 'Add a stat'],
         sample_lines: [],
@@ -103,6 +104,7 @@ function hostileResult(): GradingResultJSON {
         confidence: 'high',
         justification: 'Cited figures.',
         what_worked: 'The revenue figure is concrete.',
+        to_full_marks: 'You have partial credit here. Name the source and sample size behind the figure to reach full marks.',
         evidence: [
           // PLANTED FAKE QUOTE — never appears in the transcript.
           {
@@ -674,6 +676,7 @@ describe('D-032 adherence enforcement — the easy full marks', () => {
           confidence: 'high',
           justification: 'Cited a figure.',
           what_worked: 'The revenue figure is concrete.',
+        to_full_marks: 'You have partial credit here. Name the source and sample size behind the figure to reach full marks.',
           evidence: [{ quote: 'Good morning judges.', timestamp_start: 0 }],
           improvements: ['a', 'b', 'c', 'd'],
           sample_lines: [],
@@ -688,6 +691,7 @@ describe('D-032 adherence enforcement — the easy full marks', () => {
           not_assessable_reason: assessable ? undefined : 'No recording to judge protocol.',
           justification: 'Followed the event format.',
           what_worked: 'Stayed within the event structure.',
+          to_full_marks: 'You have the full points here as long as the format is followed.',
           evidence: opts.evidence ? [{ quote: 'Thank you.', timestamp_start: 12 }] : [],
           improvements: ['a', 'b', 'c', 'd'],
           sample_lines: [],

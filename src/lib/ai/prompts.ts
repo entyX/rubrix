@@ -20,7 +20,7 @@
  *                        run's sampled frames and writes the visual delivery report.
  */
 
-export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.12.0';
+export const PROMPT_VERSION_GRADING = process.env.PROMPT_VERSION_GRADING ?? 'g-1.13.0';
 export const PROMPT_VERSION_RUBRIC = process.env.PROMPT_VERSION_RUBRIC ?? 'r-1.0.0';
 export const PROMPT_VERSION_QA = process.env.PROMPT_VERSION_QA ?? 'g-1.0.0';
 export const PROMPT_VERSION_TRANSCRIBE = 't-1.1.0';
@@ -177,6 +177,11 @@ Output only JSON matching the RubricJSON schema.`;
 // g-1.12.0: adherence REVERSED (rule 5c) — award the full points by default (the easy
 // points everyone earns) unless a violation is visible; sample_lines (rule 7d, example
 // sentences to say); calibration uses the full range, no clustering (rule 4d) — D-029.
+// g-1.13.0: way more feedback, no repetition (D-033). Each per-criterion field has ONE
+// distinct job and may not restate another (rule 7, "the five jobs"): what_worked = one
+// strongest moment; justification = the scoring rationale only; to_full_marks (NEW, rule
+// 7e) = the concrete path from this score to full marks — the "get to 100%" field;
+// improvements = the granular fix list; sample_lines = exact words to say.
 // Full history in docs/prompt-changelog.md.
 //
 // Base text is plan.md §9.5, verbatim. g-1.1.0 changes exactly three things, so that
@@ -343,26 +348,40 @@ SCORING RULES
      pacing observation.
    - verdict: your read of over/fits/under. (Code recomputes it from the measured
      duration either way.)
-7. Improvements: 4-6 per criterion, each ONE concrete, specific action tied to THIS
-   run — quote or name the exact moment it fixes ("At 2:14 you say 'we think it'll
-   sell' — replace it with the unit-sales projection from your plan"; "Add alt text to
-   the six product images on the gallery page"). Never generic advice ("be more
-   engaging", "practice more"). Order them most-valuable first. Even a strong criterion
-   gets 4 — what would hold it at nationals. Rate each criterion's fix difficulty: easy
-   (<1hr), medium (an evening), hard (multi-day). For a criterion you could not assess,
-   the improvements are what to SUBMIT next time.
-7b. what_worked, per criterion: 1-2 sentences naming the strongest GENUINE moment for
-   THIS criterion — point at the specific moment, quote it when possible. If nothing
-   genuinely stood out, say so plainly ("Nothing here rose above baseline."). Never
-   invent praise; the calibration rules apply to praise exactly as they apply to
-   scores. For a criterion you could not assess, write "Not assessable."
-7c. justification, per criterion: 3-5 substantial sentences — the student should learn
-   more from this than from the number. Say WHY this exact score and not one level
-   higher or lower, pointing at the specific evidence; name concretely what a
-   top-scoring version of THIS criterion would have contained that this run did not;
-   and connect it to the rubric's own language for the level you assigned. No vague
-   filler ("could be better", "solid effort") — every sentence must carry a specific,
-   usable observation.
+7. FEEDBACK IS THE PRODUCT — give a lot of it, and never repeat yourself. Each assessable
+   criterion carries FIVE kinds of feedback, and each has ONE job the others do not do. A
+   student who reads all five must learn five DIFFERENT things; saying the same thing twice
+   — what_worked echoing justification, to_full_marks echoing improvements — is the single
+   most common failure here. Do not do it. The five jobs: what_worked = the one best moment;
+   justification = why this exact score; to_full_marks = the path to full marks; improvements
+   = the granular fix list; sample_lines = the exact words to say.
+   improvements: 4-6 per criterion, each ONE concrete, specific action tied to THIS run —
+   quote or name the exact moment it fixes ("At 2:14 you say 'we think it'll sell' — replace
+   it with the unit-sales projection from your plan"; "Add alt text to the six product images
+   on the gallery page"). Never generic advice ("be more engaging", "practice more"). Order
+   them most-valuable first. Even a strong criterion gets 4 — what would hold it at nationals.
+   Rate each criterion's fix difficulty: easy (<1hr), medium (an evening), hard (multi-day).
+   For a criterion you could not assess, the improvements are what to SUBMIT next time.
+7b. what_worked, per criterion: ONE sentence — the single strongest GENUINE moment for THIS
+   criterion, quoted with its timestamp when you can. A moment, not a rationale: do NOT
+   restate the score reasoning here. If nothing genuinely rose above baseline, say exactly
+   that ("Nothing here rose above baseline."). Never invent praise; the calibration rules
+   apply to praise as strictly as to scores. "Not assessable." for a criterion you could
+   not assess.
+7c. justification, per criterion: 3-5 substantial sentences, and ONLY the scoring rationale —
+   why THIS exact score and not one level higher or lower, pointing at the specific evidence,
+   named against the rubric's own language for the level you assigned. Do NOT re-describe the
+   good moment (that is what_worked's job) or list the fixes (that is improvements' job) —
+   this field explains the NUMBER. No vague filler ("could be better", "solid effort"); every
+   sentence must carry a specific, usable observation.
+7e. to_full_marks, per criterion: the single clearest path from THIS run's score to FULL
+   marks on this criterion — the "how do I get to 100%" answer, and the most valuable thing
+   on the report. Open by stating the points on the table ("You have 6 of 10 here."), then
+   name EXACTLY what to add, change, or cut — built from this run's real content and tied to
+   what the rubric's TOP level demands. It is the difference between where they are and full
+   marks, made concrete and specific to them; a single clear target, NOT a rehash of the
+   improvements list. For a criterion already at full marks: "Already at full marks — hold it
+   by ..." naming what keeps it there. For one not assessable: "Not assessable."
 7d. sample_lines, per criterion: for any assessable criterion NOT already at full marks,
    write 1-3 example sentences the competitor could actually SAY to raise it — in their
    own voice, built from THIS run's real content and topic, ready to rehearse. Make them

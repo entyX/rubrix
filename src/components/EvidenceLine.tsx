@@ -27,6 +27,8 @@ export interface EvidenceLineProps {
   /** D-020: the strongest genuine moment for this criterion. Plain "nothing stood
    *  out" statements render too — honest is the house style. */
   whatWorked?: string;
+  /** D-033: the concrete path from this score to full marks — the "get to 100%" target. */
+  toFullMarks?: string;
   evidence?: EvidenceQuote[];
   improvements?: string[];
   /** D-029: example sentences the competitor could say to raise this criterion. */
@@ -48,6 +50,7 @@ export function EvidenceLine({
   confidence,
   justification,
   whatWorked,
+  toFullMarks,
   evidence = [],
   improvements = [],
   sampleLines = [],
@@ -114,6 +117,21 @@ export function EvidenceLine({
             <p className="text-[14px] leading-relaxed" style={{ color: 'var(--slate)' }}>
               {justification}
             </p>
+          )}
+
+          {toFullMarks && toFullMarks !== 'Not assessable.' && (
+            <div
+              className="mt-3 p-3"
+              style={{
+                borderLeft: '2px solid var(--pen)',
+                background: 'color-mix(in srgb, var(--pen) 6%, transparent)',
+              }}
+            >
+              <p className="label mb-1" style={{ color: 'var(--pen)' }}>
+                Path to full marks
+              </p>
+              <p className="text-[14px] leading-relaxed">{toFullMarks}</p>
+            </div>
           )}
 
           {improvements.length > 0 && (

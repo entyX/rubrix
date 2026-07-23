@@ -350,6 +350,10 @@ export async function renderReportPdf(input: ExportInput): Promise<Uint8Array> {
       L.text(`What worked: ${c.what_worked}`, { size: 9.5, indent: 14, gap: 2 });
     }
     L.text(c.justification, { size: 9.5, color: SLATE, indent: 14, gap: 2 });
+    if (c.to_full_marks && c.to_full_marks !== 'Not assessable.') {
+      L.text('Path to full marks:', { font: fonts.bold, size: 9, color: PEN, indent: 14, gap: 1 });
+      L.text(c.to_full_marks, { size: 9.5, indent: 22, gap: 2 });
+    }
     c.improvements.forEach((im) => L.text(`-> ${im}`, { size: 9.5, indent: 22, gap: 1 }));
     if (c.sample_lines && c.sample_lines.length > 0) {
       L.text('Try saying:', { font: fonts.bold, size: 9, indent: 14, gap: 1 });

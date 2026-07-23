@@ -14,6 +14,34 @@ Prompts live in `src/lib/ai/prompts.ts`. Never inline one in application code.
 
 ---
 
+## g-1.13.0 · grading — 2026-07-23 — way more feedback, and no repetition (D-033)
+
+**Why:** "give way more feedback", "u repeat some times" (what_worked and justification were
+saying the same thing), "add more features for the user to have after getting results … help
+em get to 100%".
+
+**Diff from g-1.12.0:**
+- Rule 7 rewritten as "the five jobs": every assessable criterion carries five kinds of
+  feedback, each with ONE job the others do not do, and an explicit ban on repeating across
+  them (what_worked must not echo justification; to_full_marks must not rehash improvements).
+  This is the direct fix for the observed duplication.
+- Rule 7b (what_worked): tightened to ONE sentence naming a single moment with its timestamp —
+  a moment, not a rationale.
+- Rule 7c (justification): restricted to the scoring rationale ONLY — why this exact number,
+  named against the rubric level — and explicitly forbidden from re-describing the good moment
+  or listing fixes.
+- Rule 7e (NEW) + schema field `to_full_marks`: the concrete path from this run's score to FULL
+  marks on the criterion — opens with the points on the table, then exactly what to add/change/
+  cut, tied to the rubric's top level. The "get to 100%" field, surfaced as a "Path to full
+  marks" callout in the report and the PDF. Required in the response schema so it always emits.
+
+**Eval:** ⚠️ PENDING — deferred to protect the ~$3.6 left on the shared Gemini key (the deployed
+app spends it too). The change is additive feedback + de-duplication, not a scoring-rule change,
+so score calibration is unaffected; the mechanism (distinct fields, always-emitted to_full_marks)
+is covered by the schema's `required` list and the existing post-validation tests.
+
+---
+
 ## g-1.12.0 · grading — 2026-07-21 — adherence awarded by default; sample lines; full-range (D-029)
 
 **Why:** "if it can tell, give those 10 — adherence is the ez 10 points usually", "sample

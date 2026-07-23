@@ -298,6 +298,7 @@ export function Report({
               confidence={c.confidence}
               justification={c.justification}
               whatWorked={c.what_worked}
+              toFullMarks={c.to_full_marks}
               evidence={c.evidence.map((e) => ({
                 quote: e.quote,
                 source: e.source,

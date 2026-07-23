@@ -116,6 +116,14 @@ export const GradingResultJSON = z.object({
        * calibration rules still apply.
        */
       what_worked: z.string(),
+      /**
+       * D-033: the concrete path from this run's score to FULL marks on this criterion —
+       * exactly what to add/change/cut, named for THIS run, opening with the points on the
+       * table. The "get to 100%" field. "Already at full marks — …" when maxed, "Not
+       * assessable." when unassessable. Advice, not a claim about the submission, so it is
+       * not grounded (like sample_lines).
+       */
+      to_full_marks: z.string(),
       evidence: z.array(
         z.object({
           quote: z.string(),
@@ -420,7 +428,12 @@ export const GRADING_RESPONSE_SCHEMA = {
           what_worked: {
             type: 'string',
             description:
-              'The strongest genuine moment for THIS criterion (1-2 sentences, quote when possible). If nothing stood out, say so plainly. "Not assessable." for unassessable criteria. Never invented praise.',
+              'ONE sentence: the single strongest genuine moment for THIS criterion, quoted with its timestamp when possible. A moment, not a rationale — never restate the justification here. If nothing stood out, say so plainly. "Not assessable." for unassessable criteria. Never invented praise.',
+          },
+          to_full_marks: {
+            type: 'string',
+            description:
+              'The concrete path from this run\'s score to FULL marks on THIS criterion. Open with the points on the table ("You have X of Y here."), then 2-4 sentences naming EXACTLY what to add, change, or cut — specific to this run\'s real content, and tied to the rubric\'s top level. Do not repeat the justification or the improvements list; this is the single clear target. "Already at full marks — hold it by ..." when maxed. "Not assessable." when unassessable.',
           },
           evidence: {
             type: 'array',
@@ -473,6 +486,7 @@ export const GRADING_RESPONSE_SCHEMA = {
           'confidence',
           'justification',
           'what_worked',
+          'to_full_marks',
           'evidence',
           'improvements',
           'sample_lines',

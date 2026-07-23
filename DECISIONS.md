@@ -943,3 +943,29 @@ not the enforcement. Mechanism is unit-tested in `postvalidate.test.ts` (middlin
 still→full; genuine 0 preserved; not-assessable never resurrected; non-adherence untouched).
 ⚠️ The aggregate eval re-run is **PENDING** — deferred to protect the ~$3.6 left on the shared
 Gemini key (the deployed app spends it too); the effect above is predictable from the mechanism.
+
+## D-033 — Way more feedback, no repetition, and a per-criterion path to full marks (g-1.13.0)
+
+**Date:** 2026-07-23 · **By:** Ronit ("give way more feedback", "u repeat some times", "help em
+get to 100%") + agent
+
+The report repeated itself — `what_worked` and `justification` were saying the same thing ("clearly
+identified Flutter and Firebase" in both) — and it never told the student the one thing they most
+want: how to get to full marks. Both fixed at the prompt+schema level (g-1.13.0):
+
+1. **Five distinct jobs, no repetition.** Rule 7 now frames the per-criterion feedback as five
+   fields each with ONE job the others don't do, with an explicit ban on restating: what_worked
+   (one moment) · justification (the score rationale ONLY) · to_full_marks (the target) ·
+   improvements (the granular list) · sample_lines (exact words). what_worked is cut to one
+   sentence; justification is forbidden from re-describing the moment or listing fixes.
+2. **`to_full_marks` — the "get to 100%" field (NEW).** A required per-criterion string: the
+   concrete path from this run's score to full marks — opens with the points on the table, then
+   exactly what to add/change/cut, tied to the rubric's top level. Rendered as a "Path to full
+   marks" callout in the report (`EvidenceLine`) and the PDF (`pdf/report.ts`), placed between the
+   rationale and the fix list so the flow reads: best moment → why the score → how to reach full →
+   the checklist → what to say. Required in the response schema so it always emits; it's advice,
+   not a claim about the submission, so (like sample_lines) it is not grounded.
+
+**Verification:** typecheck + 52 unit tests green (fixtures updated for the new required field);
+production build green. ⚠️ Eval PENDING (budget) — but this is additive feedback + de-duplication,
+not a scoring-rule change, so calibration is unaffected.
