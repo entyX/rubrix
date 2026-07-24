@@ -21,24 +21,30 @@ export interface Frame {
 }
 
 /**
- * One frame every ~8s covers the run; 640px longest edge keeps files small. Capped at 24
- * (D-024): the whole set is sent to the vision model in ONE request, and ~60 images made
- * OpenRouter 502 (payload/latency). 24 still spans the entire run (a 13-min video → one
- * every ~32s), which is plenty for posture/attire/gesture — the transcript covers content.
+ * Default density: one frame every ~8s, 640px longest edge. The default cap is 24, but the
+ * caller sets both (D-034, the "thoroughness" choice on the confirm screen) — Deep/Max pull
+ * far more. The old single-request 502 wall no longer bounds this: the caller now ships the
+ * frames to /api/visual in batches of <=16 and merges the reports, so a higher count is only
+ * a longer in-browser extraction, never a crash.
  */
 export const FRAME_INTERVAL_S = 8;
 export const MIN_FRAMES = 9;
 export const MAX_FRAMES = 24;
 
 /** How many stills honestly cover a run of this length. Pure — unit-tested. */
-export function samplePlan(durationS: number): number {
-  if (!Number.isFinite(durationS) || durationS <= 0) return MIN_FRAMES;
-  return Math.min(MAX_FRAMES, Math.max(MIN_FRAMES, Math.round(durationS / FRAME_INTERVAL_S)));
+export function samplePlan(
+  durationS: number,
+  maxFrames: number = MAX_FRAMES,
+  intervalS: number = FRAME_INTERVAL_S,
+): number {
+  const floor = Math.min(MIN_FRAMES, maxFrames);
+  if (!Number.isFinite(durationS) || durationS <= 0) return floor;
+  return Math.min(maxFrames, Math.max(floor, Math.round(durationS / intervalS)));
 }
 
 /** Frame timestamps at slice midpoints — avoids a black first frame and a frozen last one. */
-function sampleTimes(durationS: number): number[] {
-  const count = samplePlan(durationS);
+function sampleTimes(durationS: number, maxFrames: number, intervalS: number): number[] {
+  const count = samplePlan(durationS, maxFrames, intervalS);
   return Array.from({ length: count }, (_, i) => (durationS * (i + 0.5)) / count);
 }
 
@@ -49,11 +55,20 @@ export interface FrameOptions {
   maxEdge: number;
   /** Wall-clock budget per decoder (ms). On timeout we return what we have — never hang. */
   budgetMs: number;
+  /** D-034: max stills to sample (thoroughness). Higher = finer coverage, longer wait. */
+  maxFrames: number;
+  /** D-034: target seconds between stills; the real count is min(maxFrames, dur/intervalS). */
+  intervalS: number;
   /** 0–1 progress, called after each frame. */
   onProgress?: (ratio: number) => void;
 }
 
-const DEFAULTS: Omit<FrameOptions, 'durationS' | 'onProgress'> = { maxEdge: 640, budgetMs: 35_000 };
+const DEFAULTS: Omit<FrameOptions, 'durationS' | 'onProgress'> = {
+  maxEdge: 640,
+  budgetMs: 35_000,
+  maxFrames: MAX_FRAMES,
+  intervalS: FRAME_INTERVAL_S,
+};
 
 /**
  * Sample still frames across the WHOLE run. ffmpeg first (fast, most formats), then the
@@ -96,7 +111,7 @@ async function extractFramesFfmpeg(file: File | Blob, o: FrameOptions): Promise<
 
   try {
     await ff.writeFile(inName, await fetchFile(file));
-    const times = sampleTimes(o.durationS);
+    const times = sampleTimes(o.durationS, o.maxFrames, o.intervalS);
     console.info(`[frames] ffmpeg: sampling ${times.length} frames across ~${Math.round(o.durationS)}s`);
 
     const started = Date.now();
@@ -194,7 +209,7 @@ async function extractFramesViaVideo(file: File | Blob, o: FrameOptions): Promis
     const ctx = canvas.getContext('2d');
     if (!ctx) return [];
 
-    const times = sampleTimes(dur);
+    const times = sampleTimes(dur, o.maxFrames, o.intervalS);
     console.info(`[frames] <video>: sampling ${times.length} frames across ~${Math.round(dur)}s`);
 
     const started = Date.now();

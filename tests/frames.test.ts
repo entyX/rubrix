@@ -37,6 +37,21 @@ describe('samplePlan', () => {
     expect(samplePlan(Number.NaN)).toBe(MIN_FRAMES);
     expect(samplePlan(-5)).toBe(MIN_FRAMES);
   });
+
+  // D-034: thoroughness passes a higher cap + denser interval.
+  it('honors a caller-supplied cap and interval (Deep/Max thoroughness)', () => {
+    // 7-min run at Max (interval 4s) → 105 raw, capped to 64.
+    expect(samplePlan(7 * 60, 64, 4)).toBe(64);
+    // Same run at Deep (interval 6s) → 70 raw, capped to 32.
+    expect(samplePlan(7 * 60, 32, 6)).toBe(32);
+    // Below the cap, density follows the interval.
+    expect(samplePlan(120, 64, 4)).toBe(30); // 120/4
+  });
+
+  it('keeps the floor sane even when a caller passes a tiny cap', () => {
+    // Degenerate duration clamps to min(MIN_FRAMES, maxFrames), never above the cap.
+    expect(samplePlan(0, 4, 4)).toBe(4);
+  });
 });
 
 describe('trimFramesToBudget', () => {

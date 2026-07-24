@@ -18,6 +18,8 @@ import { QADrill, type Answer } from './QADrill';
 import { RubricReview } from './RubricReview';
 import type { CatalogEvent } from '@/lib/rubrics/types';
 import type { VisualReportJSON } from '@/lib/ai/schemas';
+import { mergeVisualReports } from '@/lib/video/mergeVisualReports';
+import { THOROUGHNESS, THOROUGHNESS_ORDER, type Thoroughness } from '@/lib/video/thoroughness';
 
 type Phase = 'idle' | 'confirm' | 'preparing' | 'grading' | 'done' | 'qa' | 'qa-grading' | 'failed';
 
@@ -78,6 +80,9 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
   // D-015's default-off): scores should reflect the whole presentation unless the
   // student explicitly opts out. The video file itself still never leaves the device.
   const [seeVideo, setSeeVideo] = useState(true);
+  // D-034: how thoroughly the judge's eyes sweep the run — more frames = finer visual
+  // detail at the cost of a longer in-browser extraction. Default Standard.
+  const [thoroughness, setThoroughness] = useState<Thoroughness>('standard');
   // Pre-submission materials (D-019): extracted text of the prejudged document.
   const [materials, setMaterials] = useState<{ name: string; text: string; words: number } | null>(
     null,
@@ -150,33 +155,59 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
     async (
       frames: Array<{ blob: Blob; atSeconds: number }>,
     ): Promise<{ report: VisualReportJSON | null; costCents: number }> => {
-      try {
-        const body = new FormData();
-        frames.forEach((f, i) => body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`));
-        // The last frame sits half an interval from the end — good enough for context.
-        const last = frames[frames.length - 1];
-        if (last) body.append('durationS', String(Math.round(last.atSeconds + 4)));
-        const res = await fetch('/api/visual', { method: 'POST', body });
-        if (!res.ok) {
-          // Say WHY visual grading fell through, so it's not a silent drop to Gemini.
-          const j = (await res.json().catch(() => null)) as { error?: { detail?: string } } | null;
-          console.warn(
-            `[providers] visual analysis failed (${res.status}) — grading will use raw frames on Gemini instead.` +
-              (j?.error?.detail ? ` Reason: ${j.error.detail}` : ''),
-          );
+      if (frames.length === 0) return { report: null, costCents: 0 };
+
+      // Whole-run duration for context — every batch is told the full length.
+      const last = frames[frames.length - 1];
+      const durationS = last ? String(Math.round(last.atSeconds + 4)) : '';
+
+      // D-034: one /api/visual request per batch of <=16 frames — the count that stays
+      // under the single-request 502/timeout wall. The per-batch reports are merged
+      // client-side, so Deep/Max (32/64 frames) never crash — they just run more calls.
+      const BATCH = 16;
+      const batches: Array<typeof frames> = [];
+      for (let i = 0; i < frames.length; i += BATCH) batches.push(frames.slice(i, i + BATCH));
+
+      const postBatch = async (
+        batch: typeof frames,
+      ): Promise<{ report: VisualReportJSON | null; costCents: number }> => {
+        try {
+          const body = new FormData();
+          batch.forEach((f, i) => body.append(`frame_${i}`, f.blob, `${Math.round(f.atSeconds)}.jpg`));
+          if (durationS) body.append('durationS', durationS);
+          const res = await fetch('/api/visual', { method: 'POST', body });
+          if (!res.ok) {
+            const j = (await res.json().catch(() => null)) as { error?: { detail?: string } } | null;
+            console.warn(
+              `[providers] a visual batch failed (${res.status})` +
+                (j?.error?.detail ? ` — ${j.error.detail}` : ''),
+            );
+            return { report: null, costCents: 0 };
+          }
+          const j = (await res.json()) as { report?: VisualReportJSON; cost_cents?: number };
+          return { report: j.report ?? null, costCents: j.cost_cents ?? 0 };
+        } catch {
           return { report: null, costCents: 0 };
         }
-        const j = (await res.json()) as {
-          report?: VisualReportJSON;
-          provider?: string;
-          model?: string;
-          cost_cents?: number;
-        };
-        if (j.report) console.info(`[providers] visual → ${j.provider ?? 'openrouter'}/${j.model ?? ''}`);
-        return { report: j.report ?? null, costCents: j.cost_cents ?? 0 };
-      } catch {
-        return { report: null, costCents: 0 };
+      };
+
+      // Run the batches together; tolerate partial failure — merge whatever succeeded.
+      const results = await Promise.all(batches.map(postBatch));
+      const reports = results.map((r) => r.report).filter((r): r is VisualReportJSON => r !== null);
+      const costCents = results.reduce((a, r) => a + r.costCents, 0);
+      if (reports.length === 0) {
+        console.warn(
+          '[providers] visual analysis failed on every batch — grading will use raw frames on Gemini instead.',
+        );
+        return { report: null, costCents };
       }
+      const report = reports.length === 1 ? reports[0] : mergeVisualReports(reports);
+      console.info(
+        `[providers] visual → openrouter (${reports.length}/${batches.length} batch${
+          batches.length > 1 ? 'es' : ''
+        }, ${frames.length} frames)`,
+      );
+      return { report, costCents };
     },
     [],
   );
@@ -315,7 +346,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
    * never leaves the device either way — audio and frames are extracted here in the browser.
    */
   const processFile = useCallback(
-    async (file: File, wantsVideo: boolean) => {
+    async (file: File, wantsVideo: boolean, level: Thoroughness = 'standard') => {
       setError('');
       setPhase('preparing');
       const hasPicture = file.type.startsWith('video/') || file.type === '';
@@ -343,7 +374,12 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
           // frames via ffmpeg (fast, and it decodes what the <video> element can't), is
           // self-budgeted, and is additionally raced against a hard timeout here — on any
           // failure or timeout the grade just proceeds audio-only.
-          setPrepLabel('Reading the video — sampling frames across your run');
+          const tier = THOROUGHNESS[level];
+          setPrepLabel(
+            level === 'standard'
+              ? 'Reading the video — sampling frames across your run'
+              : `Reading the video — ${tier.label.toLowerCase()} pass, sampling up to ${tier.maxFrames} frames (this takes a little longer)`,
+          );
           setPrepRatio(0);
           // Estimate the run length from the mp3 (no second decode, no <video> stall). The
           // mp3 is the video's own audio track, so this ~= the true duration; sampling at
@@ -356,8 +392,16 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
               () => import('@/lib/video/extractFrames'),
             );
             const raw = await Promise.race([
-              extractFrames(file, { durationS: estDurationS, onProgress: (r) => setPrepRatio(r) }),
-              new Promise<[]>((resolve) => setTimeout(() => resolve([]), 75_000)),
+              extractFrames(file, {
+                durationS: estDurationS,
+                maxFrames: tier.maxFrames,
+                intervalS: tier.intervalS,
+                budgetMs: tier.budgetMs,
+                onProgress: (r) => setPrepRatio(r),
+              }),
+              // Race against a hard ceiling just past the extractor's own budget, so a
+              // Deep/Max pass is allowed its longer wait but still can never hang.
+              new Promise<[]>((resolve) => setTimeout(() => resolve([]), tier.budgetMs + 15_000)),
             ]);
             // Frames travel in their OWN request to /api/visual (D-018), so they get the
             // full body budget instead of sharing it with the audio.
@@ -592,6 +636,36 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             </label>
           )}
 
+          {pending.hasPicture && seeVideo && (
+            <div className="mt-4">
+              <p className="label mb-2">Visual detail</p>
+              <div className="flex flex-wrap gap-2" role="group" aria-label="Visual thoroughness">
+                {THOROUGHNESS_ORDER.map((id) => {
+                  const lvl = THOROUGHNESS[id];
+                  const active = thoroughness === id;
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setThoroughness(id)}
+                      aria-pressed={active}
+                      className={`btn ${active ? 'btn-primary' : 'btn-secondary'} px-4 py-2 text-left`}
+                    >
+                      <span className="display-md text-[14px]">{lvl.label}</span>
+                      <span className="mono ml-2 text-[11px]" style={{ opacity: 0.85 }}>
+                        {lvl.blurb}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="mt-2 max-w-[60ch] text-[12px] leading-relaxed" style={{ color: 'var(--slate)' }}>
+                More frames means finer detail — every slide change and more of each gesture — and a
+                longer wait while your device samples the video. It doesn&rsquo;t change grading cost.
+              </p>
+            </div>
+          )}
+
           <p className="mt-4 max-w-[60ch] text-[13px] leading-relaxed" style={{ color: 'var(--slate)' }}>
             Check this is the right run. Grading uses one of your credits and takes a couple of
             minutes. Nothing has been uploaded yet.
@@ -599,7 +673,7 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
 
           <div className="mt-5 flex flex-wrap gap-3">
             <button
-              onClick={() => void processFile(pending.file, seeVideo && pending.hasPicture)}
+              onClick={() => void processFile(pending.file, seeVideo && pending.hasPicture, thoroughness)}
               className="btn btn-primary px-6 text-[15px]"
             >
               Grade this run

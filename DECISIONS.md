@@ -969,3 +969,37 @@ want: how to get to full marks. Both fixed at the prompt+schema level (g-1.13.0)
 **Verification:** typecheck + 52 unit tests green (fixtures updated for the new required field);
 production build green. ⚠️ Eval PENDING (budget) — but this is additive feedback + de-duplication,
 not a scoring-rule change, so calibration is unaffected.
+
+## D-034 — Batched visual analysis + a user "visual detail" choice (more frames, safely)
+
+**Date:** 2026-07-23 · **By:** Ronit ("we want every single detail", "get more frames") + agent
+
+The judge's eyes saw only ~16 stills of a run — one every ~48s on a 13-min file — because the
+whole frame set went to the vision model in ONE request, and one request falls over past ~16–24
+images (the 502, then the "terminated" timeout of D-026/D-030). So the cap wasn't a quality call;
+it was the largest count that didn't crash. Two changes lift it:
+
+1. **Batched vision calls (the real fix).** `analyzeVisual` (client) now splits frames into
+   batches of ≤16 and fires one `/api/visual` request per batch, then merges the per-batch reports
+   with a new pure `mergeVisualReports()` (observations concatenated + time-ordered; each run-wide
+   pattern field unioned so more frames *add* detail; quality/cannot_see deduped). Partial failure
+   is tolerated — whatever batches succeed are merged. This removes the single-request wall for
+   good: more frames = more small calls, never a crash. `/api/visual` is unchanged (still processes
+   one batch); the batching/merge live at the client boundary, which also sidesteps the 4.5MB body
+   cap (each batch is its own ~1MB request).
+2. **A "Visual detail" choice on the confirm screen** (`thoroughness.ts`): Standard ~16 · Deep ~32
+   · Max ~64 frames, with matching extraction density + budget. Higher = finer coverage (every
+   slide change, more of each gesture) at the cost of a longer *in-browser* extraction wait — the
+   copy says so. `extractFrames`/`samplePlan` are now parameterized by `maxFrames`/`intervalS`; the
+   old defaults (24/8s) are preserved so the existing tests hold.
+
+**Cost truth (stated to the user):** frame count scales **OpenRouter** cost (~0.01¢/frame — pennies)
+and *not* Gemini — the judge reads the text report, never the frames (except the no-OpenRouter
+fallback, where stills go straight to Gemini). Ceiling for now is ~64–70 frames (the fallback
+attach still shares the 4.5MB body cap); literal 1-fps would need per-batch fallback uploads too —
+parked, not built.
+
+**Verification:** typecheck green; 122 unit tests pass (new: `samplePlan` cap/interval cases in
+frames.test.ts, and mergeVisual.test.ts — ordering, pattern union, dedup, schema-valid output);
+lint clean; production build green. No prompt change (the visual prompt is untouched), so no eval
+is required.
