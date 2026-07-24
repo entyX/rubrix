@@ -6,6 +6,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   samplePlan,
+  coverageOrder,
   trimFramesToBudget,
   MIN_FRAMES,
   MAX_FRAMES,
@@ -51,6 +52,35 @@ describe('samplePlan', () => {
   it('keeps the floor sane even when a caller passes a tiny cap', () => {
     // Degenerate duration clamps to min(MIN_FRAMES, maxFrames), never above the cap.
     expect(samplePlan(0, 4, 4)).toBe(4);
+  });
+});
+
+describe('coverageOrder (D-035 — a budget bail must still span the whole run)', () => {
+  it('is a permutation of [0, n)', () => {
+    for (const n of [1, 2, 7, 16, 100, 481]) {
+      const order = coverageOrder(n);
+      expect(order).toHaveLength(n);
+      expect(new Set(order).size).toBe(n); // every index exactly once
+      expect(Math.min(...order)).toBe(0);
+      expect(Math.max(...order)).toBe(n - 1);
+    }
+  });
+
+  it('handles the degenerate sizes', () => {
+    expect(coverageOrder(0)).toEqual([]);
+    expect(coverageOrder(1)).toEqual([0]);
+  });
+
+  it('visits the extremes before the interior — any prefix spreads across the range', () => {
+    const n = 100;
+    const order = coverageOrder(n);
+    // Endpoints come first.
+    expect(order.slice(0, 2).sort((a, b) => a - b)).toEqual([0, n - 1]);
+    // A short prefix already covers early, middle, and late thirds of the run.
+    const prefix = order.slice(0, 8);
+    expect(prefix.some((i) => i < n / 3)).toBe(true);
+    expect(prefix.some((i) => i >= n / 3 && i < (2 * n) / 3)).toBe(true);
+    expect(prefix.some((i) => i >= (2 * n) / 3)).toBe(true);
   });
 });
 

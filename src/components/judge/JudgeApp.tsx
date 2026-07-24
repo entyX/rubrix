@@ -191,8 +191,20 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
         }
       };
 
-      // Run the batches together; tolerate partial failure — merge whatever succeeded.
-      const results = await Promise.all(batches.map(postBatch));
+      // Bounded concurrency: Max can be ~30 batches, and firing them all at once would
+      // trip OpenRouter's rate limit. 5 in flight keeps it fast without 429s. Partial
+      // failure is tolerated — whatever batches succeed get merged.
+      const CONCURRENCY = 5;
+      const results: Array<{ report: VisualReportJSON | null; costCents: number }> = new Array(
+        batches.length,
+      );
+      let next = 0;
+      const worker = async () => {
+        for (let idx = next++; idx < batches.length; idx = next++) {
+          results[idx] = await postBatch(batches[idx]);
+        }
+      };
+      await Promise.all(Array.from({ length: Math.min(CONCURRENCY, batches.length) }, worker));
       const reports = results.map((r) => r.report).filter((r): r is VisualReportJSON => r !== null);
       const costCents = results.reduce((a, r) => a + r.costCents, 0);
       if (reports.length === 0) {

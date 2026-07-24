@@ -1003,3 +1003,27 @@ parked, not built.
 frames.test.ts, and mergeVisual.test.ts — ordering, pattern union, dedup, schema-valid output);
 lint clean; production build green. No prompt change (the visual prompt is untouched), so no eval
 is required.
+
+## D-035 — "Max" is now literal 1 frame/second (Ronit asked for every second)
+
+**Date:** 2026-07-23 · **By:** Ronit ("yes 1 frame per second") + agent
+
+Building on D-034's batching, the Max level is now `intervalS: 1` — one frame per second, capped
+at 480 (so a ≤8-min run is truly every-second; longer runs spread those 480 to stay under a
+few-minute wait), budget 240s. Three things made dense extraction safe:
+
+1. **Coarse-to-fine visiting order (`coverageOrder`, pure + tested).** The extractor no longer
+   seeks 0→N in time order; it visits endpoints first, then halves the stride. So when a 480-seek
+   pass runs out of its time budget, the frames we DID get still span open to close — not just the
+   first 40 seconds (the latent bug that time-ordered iteration would have caused). Frames are
+   re-sorted chronologically before use. This improves every level, not just Max.
+2. **Bounded client concurrency (5).** Max is ~30 `/api/visual` batches; firing all at once would
+   trip OpenRouter's rate limit, so a 5-in-flight pool runs them. Partial failure still merges.
+3. **A usable report ceiling in the merge.** ~30 batches can yield hundreds of observations;
+   `mergeVisualReports` now evenly downsamples to ≤240 (endpoints kept, so the tail survives) and
+   caps each pattern field's union at 16 parts. Thorough but not a wall of text that would bloat
+   the judge's input.
+
+Still true from D-034: this scales OpenRouter (pennies), not Gemini (text report). The hard ceiling
+is now extraction time + the 480 cap, not a crash. Verified: 126 unit tests (new `coverageOrder`
+permutation/prefix-spread cases; a dense-merge cap case), typecheck + lint + build green.

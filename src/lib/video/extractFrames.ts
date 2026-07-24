@@ -48,6 +48,29 @@ function sampleTimes(durationS: number, maxFrames: number, intervalS: number): n
   return Array.from({ length: count }, (_, i) => (durationS * (i + 0.5)) / count);
 }
 
+/**
+ * D-035: a coarse-to-fine visiting order over [0, n) — endpoints first, then halving the
+ * stride each pass. It's a permutation, but crucially ANY PREFIX is spread across the whole
+ * range. So when a dense pass (1-fps Max, hundreds of seeks) runs out of time budget, the
+ * frames we DID get still span open to close — not just the first 40 seconds. Pure — tested.
+ */
+export function coverageOrder(n: number): number[] {
+  const order: number[] = [];
+  if (n <= 0) return order;
+  if (n === 1) return [0];
+  const seen = new Array<boolean>(n).fill(false);
+  for (let step = n - 1; step >= 1; step = Math.floor(step / 2)) {
+    for (let i = 0; i < n; i += step) {
+      if (!seen[i]) {
+        seen[i] = true;
+        order.push(i);
+      }
+    }
+    if (step === 1) break;
+  }
+  return order;
+}
+
 export interface FrameOptions {
   /** Run length in seconds — from the extracted audio. Sets how many frames and where. */
   durationS: number;
@@ -116,11 +139,14 @@ async function extractFramesFfmpeg(file: File | Blob, o: FrameOptions): Promise<
 
     const started = Date.now();
     const frames: Frame[] = [];
-    for (let i = 0; i < times.length; i++) {
+    // Visit coarse-to-fine (D-035) so a budget bail on a dense pass still spans the run.
+    const order = coverageOrder(times.length);
+    for (let k = 0; k < order.length; k++) {
       if (Date.now() - started > o.budgetMs) {
         console.warn(`[frames] ffmpeg: time budget reached, stopping at ${frames.length} frame(s)`);
         break;
       }
+      const i = order[k];
       const t = times[i];
       const out = `f${i}.jpg`;
       try {
@@ -143,14 +169,16 @@ async function extractFramesFfmpeg(file: File | Blob, o: FrameOptions): Promise<
       } catch {
         // one bad seek shouldn't sink the batch
       }
-      o.onProgress?.((i + 1) / times.length);
+      o.onProgress?.((k + 1) / order.length);
       // Bail early if the codec is clearly undecodable (first several seeks all empty) —
       // saves ~30s of futile seeks before the <video> fallback runs.
-      if (i === 5 && frames.length === 0) {
+      if (k === 5 && frames.length === 0) {
         console.warn('[frames] ffmpeg: first 6 seeks empty — likely a codec it cannot decode; falling back early');
         break;
       }
     }
+    // Restore chronological order — the report and its timestamps expect it.
+    frames.sort((a, b) => a.atSeconds - b.atSeconds);
 
     if (frames.length === 0) {
       console.warn(
@@ -214,8 +242,11 @@ async function extractFramesViaVideo(file: File | Blob, o: FrameOptions): Promis
 
     const started = Date.now();
     const frames: Frame[] = [];
-    for (let i = 0; i < times.length; i++) {
+    // Coarse-to-fine (D-035): a budget bail on a dense pass still spans open to close.
+    const order = coverageOrder(times.length);
+    for (let k = 0; k < order.length; k++) {
       if (Date.now() - started > o.budgetMs) break;
+      const t = times[order[k]];
       const seeked = await new Promise<boolean>((resolve) => {
         const done = (v: boolean) => {
           video.removeEventListener('seeked', onOk);
@@ -228,15 +259,16 @@ async function extractFramesViaVideo(file: File | Blob, o: FrameOptions): Promis
         const to = setTimeout(() => done(false), 8_000);
         video.addEventListener('seeked', onOk);
         video.addEventListener('error', onErr);
-        video.currentTime = Math.min(times[i], dur - 0.05);
+        video.currentTime = Math.min(t, dur - 0.05);
       });
       if (seeked) {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.7));
-        if (blob) frames.push({ blob, atSeconds: times[i] });
+        if (blob) frames.push({ blob, atSeconds: t });
       }
-      o.onProgress?.((i + 1) / times.length);
+      o.onProgress?.((k + 1) / order.length);
     }
+    frames.sort((a, b) => a.atSeconds - b.atSeconds);
     console.info(`[frames] <video>: got ${frames.length} frame(s)`);
     return frames;
   } finally {

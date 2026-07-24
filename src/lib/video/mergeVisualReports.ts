@@ -14,6 +14,22 @@
  */
 import type { VisualReportJSON } from '@/lib/ai/schemas';
 
+/**
+ * A dense (Max, 1-fps) run can yield hundreds of observations across ~30 batches. Keep the
+ * report thorough but usable: cap the observation list and each pattern field's union at a
+ * generous ceiling, downsampling evenly so what survives still spans the whole run. In
+ * practice these rarely bite (each batch's report is already bounded); they only stop a
+ * pathological wall of text from bloating the judge's input.
+ */
+const MAX_OBSERVATIONS = 240;
+const MAX_PATTERN_PARTS = 16;
+
+/** Keep at most `cap`, evenly spread across the list (endpoints included). */
+function evenSample<T>(xs: T[], cap: number): T[] {
+  if (xs.length <= cap) return xs;
+  return Array.from({ length: cap }, (_, k) => xs[Math.round((k * (xs.length - 1)) / (cap - 1))]);
+}
+
 /** Trim, drop empties, dedupe — preserving first-seen order. */
 function uniq(values: string[]): string[] {
   const seen = new Set<string>();
@@ -33,13 +49,13 @@ export function mergeVisualReports(reports: VisualReportJSON[]): VisualReportJSO
   if (present.length === 0) throw new Error('mergeVisualReports: nothing to merge');
   if (present.length === 1) return present[0];
 
-  const observations = present
-    .flatMap((r) => r.observations)
-    .slice()
-    .sort((a, b) => a.at_s - b.at_s);
+  const observations = evenSample(
+    present.flatMap((r) => r.observations).slice().sort((a, b) => a.at_s - b.at_s),
+    MAX_OBSERVATIONS,
+  );
 
   const pattern = (pick: (p: VisualReportJSON['patterns']) => string): string =>
-    uniq(present.map((r) => pick(r.patterns))).join(' ');
+    uniq(present.map((r) => pick(r.patterns))).slice(0, MAX_PATTERN_PARTS).join(' ');
 
   return {
     video_quality: uniq(present.map((r) => r.video_quality)).join('; '),
