@@ -403,6 +403,10 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
             const { extractFrames, trimFramesToBudget } = await loadModule(
               () => import('@/lib/video/extractFrames'),
             );
+            // D-036: capture frames as they're decoded. If the hard wall below fires, we grade
+            // on what we DID get (coverage-ordered, so it spans open→close) instead of nothing —
+            // the D-035 bug where a slow/hung Max pass returned [] and the judge saw no video.
+            const collected: Array<{ blob: Blob; atSeconds: number }> = [];
             const raw = await Promise.race([
               extractFrames(file, {
                 durationS: estDurationS,
@@ -410,14 +414,22 @@ export function JudgeApp({ event }: { event: CatalogEvent }) {
                 intervalS: tier.intervalS,
                 budgetMs: tier.budgetMs,
                 onProgress: (r) => setPrepRatio(r),
+                onFrame: (f) => collected.push(f),
               }),
-              // Race against a hard ceiling just past the extractor's own budget, so a
-              // Deep/Max pass is allowed its longer wait but still can never hang.
-              new Promise<[]>((resolve) => setTimeout(() => resolve([]), tier.budgetMs + 15_000)),
+              // A hard ceiling just past the extractor's own budget, so a Deep/Max pass gets its
+              // longer wait but can never hang the run. On timeout, fall back to the partial
+              // frames we collected — never [].
+              new Promise<Array<{ blob: Blob; atSeconds: number }>>((resolve) =>
+                setTimeout(() => resolve(collected), tier.budgetMs + 15_000),
+              ),
             ]);
+            // If the wall won, `raw` IS `collected` (partial, in coverage order) — sort it to
+            // chronological. If extraction finished, `raw` is already sorted.
+            const spread =
+              raw === collected ? [...collected].sort((a, b) => a.atSeconds - b.atSeconds) : raw;
             // Frames travel in their OWN request to /api/visual (D-018), so they get the
             // full body budget instead of sharing it with the audio.
-            frames = trimFramesToBudget(raw, 0, MAX_UPLOAD_BYTES);
+            frames = trimFramesToBudget(spread, 0, MAX_UPLOAD_BYTES);
           } catch (err) {
             console.warn('[frames] visual extraction failed — grading from audio only:', err);
           }

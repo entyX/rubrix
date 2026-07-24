@@ -1032,3 +1032,31 @@ permutation/prefix-spread cases; a dense-merge cap case), typecheck + lint + bui
 240s → **330s** so a dense pass can actually reach it (≈5–5.5 min of in-browser seeking; the race
 timeout scales as budget+15s). ~42 batches at concurrency 5; the ≤240-observation merge ceiling is
 unchanged, so the report stays usable. Everything else in D-035 holds.
+
+## D-036 — Max returned ZERO frames in production; make extraction never-hang, never-empty, and honest
+
+**Date:** 2026-07-23 · **By:** Ronit (console: "sampling 415 frames … visual: none · ummm what") + agent
+
+A real Max run logged `[frames] ffmpeg: sampling 415 frames` and then graded with `visual: none` —
+the judge saw **no video at all**, a strictly worse result than Standard (which gets ~24 stills on
+the same file) after a multi-minute wait. Three compounding bugs, all introduced by D-035:
+
+1. **A single ffmpeg.wasm seek could hang with no ceiling.** `await ff.exec(...)` was unbounded;
+   one stuck seek (some MediaRecorder `.webm`s seek badly) froze the loop so the internal budget
+   check never ran. Fix: each seek is now raced against `PER_SEEK_MS` (12s). ffmpeg.wasm can't be
+   cancelled, so on a hung seek we abandon the ffmpeg path entirely and fall through to the
+   `<video>` decoder instead of freezing the run.
+2. **The outer hard-wall timeout threw away partial work.** It resolved `[]`, discarding every
+   frame the extractor had already decoded — so "budget reached" became "zero frames." Fix
+   (`onFrame` sink): the extractor now emits each frame as it's decoded; the client collects them
+   and, if the wall fires, grades on that coverage-ordered partial (re-sorted chronological) —
+   **never `[]`** while any frame exists.
+3. **660 / literal-1-fps can't complete in-browser.** Hundreds of sequential seeks overran any
+   sane budget on real files. Max is now **150 frames** (intervalS 2, budget 240s) — the most a
+   real file reliably decodes in a few minutes, a frame every 2-3s on a typical run (~10× Standard).
+   Relabeled "Max detail" (not "every second"), Deep raised 32 → 48. True every-second would
+   require **server-side** extraction (uploading the video), which breaks the D-015 privacy promise
+   — parked as an explicit user decision, not built.
+
+Still true from D-034/035: frame count scales OpenRouter (pennies), never Gemini (text report).
+No prompt change, so no eval required. Verification: typecheck + lint + build + unit tests below.

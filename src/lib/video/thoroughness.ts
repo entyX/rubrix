@@ -29,7 +29,7 @@ export const THOROUGHNESS: Record<Thoroughness, ThoroughnessLevel> = {
   standard: {
     id: 'standard',
     label: 'Standard',
-    blurb: 'about 16 frames',
+    blurb: 'about 16 frames · fastest',
     maxFrames: 16,
     intervalS: 8,
     budgetMs: 35_000,
@@ -37,18 +37,21 @@ export const THOROUGHNESS: Record<Thoroughness, ThoroughnessLevel> = {
   deep: {
     id: 'deep',
     label: 'Deep',
-    blurb: 'about 32 frames · ~20s longer',
-    maxFrames: 32,
-    intervalS: 6,
-    budgetMs: 70_000,
+    blurb: 'about 48 frames · ~1 min longer',
+    maxFrames: 48,
+    intervalS: 4,
+    budgetMs: 90_000,
   },
   max: {
+    // D-036: honest ceiling. Literal 1-fps (D-035's 660) could not FINISH in-browser — hundreds
+    // of sequential seeks overran the budget and returned nothing. 150 is the most stills a real
+    // file reliably decodes in a few minutes; a frame every 2-3s on a typical run, ~10x Standard.
     id: 'max',
-    label: 'Max — every second',
-    blurb: '≈1 frame/sec, up to ~660 · +several min',
-    maxFrames: 660,
-    intervalS: 1,
-    budgetMs: 330_000,
+    label: 'Max detail',
+    blurb: 'up to ~150 frames · a few min longer',
+    maxFrames: 150,
+    intervalS: 2,
+    budgetMs: 240_000,
   },
 };
 

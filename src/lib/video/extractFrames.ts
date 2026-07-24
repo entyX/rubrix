@@ -31,6 +31,15 @@ export const FRAME_INTERVAL_S = 8;
 export const MIN_FRAMES = 9;
 export const MAX_FRAMES = 24;
 
+/**
+ * D-036: a single ffmpeg.wasm seek should take well under a second. If one runs past this
+ * ceiling it has hung on a codec/container it can't cleanly seek (some MediaRecorder webms),
+ * and — because ffmpeg.wasm is single-threaded and can't be cancelled — the safe move is to
+ * abandon the ffmpeg path entirely and fall through to the <video> decoder, rather than let
+ * one stuck seek freeze the whole run (the D-035 "sampling N frames… then nothing" bug).
+ */
+const PER_SEEK_MS = 12_000;
+
 /** How many stills honestly cover a run of this length. Pure — unit-tested. */
 export function samplePlan(
   durationS: number,
@@ -84,6 +93,11 @@ export interface FrameOptions {
   intervalS: number;
   /** 0–1 progress, called after each frame. */
   onProgress?: (ratio: number) => void;
+  /**
+   * D-036: called with each frame the moment it's decoded. Lets the caller capture partial
+   * work, so a hard-wall timeout can grade on what we DID get instead of throwing it away.
+   */
+  onFrame?: (frame: Frame) => void;
 }
 
 const DEFAULTS: Omit<FrameOptions, 'durationS' | 'onProgress'> = {
@@ -153,20 +167,32 @@ async function extractFramesFfmpeg(file: File | Blob, o: FrameOptions): Promise<
         // -ss BEFORE -i = fast input seek. This is the canonical single-frame command;
         // do NOT add -y (this emscripten build aborts with "Unrecognized option 'y'")
         // or -update (unneeded for -frames:v 1). Output names are unique, so no overwrite.
-        await ff.exec([
-          '-ss', t.toFixed(2),
-          '-i', inName,
-          '-frames:v', '1',
-          '-vf', `scale=${o.maxEdge}:${o.maxEdge}:force_original_aspect_ratio=decrease`,
-          '-q:v', '5',
-          out,
+        // D-036: bound the seek — a hung exec (no way to cancel wasm) must not freeze the run.
+        await Promise.race([
+          ff.exec([
+            '-ss', t.toFixed(2),
+            '-i', inName,
+            '-frames:v', '1',
+            '-vf', `scale=${o.maxEdge}:${o.maxEdge}:force_original_aspect_ratio=decrease`,
+            '-q:v', '5',
+            out,
+          ]),
+          new Promise<never>((_, rej) => setTimeout(() => rej(new Error('SEEK_TIMEOUT')), PER_SEEK_MS)),
         ]);
         const data = await ff.readFile(out).catch(() => null);
         await ff.deleteFile(out).catch(() => {});
         if (data instanceof Uint8Array && data.byteLength > 0) {
-          frames.push({ blob: new Blob([data as unknown as BlobPart], { type: 'image/jpeg' }), atSeconds: t });
+          const frame = { blob: new Blob([data as unknown as BlobPart], { type: 'image/jpeg' }), atSeconds: t };
+          frames.push(frame);
+          o.onFrame?.(frame);
         }
-      } catch {
+      } catch (e) {
+        // A hung seek means ffmpeg can't cleanly decode this file — abandon it and let the
+        // <video> path try (it handles HEVC + flaky-seek webms). One ordinary bad seek just continues.
+        if (e instanceof Error && e.message === 'SEEK_TIMEOUT') {
+          console.warn(`[frames] ffmpeg: a seek hung (>${PER_SEEK_MS / 1000}s) — abandoning ffmpeg, trying <video>`);
+          break;
+        }
         // one bad seek shouldn't sink the batch
       }
       o.onProgress?.((k + 1) / order.length);
@@ -264,7 +290,11 @@ async function extractFramesViaVideo(file: File | Blob, o: FrameOptions): Promis
       if (seeked) {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.7));
-        if (blob) frames.push({ blob, atSeconds: t });
+        if (blob) {
+          const frame = { blob, atSeconds: t };
+          frames.push(frame);
+          o.onFrame?.(frame); // D-036: surface partial work to the caller's hard-wall guard
+        }
       }
       o.onProgress?.((k + 1) / order.length);
     }
