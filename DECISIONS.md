@@ -1104,3 +1104,11 @@ fix (done, D-036) and scope this for a later call.
 
 **Recommendation:** try D-036 first. Single-pass likely delivers the every-second goal for
 decodable files on-device, at zero privacy cost. Revisit this only if a real run proves it can't.
+
+**Amendment (2026-07-23, Ronit "we are doing 660 frames").** Max cap set to **660** (intervalS 1
+— 1 fps for runs ≤11 min, else 660 spread evenly), extraction budget 300s. This is Ronit's call
+and is now sound: single-pass ffmpeg (D-036) made the old objection moot — 660 costs one decode,
+not 660 seeks, so it no longer hangs or overruns. To make the extra frames actually reach the
+judge instead of being discarded, the merge ceilings were raised with it: MAX_OBSERVATIONS
+240 → 480, MAX_PATTERN_PARTS 16 → 24. HEVC files still fall to the bounded `<video>` per-seek path
+(partial-safe via onFrame). Verified: typecheck + lint + tests + build green.

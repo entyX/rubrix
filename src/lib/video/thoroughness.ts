@@ -43,17 +43,16 @@ export const THOROUGHNESS: Record<Thoroughness, ThoroughnessLevel> = {
     budgetMs: 90_000,
   },
   max: {
-    // D-036: with single-pass ffmpeg extraction the cost is one decode of the video, NOT one
-    // per frame — so a dense count is cheap for decodable files. The honest ceiling is now the
-    // point where the judge's report saturates: mergeVisualReports caps observations at 240, so
-    // ~240 frames is as much detail as the judge can use. intervalS 1 makes it literally
-    // 1 frame/sec for runs up to ~4 min; longer runs spread 240 evenly.
+    // Single-pass ffmpeg extraction (D-036) costs one decode of the video, NOT one per frame,
+    // so a dense count is cheap for decodable files. 660 frames at intervalS 1 = literally
+    // 1 frame/sec for runs up to 11 min; longer runs spread 660 evenly. The merge's observation
+    // ceiling was raised to match (mergeVisualReports) so these frames reach the judge.
     id: 'max',
     label: 'Max detail',
-    blurb: '≈1 frame/sec, up to 240 · a few min longer',
-    maxFrames: 240,
+    blurb: '≈1 frame/sec, up to 660 · a few min longer',
+    maxFrames: 660,
     intervalS: 1,
-    budgetMs: 240_000,
+    budgetMs: 300_000,
   },
 };
 

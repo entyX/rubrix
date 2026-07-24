@@ -68,19 +68,19 @@ describe('mergeVisualReports', () => {
   });
 
   it('caps a dense (1-fps Max) run to a usable report, still spanning end to end', () => {
-    // 40 batches × 10 observations = 400 — more than the report should carry.
-    const batches = Array.from({ length: 40 }, (_, b) =>
+    // 66 batches × 10 observations = 660 — more than the report should carry.
+    const batches = Array.from({ length: 66 }, (_, b) =>
       batch({
         observations: Array.from({ length: 10 }, (_, k) => ({ at_s: b * 10 + k, note: `f${b}-${k}` })),
       }),
     );
     const merged = mergeVisualReports(batches);
-    expect(merged.observations.length).toBeLessThanOrEqual(240);
-    expect(merged.observations.length).toBeGreaterThan(100); // still richly detailed
+    expect(merged.observations.length).toBeLessThanOrEqual(480);
+    expect(merged.observations.length).toBeGreaterThan(300); // still richly detailed
     // Time-ordered, and the tail survives the downsample (coverage kept, not truncated).
     const times = merged.observations.map((o) => o.at_s);
     expect(times).toEqual([...times].sort((a, b) => a - b));
     expect(times[0]).toBe(0);
-    expect(times[times.length - 1]).toBe(399);
+    expect(times[times.length - 1]).toBe(659);
   });
 });

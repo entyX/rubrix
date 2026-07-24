@@ -15,14 +15,14 @@
 import type { VisualReportJSON } from '@/lib/ai/schemas';
 
 /**
- * A dense (Max, 1-fps) run can yield hundreds of observations across ~30 batches. Keep the
- * report thorough but usable: cap the observation list and each pattern field's union at a
- * generous ceiling, downsampling evenly so what survives still spans the whole run. In
- * practice these rarely bite (each batch's report is already bounded); they only stop a
- * pathological wall of text from bloating the judge's input.
+ * A dense (Max, 1-fps, up to 660 frames ≈ 42 batches) run can yield many hundreds of
+ * observations. Keep the report thorough but usable: cap the observation list and each pattern
+ * field's union, downsampling evenly so what survives still spans the whole run. Raised for the
+ * 660-frame Max so its extra detail actually reaches the judge; still bounded so the input can't
+ * become a pathological wall of text.
  */
-const MAX_OBSERVATIONS = 240;
-const MAX_PATTERN_PARTS = 16;
+const MAX_OBSERVATIONS = 480;
+const MAX_PATTERN_PARTS = 24;
 
 /** Keep at most `cap`, evenly spread across the list (endpoints included). */
 function evenSample<T>(xs: T[], cap: number): T[] {
