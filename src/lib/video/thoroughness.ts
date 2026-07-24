@@ -45,10 +45,10 @@ export const THOROUGHNESS: Record<Thoroughness, ThoroughnessLevel> = {
   max: {
     id: 'max',
     label: 'Max — every second',
-    blurb: '≈1 frame/sec, up to ~480 · +a few min',
-    maxFrames: 480,
+    blurb: '≈1 frame/sec, up to ~660 · +several min',
+    maxFrames: 660,
     intervalS: 1,
-    budgetMs: 240_000,
+    budgetMs: 330_000,
   },
 };
 

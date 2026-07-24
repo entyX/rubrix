@@ -1025,5 +1025,10 @@ few-minute wait), budget 240s. Three things made dense extraction safe:
    the judge's input.
 
 Still true from D-034: this scales OpenRouter (pennies), not Gemini (text report). The hard ceiling
-is now extraction time + the 480 cap, not a crash. Verified: 126 unit tests (new `coverageOrder`
+is now extraction time + the frame cap, not a crash. Verified: 126 unit tests (new `coverageOrder`
 permutation/prefix-spread cases; a dense-merge cap case), typecheck + lint + build green.
+
+**Amendment (2026-07-23, Ronit "up it 660 cap"):** Max cap 480 → **660** frames, extraction budget
+240s → **330s** so a dense pass can actually reach it (≈5–5.5 min of in-browser seeking; the race
+timeout scales as budget+15s). ~42 batches at concurrency 5; the ≤240-observation merge ceiling is
+unchanged, so the report stays usable. Everything else in D-035 holds.
