@@ -1060,3 +1060,47 @@ the same file) after a multi-minute wait. Three compounding bugs, all introduced
 
 Still true from D-034/035: frame count scales OpenRouter (pennies), never Gemini (text report).
 No prompt change, so no eval required. Verification: typecheck + lint + build + unit tests below.
+
+**Amendment (2026-07-23, single-pass rewrite — the actual root fix).** A real run's ffmpeg log
+was the smoking gun: `Stream #0:1 -> #0:0 (h264 (native) -> mjpeg)` with `time=-577014:32:22.77`
+and `frame= 0`. The file was H.264 from an Apple device (`Core Media Video`, `mp42`) — decodable —
+but the fast input-seek (`-ss` before `-i`) landed at a garbage negative timestamp and hung. The
+per-seek design was the bug, not the codec or a client ceiling. `extractFramesFfmpeg` is now a
+SINGLE `-vf fps=R` decode pass: one walk of the file emits every frame, no `-ss`, so no seek hang,
+and 240 frames cost one decode instead of 240 seeks. Live progress is parsed from ffmpeg's own
+`time=` counter. It's all-or-nothing per exec (wasm can't be cancelled) — a rare decode timeout
+abandons ffmpeg and falls to the bounded `<video>` per-seek path. Because the per-frame cost is
+gone, Max was raised 150 → **240** (intervalS 1 — literally 1 fps for runs ≤4 min), matching the
+merge's 240-observation ceiling, the point past which the judge's report can't get richer. The
+`<video>` fallback keeps its per-seek + coverage-order + onFrame partial safety. Verified:
+typecheck + lint + 126 tests + build green.
+
+## D-037 (PROPOSED — needs Ronit's sign-off) — optional server-side extraction for true every-frame
+
+**Status:** scoped, NOT built. Reverses a CLAUDE.md non-negotiable ("the video file never touches
+our servers"), so it ships only on an explicit, recorded decision — and only if the D-036
+single-pass client path proves insufficient in practice. Ronit chose "do both": ship the client
+fix (done, D-036) and scope this for a later call.
+
+**What it would take (not a toggle):**
+1. **Upload past the 4.5MB cap.** The whole video (tens–hundreds of MB) can't go through a normal
+   API body. Needs a direct-to-storage upload (signed URL to Supabase Storage / S3) with a
+   resumable/chunked client, or a streaming multipart endpoint. New surface, new failure modes.
+2. **A server extraction worker.** Native ffmpeg (not wasm) pulls frames server-side — fast, gets
+   literally every frame. Runs as a background job (Vercel function time limits mean likely a
+   queue / separate worker, not an inline request).
+3. **Guaranteed deletion.** "Delete after processing" must be enforced, not promised: delete the
+   source on job completion AND a sweeper that purges any orphan older than a short TTL (minutes),
+   independent of job success. Log every deletion.
+4. **Consent + copy, because these are minors (age ≥13).** A distinct, explicit opt-in ("your
+   video is uploaded to our servers, used once to grade, and deleted within N minutes") — separate
+   from the current on-device consent, which currently (truthfully) promises the video never
+   leaves the device. That promise text must change wherever this path is used, or the copy lies.
+5. **Legal/policy check.** Storing minors' video, even briefly, is a privacy-policy and possibly
+   COPPA-adjacent question. Not an engineering call.
+
+**Cost note:** still doesn't move the Gemini bill (judge reads the text report). It does add storage
++ egress + worker compute, and a real breach-exposure window while the video sits server-side.
+
+**Recommendation:** try D-036 first. Single-pass likely delivers the every-second goal for
+decodable files on-device, at zero privacy cost. Revisit this only if a real run proves it can't.

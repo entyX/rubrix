@@ -6,9 +6,10 @@
  *   stills (with the audio) are sent, then discarded. Nothing is stored.
  *
  * TWO decoders, tried in order, because no single one reads every file (D-024):
- *   1. ffmpeg.wasm via per-timestamp SEEKING (fast software decode of most formats).
+ *   1. ffmpeg.wasm via a SINGLE fps-filter decode pass (D-036) — one walk of the file emits
+ *      every frame, no per-timestamp seeks (which hung on iPhone .mov timestamps).
  *   2. the browser <video> element (HARDWARE decode — the only thing that reads an iPhone
- *      HEVC .mov on many platforms), bounded by timeouts so it can never hang.
+ *      HEVC .mov on many platforms), bounded per-seek so it can never hang.
  * Whichever yields frames wins; if neither does, the run grades audio-only and the console
  * says why (ffmpeg's own log is surfaced).
  */
@@ -30,15 +31,6 @@ export interface Frame {
 export const FRAME_INTERVAL_S = 8;
 export const MIN_FRAMES = 9;
 export const MAX_FRAMES = 24;
-
-/**
- * D-036: a single ffmpeg.wasm seek should take well under a second. If one runs past this
- * ceiling it has hung on a codec/container it can't cleanly seek (some MediaRecorder webms),
- * and — because ffmpeg.wasm is single-threaded and can't be cancelled — the safe move is to
- * abandon the ffmpeg path entirely and fall through to the <video> decoder, rather than let
- * one stuck seek freeze the whole run (the D-035 "sampling N frames… then nothing" bug).
- */
-const PER_SEEK_MS = 12_000;
 
 /** How many stills honestly cover a run of this length. Pure — unit-tested. */
 export function samplePlan(
@@ -132,7 +124,21 @@ export async function extractFrames(
   });
 }
 
-/** ffmpeg.wasm, per-timestamp input seek. Surfaces ffmpeg's own log if it yields nothing. */
+/**
+ * ffmpeg.wasm, ONE decode pass with an fps filter (D-036).
+ *
+ * The old approach did N separate `-ss` (input-seek) execs — one per frame. That HUNG on some
+ * containers: an iPhone .mov's timestamps made `-ss` land at a garbage negative position
+ * (`time=-577014:...`), producing 0 frames and freezing. It was also linear in frame count, so
+ * dense passes (Max) couldn't finish.
+ *
+ * A single `-vf fps=R` pass walks the file ONCE and emits a frame every 1/R seconds — no seeks,
+ * so no seek hang, and getting 150 frames costs one decode instead of 150. Either ffmpeg decodes
+ * the file (we read the whole sequence) or it can't (HEVC → 0 frames) and the <video> path takes
+ * over. ffmpeg.wasm is single-threaded and can't be cancelled, so the exec is all-or-nothing:
+ * on a rare pathological-decode timeout we abandon it (leaving it to finish in the background)
+ * and fall through to <video>, whose per-seek loop is bounded and emits partial frames.
+ */
 async function extractFramesFfmpeg(file: File | Blob, o: FrameOptions): Promise<Frame[]> {
   const ff = await loadFfmpeg();
   const name = file instanceof File ? file.name : 'input';
@@ -143,76 +149,70 @@ async function extractFramesFfmpeg(file: File | Blob, o: FrameOptions): Promise<
   const onLog = ({ message }: { message: string }) => {
     logs.push(message);
     if (logs.length > 80) logs.shift();
+    // Live progress from ffmpeg's own `time=HH:MM:SS.xx` counter (a single pass has no other
+    // way to report). Negative/garbage times never match \d+, so they're ignored.
+    const m = message.match(/time=\s*(\d+):(\d+):(\d+(?:\.\d+)?)/);
+    if (m && o.durationS > 0) {
+      const sec = Number(m[1]) * 3600 + Number(m[2]) * 60 + parseFloat(m[3]);
+      if (Number.isFinite(sec) && sec >= 0) o.onProgress?.(Math.min(0.99, sec / o.durationS));
+    }
   };
   ff.on('log', onLog);
 
+  const count = samplePlan(o.durationS, o.maxFrames, o.intervalS);
+  const rate = count / o.durationS; // frames per second — usually < 1 (e.g. 150/415 ≈ 0.36)
+
   try {
     await ff.writeFile(inName, await fetchFile(file));
-    const times = sampleTimes(o.durationS, o.maxFrames, o.intervalS);
-    console.info(`[frames] ffmpeg: sampling ${times.length} frames across ~${Math.round(o.durationS)}s`);
+    console.info(`[frames] ffmpeg: one-pass decode, ~${count} frames across ~${Math.round(o.durationS)}s`);
 
-    const started = Date.now();
+    let timedOut = false;
+    try {
+      // fps=R selects one frame every 1/R input-seconds, in ONE pass. Scale during decode so the
+      // encoder writes small jpgs. No -ss, no -y, no -update. Sequential names, image2 muxer.
+      await Promise.race([
+        ff.exec([
+          '-i', inName,
+          '-vf', `fps=${rate.toFixed(5)},scale=${o.maxEdge}:${o.maxEdge}:force_original_aspect_ratio=decrease`,
+          '-q:v', '5',
+          'f_%04d.jpg',
+        ]),
+        new Promise<never>((_, rej) => setTimeout(() => rej(new Error('DECODE_TIMEOUT')), o.budgetMs)),
+      ]);
+    } catch (e) {
+      timedOut = e instanceof Error && e.message === 'DECODE_TIMEOUT';
+      console.warn(
+        timedOut
+          ? `[frames] ffmpeg: decode exceeded ${Math.round(o.budgetMs / 1000)}s — trying <video>`
+          : '[frames] ffmpeg: decode errored — trying <video>',
+      );
+    }
+
+    // On a timeout the exec is still holding the wasm thread — reading files would block behind
+    // it, so bail straight to <video>. Otherwise read the sequence it wrote (f_0001.jpg …).
     const frames: Frame[] = [];
-    // Visit coarse-to-fine (D-035) so a budget bail on a dense pass still spans the run.
-    const order = coverageOrder(times.length);
-    for (let k = 0; k < order.length; k++) {
-      if (Date.now() - started > o.budgetMs) {
-        console.warn(`[frames] ffmpeg: time budget reached, stopping at ${frames.length} frame(s)`);
-        break;
-      }
-      const i = order[k];
-      const t = times[i];
-      const out = `f${i}.jpg`;
-      try {
-        // -ss BEFORE -i = fast input seek. This is the canonical single-frame command;
-        // do NOT add -y (this emscripten build aborts with "Unrecognized option 'y'")
-        // or -update (unneeded for -frames:v 1). Output names are unique, so no overwrite.
-        // D-036: bound the seek — a hung exec (no way to cancel wasm) must not freeze the run.
-        await Promise.race([
-          ff.exec([
-            '-ss', t.toFixed(2),
-            '-i', inName,
-            '-frames:v', '1',
-            '-vf', `scale=${o.maxEdge}:${o.maxEdge}:force_original_aspect_ratio=decrease`,
-            '-q:v', '5',
-            out,
-          ]),
-          new Promise<never>((_, rej) => setTimeout(() => rej(new Error('SEEK_TIMEOUT')), PER_SEEK_MS)),
-        ]);
-        const data = await ff.readFile(out).catch(() => null);
-        await ff.deleteFile(out).catch(() => {});
-        if (data instanceof Uint8Array && data.byteLength > 0) {
-          const frame = { blob: new Blob([data as unknown as BlobPart], { type: 'image/jpeg' }), atSeconds: t };
-          frames.push(frame);
-          o.onFrame?.(frame);
-        }
-      } catch (e) {
-        // A hung seek means ffmpeg can't cleanly decode this file — abandon it and let the
-        // <video> path try (it handles HEVC + flaky-seek webms). One ordinary bad seek just continues.
-        if (e instanceof Error && e.message === 'SEEK_TIMEOUT') {
-          console.warn(`[frames] ffmpeg: a seek hung (>${PER_SEEK_MS / 1000}s) — abandoning ffmpeg, trying <video>`);
-          break;
-        }
-        // one bad seek shouldn't sink the batch
-      }
-      o.onProgress?.((k + 1) / order.length);
-      // Bail early if the codec is clearly undecodable (first several seeks all empty) —
-      // saves ~30s of futile seeks before the <video> fallback runs.
-      if (k === 5 && frames.length === 0) {
-        console.warn('[frames] ffmpeg: first 6 seeks empty — likely a codec it cannot decode; falling back early');
-        break;
+    if (!timedOut) {
+      for (let n = 1; n <= count + 2; n++) {
+        const fn = `f_${String(n).padStart(4, '0')}.jpg`;
+        const data = await ff.readFile(fn).catch(() => null);
+        if (!(data instanceof Uint8Array) || data.byteLength === 0) break; // end of sequence
+        await ff.deleteFile(fn).catch(() => {});
+        const atSeconds = Math.min(o.durationS, (n - 1) / rate);
+        const frame = { blob: new Blob([data as unknown as BlobPart], { type: 'image/jpeg' }), atSeconds };
+        frames.push(frame);
+        o.onFrame?.(frame);
       }
     }
-    // Restore chronological order — the report and its timestamps expect it.
-    frames.sort((a, b) => a.atSeconds - b.atSeconds);
 
     if (frames.length === 0) {
-      console.warn(
-        '[frames] ffmpeg wrote no frames. Its log (a codec it cannot decode, e.g. HEVC, looks like ' +
-          '"decoder not found" / "no frame"):\n' + logs.slice(-20).join('\n'),
-      );
+      if (!timedOut) {
+        console.warn(
+          '[frames] ffmpeg wrote no frames. Its log (a codec it cannot decode, e.g. HEVC, looks like ' +
+            '"decoder not found" / "no frame"):\n' + logs.slice(-20).join('\n'),
+        );
+      }
     } else {
-      console.info(`[frames] ffmpeg: got ${frames.length} frame(s)`);
+      console.info(`[frames] ffmpeg: got ${frames.length} frame(s) in one pass`);
     }
     return frames;
   } finally {

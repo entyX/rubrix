@@ -43,14 +43,16 @@ export const THOROUGHNESS: Record<Thoroughness, ThoroughnessLevel> = {
     budgetMs: 90_000,
   },
   max: {
-    // D-036: honest ceiling. Literal 1-fps (D-035's 660) could not FINISH in-browser — hundreds
-    // of sequential seeks overran the budget and returned nothing. 150 is the most stills a real
-    // file reliably decodes in a few minutes; a frame every 2-3s on a typical run, ~10x Standard.
+    // D-036: with single-pass ffmpeg extraction the cost is one decode of the video, NOT one
+    // per frame — so a dense count is cheap for decodable files. The honest ceiling is now the
+    // point where the judge's report saturates: mergeVisualReports caps observations at 240, so
+    // ~240 frames is as much detail as the judge can use. intervalS 1 makes it literally
+    // 1 frame/sec for runs up to ~4 min; longer runs spread 240 evenly.
     id: 'max',
     label: 'Max detail',
-    blurb: 'up to ~150 frames · a few min longer',
-    maxFrames: 150,
-    intervalS: 2,
+    blurb: '≈1 frame/sec, up to 240 · a few min longer',
+    maxFrames: 240,
+    intervalS: 1,
     budgetMs: 240_000,
   },
 };
